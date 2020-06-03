@@ -52,6 +52,13 @@ p{
     overflow-y: auto;
     padding-top:4rem;
   }
+
+}
+@media (min-width: 48em) {
+  .column {
+    float: none ;
+    width: 100%;
+  }
 }
 
 .sidebar-about h1 {
