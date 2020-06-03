@@ -54,11 +54,16 @@ p{
   }
 
 }
-@media (min-width: 48em) {
+/*@media (min-width: 48em) {
   .column {
     float: none ;
     width: 100%;
-  }
+  }*/
+
+  @media (max-width:500px){
+    .column {
+    float: none ;
+    width: 100%;
 }
 
 .sidebar-about h1 {
