@@ -54,17 +54,13 @@ p{
   }
 
 }
-/*@media (min-width: 48em) {
+@media (min-width: 48em) {
   .column {
     float: none ;
-    width: 100%;
-  }*/
+    width: 20em;
+  }
 
-  @media (max-width:500px){
-    .column {
-    float: none ;
-    width: 100%;
-}
+  
 
 .sidebar-about h1 {
     font-family: "Montserrat", sans-serif;
