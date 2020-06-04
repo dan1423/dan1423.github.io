@@ -86,9 +86,9 @@ p{
 .btn-social {
     display: inline-block;
     border: 2px solid #fff;
-    border-radius: 100%;
+    border-radius: 25px;
     text-align: center;
-    width: 2.5em;
+    width: 4em;
     height: 2.5em;
     font-size: 2em;
     line-height: 2.5em;
