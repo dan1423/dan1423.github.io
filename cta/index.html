@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+<div><h3>Compare number of rides of CTA bus routes between two dates</h3></div>
+<div>
+	<form id="form">
+		<select id="busRoutes"></select>
+		<input id="date1" type="date" name="date1" min ="2001-01-01" max="2020-04-01" required>
+		<input id="date2" type="date" name="date2" min ="2001-01-01" max="2020-04-01" required>
+		<button id ="compareButton" type="submit">Compare</button>
+	</form>
+	
+</div>
+<div id="routesChart" style="width: 900px; height: 300px;"></div>
+
+<script>
+
+ google.charts.load("current", {packages:["corechart"]});
+let options = "";
+const select = document.querySelector('#busRoutes');
+readTextFile("routes.csv");
+let arr =[];
+
+let colorArray = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
+		  '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
+		  '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A', 
+		  '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
+		  '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC', 
+		  '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
+		  '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680', 
+		  '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
+		  '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3', 
+		  '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
+
+document.querySelector("#form").addEventListener("submit", function(e){
+  	 e.target.checkValidity();
+        e.preventDefault();  
+        
+
+        let date1 = document.querySelector("#date1");  
+        let date2 = document.querySelector("#date2"); 
+   		let routeNumber = select.value;
+   		
+   		getSearchResults(`date=${date1.value}&route=${routeNumber}`,`date=${date2.value}&route=${routeNumber}`);
+});
+
+ 
+ 
+ function drawChart(arr) {
+ 	let data = new google.visualization.DataTable();
+
+ 	 data.addColumn('string', 'Date');
+ 	 data.addColumn('number', '# Of Rides');
+ 	 data.addColumn({type: 'string', role: 'style'});
+ 	
+ 	for(let i = 0; i < arr.length; i++){
+ 		let x = [formatDate(arr[i][0].date),parseInt(arr[i][0].rides),getRandomColor()];
+ 		data.addRows([x]);
+ 	}
+ 	 	
+ let options = {'title':`Comparison of # of rides for Route# ${select.options[select.selectedIndex].text}`,
+	    hAxis: {
+	    title: 'Date of Rides',
+	    logScale: true
+		},
+	    vAxis: {
+	        title: 'Number of Rides',
+	        logScale: false
+    }};
+
+
+      // Instantiate and draw the chart.
+      let chart = new google.visualization.ColumnChart(document.getElementById('routesChart'));
+      chart.draw(data, options);
+    }
+
+ 
+  
+	function getSearchResults(params1,params2){
+		let url1 = `https://data.cityofchicago.org/resource/jyb9-n7fm.json?${params1}`;
+		let url2 = `https://data.cityofchicago.org/resource/jyb9-n7fm.json?${params2}`;	
+
+		let result = null;
+		try{
+			Promise.all([
+			  fetch(url1).then(value => value.json()),
+			  fetch(url2).then(value => value.json())
+			]).then(value => {  
+				google.charts.setOnLoadCallback(drawChart(value));
+			})
+		}	
+		catch(e){
+			console.log(e);
+		}
+		
+	return null;	
+	}
+ function readTextFile(file)
+{
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+    rawFile.setRequestHeader("Access-Control-Allow-Origin", "*");
+    rawFile.onreadystatechange = function ()
+    {
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            {
+                let allText = rawFile.responseText;
+                let arr = allText.split("\r\n");
+                arr.forEach(function(item,index){
+                	let r= item.replace(",","-");
+                	let routeNumber = item.split(",")[0];
+
+                	options+=`<option value='${routeNumber}'>${r}</option>`;
+                	 
+                });
+                select.insertAdjacentHTML('beforeend',options);
+            }
+        }
+    }
+    rawFile.send(null);
+}
+
+ function formatDate(d){
+	let date = new Date(d);
+	let year = date.getFullYear();
+	let month = date.getMonth()+1;
+	let day = date.getDate();
+
+	if (day < 10) {
+	  day = '0' + day;
+	}
+	if (month < 10) {
+	  month = '0' + month;
+	}
+
+	return (month + '-' + day + '-' + year);
+}
+	
+function getRandomColor() {
+	let letters = '0123456789ABCDEF';
+	let color = '#';
+	for (let i = 0; i < 6; i++) {
+	color += letters[Math.floor(Math.random() * 16)];
+	}
+	return color;
+	}
+</script> 
+
+</body>
+</html>
