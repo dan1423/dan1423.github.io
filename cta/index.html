@@ -96,7 +96,8 @@ document.querySelector("#form").addEventListener("submit", function(e){
             if(rawFile.status === 200 || rawFile.status == 0)
             {
                 let allText = rawFile.responseText;
-                let arr = allText.split("\r\n");
+                //let arr = allText.split("\r\n");
+                let arr = allText.split("\n");
                 arr.forEach(function(item,index){
                 	let r= item.replace(",","-");
                 	let routeNumber = item.split(",")[0];
