@@ -2,20 +2,33 @@
 <html>
 <head>
 	<script src="https://www.gstatic.com/charts/loader.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<div><h3>Compare number of rides of CTA bus routes between two dates</h3></div>
-<div>
+<div class="container">
+	<div class="row">
+	<h3>Compare number of rides of a CTA bus route between two dates</h3>
+</div>
+<div class="row text-center">
 	<form id="form">
 		<select id="busRoutes"></select>
 		<input id="date1" type="date" name="date1" min ="2001-01-01" max="2020-04-01" required>
 		<input id="date2" type="date" name="date2" min ="2001-01-01" max="2020-04-01" required>
 		<button id ="compareButton" type="submit">Compare</button>
 	</form>
-	
 </div>
-<div id="routesChart" style="width: 900px; height: 300px;"></div>
+<div class ="row" id="error" style="display:none;">
+	<p style="color:red;"><strong>Chart cannot be displayed. please select another date range</strong></p>
+</div>
+<div id="routesChart" class="row" style="width: 600px; height: 600px;"></div>
+</div>
 
+</style>
 <script>
 google.charts.load("current", {packages:["corechart"]});
 let options = "";
@@ -28,11 +41,18 @@ document.querySelector("#form").addEventListener("submit", function(e){
   	 e.target.checkValidity();
         e.preventDefault();  
 
-        let date1 = document.querySelector("#date1");  
-        let date2 = document.querySelector("#date2"); 
-   		let routeNumber = select.value;
-   		
-   		getSearchResults(`date=${date1.value}&route=${routeNumber}`,`date=${date2.value}&route=${routeNumber}`);
+        try{
+        	 let date1 = document.querySelector("#date1");  
+	        let date2 = document.querySelector("#date2"); 
+	   		let routeNumber = select.value;
+	   		
+	   		getSearchResults(`date=${date1.value}&route=${routeNumber}`,`date=${date2.value}&route=${routeNumber}`);
+        }
+        catch(e){
+        	console.log(e);
+        }
+
+       
 });
 
  
@@ -43,12 +63,19 @@ document.querySelector("#form").addEventListener("submit", function(e){
  	 data.addColumn('string', 'Date');
  	 data.addColumn('number', '# Of Rides');
  	 data.addColumn({type: 'string', role: 'style'});
- 	
- 	for(let i = 0; i < arr.length; i++){
+ 	 try{
+ 	 	for(let i = 0; i < arr.length; i++){
  		let x = [formatDate(arr[i][0].date),parseInt(arr[i][0].rides),getRandomColor()];
  		data.addRows([x]);
  	}
- 	 	
+ 	 }
+ 	 catch(e){
+ 	 	document.querySelector('#error').style.display = null;
+ 	 	return;
+ 	 }
+ 	
+ 	document.querySelector('#error').style.display = 'none';
+ 	
  let options = {'title':`Comparison of # of rides for Route# ${select.options[select.selectedIndex].text}`,
 	    hAxis: {
 	    title: 'Date of Rides',
