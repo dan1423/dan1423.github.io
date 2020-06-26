@@ -50,9 +50,7 @@ document.querySelector("#form").addEventListener("submit", function(e){
         }
         catch(e){
         	console.log(e);
-        }
-
-       
+        }  
 });
 
  
@@ -75,7 +73,7 @@ document.querySelector("#form").addEventListener("submit", function(e){
  	 }
  	
  	document.querySelector('#error').style.display = 'none';
- 	
+
  let options = {'title':`Comparison of # of rides for Route# ${select.options[select.selectedIndex].text}`,
 	    hAxis: {
 	    title: 'Date of Rides',
@@ -106,8 +104,7 @@ document.querySelector("#form").addEventListener("submit", function(e){
 		}	
 		catch(e){
 			console.log(e);
-		}
-		
+		}	
 	return null;	
 	}
 
@@ -152,7 +149,6 @@ document.querySelector("#form").addEventListener("submit", function(e){
 	if (month < 10) {
 	  month = '0' + month;
 	}
-
 	return (month + '-' + day + '-' + year);
 }
 	
@@ -160,7 +156,7 @@ function getRandomColor() {
 	let letters = '0123456789ABCDEF';
 	let color = '#';
 	for (let i = 0; i < 6; i++) {
-	color += letters[Math.floor(Math.random() * 16)];
+		color += letters[Math.floor(Math.random() * 16)];
 	}
 	return color;
 	}
