@@ -1,0 +1,774 @@
+<output>
+    <tnmdefinitions class="- topic/sectiondiv disease/tnmdefinitions ">
+        <Tdefinition definitiontype="clinical" class="- topic/sectiondiv disease/Tdefinition ">
+            <Ttable class="- topic/simpletable disease/Ttable ">
+                <sthead class="- topic/sthead ">
+                    <stentry class="- topic/stentry ">cT Category</stentry>
+                    <stentry class="- topic/stentry ">cT Criteria</stentry>
+                </sthead>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cTX</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Primary tumor cannot be assessed</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT0</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">No evidence of primary tumor</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT1</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Clinically inapparent tumor that is not palpable</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT1a</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor incidental histologic finding in 5 percent or less of tissue resected</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT1b</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor incidental histologic finding in more than 5 percent of tissue resected</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT1c</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor identified by needle biopsy found in one or both sides, but not palpable</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT2</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor is palpable and confined within prostate</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT2a</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor involves one-half of one side or less</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT2b</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor involves more than one-half of one side but not both sides</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT2c</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor involves both sides</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT3</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Extraprostatic tumor that is not fixed or does not invade adjacent structures</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT3a</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Extraprostatic extension (unilateral or bilateral)</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT3b</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor invades seminal vesicle(s)</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT4</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor is fixed or invades adjacent structures other than seminal vesicles such as external sphincter, rectum, bladder, levator muscles, and/or pelvic wall </AJCCcriteria>
+                </TNMrow>
+            </Ttable>
+        </Tdefinition>
+        <Tdefinition definitiontype="pathological" class="- topic/sectiondiv disease/Tdefinition ">
+            <Ttable class="- topic/simpletable disease/Ttable ">
+                <sthead class="- topic/sthead ">
+                    <stentry class="- topic/stentry ">pT Category</stentry>
+                    <stentry class="- topic/stentry ">pT Criteria</stentry>
+                </sthead>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_pT_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pT2
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Organ confined</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/table-MAG_PRO_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pT3
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Extraprostatic extension</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_pT_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pT3a
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Extraprostatic extension (unilateral or bilateral) or microscopic invasion of
+                bladder neck</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_pT_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pT3b 
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor invades seminal vesicle(s)</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_pT_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pT4
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor is fixed or invades adjacent structures other than seminal vesicles such
+                as external sphincter, rectum, bladder, levator muscles, and/or pelvic wall </AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cTX</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Primary tumor cannot be assessed</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT0</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">No evidence of primary tumor</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT1</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Clinically inapparent tumor that is not palpable</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT1a</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor incidental histologic finding in 5% or less of tissue
+                resected</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT1b</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor incidental histologic finding in more than 5% of tissue
+                resected</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT1c</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor identified by needle biopsy found in one or both sides, but not
+                palpable</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT2</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor is palpable and confined within prostate</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT2a</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor involves one-half of one side or less</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT2b</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor involves more than one-half of one side but not both sides</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT2c</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor involves both sides</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT3</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Extraprostatic tumor that is not fixed or does not invade adjacent
+                structures</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT3a</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Extraprostatic extension (unilateral or bilateral)</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT3b</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor invades seminal vesicle(s)</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cT4</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor is fixed or invades adjacent structures other than seminal vesicles such
+                as external sphincter, rectum, bladder, levator muscles, and/or pelvic wall</AJCCcriteria>
+                </TNMrow>
+            </Ttable>
+            <p class="- topic/p ">
+                <note type="attention" id="note-MAG_PRO_pT_1" class="- topic/note ">Positive surgical margin should be indicated by an R1 descriptor, indicating residual microscopic disease.</note>
+            </p>
+        </Tdefinition>
+        <Tdefinition definitiontype="neoadjuvantclinical" class="- topic/sectiondiv disease/Tdefinition ">
+            <Ttable class="- topic/simpletable disease/Ttable ">
+                <sthead class="- topic/sthead ">
+                    <stentry class="- topic/stentry ">ycT Category</stentry>
+                    <stentry class="- topic/stentry ">ycT Criteria</stentry>
+                </sthead>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">ycTX</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Primary tumor cannot be assessed</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">ycT0</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">No evidence of primary tumor</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">ycT1</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Clinically inapparent tumor that is not palpable</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">ycT1a</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor incidental histologic finding in 5% or less of tissue
+                resected</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">ycT1b</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor incidental histologic finding in more than 5% of tissue
+                resected</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">ycT1c</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor identified by needle biopsy found in one or both sides, but not
+                palpable</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">ycT2</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor is palpable and confined within prostate</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">ycT2a</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor involves one-half of one side or less</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">ycT2b</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor involves more than one-half of one side but not both
+                sides</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">ycT2c</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor involves both sides</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">ycT3</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Extraprostatic tumor that is not fixed or does not invade adjacent
+                structures</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">ycT3a</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Extraprostatic extension (unilateral or bilateral)</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">ycT3b</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor invades seminal vesicle(s)</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">ycT4</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor is fixed or invades adjacent structures other than seminal vesicles
+                such as external sphincter, rectum, bladder, levator muscles, and/or pelvic wall
+            </AJCCcriteria>
+                </TNMrow>
+            </Ttable>
+        </Tdefinition>
+        <Tdefinition definitiontype="neoadjuvantpathological" class="- topic/sectiondiv disease/Tdefinition ">
+            <Ttable class="- topic/simpletable disease/Ttable ">
+                <sthead class="- topic/sthead ">
+                    <stentry class="- topic/stentry ">ypT Category</stentry>
+                    <stentry class="- topic/stentry ">ypT Criteria</stentry>
+                </sthead>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ypT_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">ypT2
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Organ confined</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ypT_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">ypT3
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Extraprostatic extension</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ypT_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">ypT3a
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Extraprostatic extension (unilateral or bilateral) or microscopic invasion
+                of bladder neck</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ypT_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">ypT3b
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor invades seminal vesicle(s)</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ypT_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">ypT4
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Tumor is fixed or invades adjacent structures other than seminal vesicles
+                such as external sphincter, rectum, bladder, levator muscles, and/or pelvic wall
+            </AJCCcriteria>
+                </TNMrow>
+            </Ttable>
+            <p class="- topic/p ">
+                <note type="attention" id="note-MAG_PRO_ypT_1" class="- topic/note ">Positive surgical margin should be indicated by an R1 descriptor, indicating residual microscopic disease.</note>
+            </p>
+        </Tdefinition>
+        <Ndefinition definitiontype="clinical" class="- topic/sectiondiv disease/Ndefinition ">
+            <Ntable class="- topic/simpletable disease/Ntable ">
+                <sthead class="- topic/sthead ">
+                    <stentry class="- topic/stentry ">cN Category</stentry>
+                    <stentry class="- topic/stentry ">cN Criteria</stentry>
+                </sthead>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cNX</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Regional lymph nodes cannot be assessed </AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cN0</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">No positive regional nodes</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cN1</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Metastases in regional node(s)</AJCCcriteria>
+                </TNMrow>
+            </Ntable>
+        </Ndefinition>
+        <Ndefinition definitiontype="pathological" class="- topic/sectiondiv disease/Ndefinition ">
+            <Ntable class="- topic/simpletable disease/Ntable ">
+                <sthead class="- topic/sthead ">
+                    <stentry class="- topic/stentry ">pN Category</stentry>
+                    <stentry class="- topic/stentry ">pN Criteria</stentry>
+                </sthead>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">pNX</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Regional lymph nodes cannot be assessed</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">pN0</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">No positive regional nodes</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">pN1</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Metastases in regional node(s)</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cNX</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Regional lymph nodes cannot be assessed</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cN0</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">No positive regional nodes</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cN1</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Metastases in regional node(s)</AJCCcriteria>
+                </TNMrow>
+            </Ntable>
+        </Ndefinition>
+        <Ndefinition definitiontype="neoadjuvantclinical" class="- topic/sectiondiv disease/Ndefinition ">
+            <Ntable class="- topic/simpletable disease/Ntable ">
+                <sthead class="- topic/sthead ">
+                    <stentry class="- topic/stentry ">ycN Category</stentry>
+                    <stentry class="- topic/stentry ">ycN Criteria</stentry>
+                </sthead>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">ycNX</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Regional lymph nodes cannot be assessed</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">ycN0</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">No positive regional nodes</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">ycN1</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Metastases in regional node(s)</AJCCcriteria>
+                </TNMrow>
+            </Ntable>
+        </Ndefinition>
+        <Ndefinition definitiontype="neoadjuvantpathological" class="- topic/sectiondiv disease/Ndefinition ">
+            <Ntable class="- topic/simpletable disease/Ntable ">
+                <sthead class="- topic/sthead ">
+                    <stentry class="- topic/stentry ">ypN Category</stentry>
+                    <stentry class="- topic/stentry ">ypN Criteria</stentry>
+                </sthead>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">ypNX</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Regional lymph nodes cannot be assessed</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">ypN0</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">No positive regional nodes</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">ypN1</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Metastases in regional node(s)</AJCCcriteria>
+                </TNMrow>
+            </Ntable>
+        </Ndefinition>
+        <Mdefinition definitiontype="clinical" class="- topic/sectiondiv disease/Mdefinition ">
+            <Mtable class="- topic/simpletable disease/Mtable ">
+                <sthead class="- topic/sthead ">
+                    <stentry class="- topic/stentry ">cM Category</stentry>
+                    <stentry class="- topic/stentry ">cM Criteria</stentry>
+                </sthead>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cM0</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">No distant metastasis</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_cM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">cM1
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Distant metastasis</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_cM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">cM1a
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Nonregional lymph node(s)</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_cM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">cM1b
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Bone(s)</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_cM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">cM1c
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Other site(s) with or without bone disease</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_cM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pM1
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Microscopic evidence of distant metastasis</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_cM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pM1a
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Microscopic evidence of nonregional lymph node(s) metastasis</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_cM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pM1b
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Microscopic evidence of bone(s) metastasis</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_cM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pM1c
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Microscopic evidence of metastasis to other site(s) with or without bone disease</AJCCcriteria>
+                </TNMrow>
+            </Mtable>
+            <p class="- topic/p ">
+                <note type="attention" id="note-MAG_PRO_cM_1" class="- topic/note ">When more than one site of metastasis is present, the most advanced category is used. M1c is most advanced.</note>
+            </p>
+        </Mdefinition>
+        <Mdefinition definitiontype="pathological" class="- topic/sectiondiv disease/Mdefinition ">
+            <Mtable class="- topic/simpletable disease/Mtable ">
+                <sthead class="- topic/sthead ">
+                    <stentry class="- topic/stentry ">pM Category</stentry>
+                    <stentry class="- topic/stentry ">pM Criteria</stentry>
+                </sthead>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cM0</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">No distant metastasis</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_pM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">cM1
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Distant metastasis</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_pT_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">cM1a
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Nonregional lymph node(s)</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_pM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">cM1b
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Bone(s)</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_pM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">cM1c
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Other site(s) with or without bone disease</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_pM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pM1
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Microscopic evidence of distant metastasis</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_pM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pM1a
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Microscopic evidence of nonregional lymph node(s) metastasis</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_pM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pM1b
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Microscopic evidence of bone(s) metastasis</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_pM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pM1c
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Microscopic evidence of  metastasis to other site(s) with or without bone disease</AJCCcriteria>
+                </TNMrow>
+            </Mtable>
+            <p class="- topic/p ">
+                <note type="attention" id="note-MAG_PRO_pM_1" class="- topic/note ">When more than one site of metastasis is present, the most advanced category is used. M1c is the most advanced.</note>
+            </p>
+        </Mdefinition>
+        <Mdefinition definitiontype="neoadjuvantclinical" class="- topic/sectiondiv disease/Mdefinition ">
+            <Mtable class="- topic/simpletable disease/Mtable ">
+                <sthead class="- topic/sthead ">
+                    <stentry class="- topic/stentry ">ycM Category</stentry>
+                    <stentry class="- topic/stentry ">ycM Criteria</stentry>
+                </sthead>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cM0</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">No distant metastasis</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ycM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">cM1
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Distant metastasis</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ycM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">cM1a
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Nonregional lymph node(s)</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ycM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">cM1b 
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Bone(s)</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ycM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">cM1c
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Other site(s) with or without bone disease</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ycM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pM1
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Microscopic evidence of distant metastasis</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ycM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pM1a
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Microscopic evidence of nonregional lymph node(s) metastasis</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ycM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pM1b
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Microscopic evidence of bone(s) metastasis</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ycM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pM1c
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Microscopic evidence of metastasis to other site(s) with or without bone disease</AJCCcriteria>
+                </TNMrow>
+            </Mtable>
+            <p class="- topic/p ">
+                <note type="attention" id="note-MAG_PRO_ycM_1" class="- topic/note ">When more than one site of metastasis is present, the most advanced category is used. M1c is the most advanced.</note>
+            </p>
+        </Mdefinition>
+        <Mdefinition definitiontype="neoadjuvantpathological" class="- topic/sectiondiv disease/Mdefinition ">
+            <Mtable class="- topic/simpletable disease/Mtable ">
+                <sthead class="- topic/sthead ">
+                    <stentry class="- topic/stentry ">ypM Category</stentry>
+                    <stentry class="- topic/stentry ">ypM Criteria</stentry>
+                </sthead>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">cM0</AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">No distant metastasis</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ypM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">cM1
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Distant metastasis</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ypM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">cM1a
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Nonregional lymph node(s)</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ypM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">cM1b
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Bone(s)</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ypM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">cM1c
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Other site(s) with or without bone disease</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ypM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pM1
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">
+                        <p class="- topic/p ">Microscopic evidence of distant metastasis</p>
+                    </AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ypM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pM1a
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Microscopic evidence of nonregional lymph node(s) metastasis</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ypM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pM1b
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Microscopic evidence of bone(s) metastasis</AJCCcriteria>
+                </TNMrow>
+                <TNMrow class="- topic/strow disease/TNMrow ">
+                    <AJCCcategory class="- topic/stentry disease/AJCCcategory ">
+                        <xref
+                            xmlns:jcm-link-man="http://jorsek.com/content-management/modules/linkmanagement" href="#MAG-PRO/note-MAG_PRO_ypM_1" jcm-link-man:resource-uuid="60f6f9c0-2c16-11e6-9a4b-bc764e11c3e8" class="- topic/xref ">pM1c
+                        </xref>
+                    </AJCCcategory>
+                    <AJCCcriteria class="- topic/stentry disease/AJCCcriteria ">Microscopic evidence of metastasis to other site(s) with or without bone disease</AJCCcriteria>
+                </TNMrow>
+            </Mtable>
+            <p class="- topic/p ">
+                <note type="attention" id="note-MAG_PRO_ypM_1" class="- topic/note ">When more than one site of metastasis is present, the most advanced category is used. M1c is the most advanced.</note>
+            </p>
+        </Mdefinition>
+        <PSAdefinition class="- topic/sectiondiv disease/PSAdefinition ">
+            <p class="- topic/p ">PSA values are used to assign this category.</p>
+            <simpletable class="- topic/simpletable ">
+                <sthead class="- topic/sthead ">
+                    <stentry class="- topic/stentry ">PSA values</stentry>
+                </sthead>
+                <strow class="- topic/strow ">
+                    <stentry class="- topic/stentry ">less than 10</stentry>
+                </strow>
+                <strow class="- topic/strow ">
+                    <stentry class="- topic/stentry ">greater than or equal to 10, but less than 20</stentry>
+                </strow>
+                <strow class="- topic/strow ">
+                    <stentry class="- topic/stentry ">greater than or equal to 20</stentry>
+                </strow>
+                <strow class="- topic/strow ">
+                    <stentry class="- topic/stentry ">Any</stentry>
+                </strow>
+            </simpletable>
+        </PSAdefinition>
+        <G_definition class="- topic/sectiondiv disease/G_definition ">
+            <p class="- topic/p ">Recently, the Gleason system has been compressed into so-called Grade Groups.
+                <sup class="+ topic/ph hi-d/sup ">48 </sup>
+            </p>
+            <simpletable class="- topic/simpletable ">
+                <sthead class="- topic/sthead ">
+                    <stentry class="- topic/stentry ">Grade Group</stentry>
+                    <stentry class="- topic/stentry ">Gleason Score</stentry>
+                    <stentry class="- topic/stentry ">Gleason Pattern</stentry>
+                </sthead>
+                <strow class="- topic/strow ">
+                    <stentry class="- topic/stentry ">1</stentry>
+                    <stentry class="- topic/stentry ">less than or equal to  6</stentry>
+                    <stentry class="- topic/stentry ">less than or equal to 3+3</stentry>
+                </strow>
+                <strow class="- topic/strow ">
+                    <stentry class="- topic/stentry ">2</stentry>
+                    <stentry class="- topic/stentry ">7</stentry>
+                    <stentry class="- topic/stentry ">3+4</stentry>
+                </strow>
+                <strow class="- topic/strow ">
+                    <stentry class="- topic/stentry ">3</stentry>
+                    <stentry class="- topic/stentry ">7</stentry>
+                    <stentry class="- topic/stentry ">4+3</stentry>
+                </strow>
+                <strow class="- topic/strow ">
+                    <stentry class="- topic/stentry ">4</stentry>
+                    <stentry class="- topic/stentry ">8</stentry>
+                    <stentry class="- topic/stentry ">4+4, 3+5, 5+3</stentry>
+                </strow>
+                <strow class="- topic/strow ">
+                    <stentry class="- topic/stentry ">5</stentry>
+                    <stentry class="- topic/stentry ">9 or 10</stentry>
+                    <stentry class="- topic/stentry ">4+5, 5+4, or 5+5</stentry>
+                </strow>
+            </simpletable>
+        </G_definition>
+    </tnmdefinitions>
+</output>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="nqueens_style.css?v=10">
+</head>
+<body>
+	<div class = "container-fluid" id = "mainDiv">
+		<div class = "row justify-content-center">
+			<h1>N-Queens Solver</h1>
+		</div>
+		<div class = "row">
+			<div class = "col-lg-8 " id = "fir">
+				<div class = "row justify-content-center">
+					<h2>Board</h2>
+				</div>
+				<div class = "row canvasDiv" >
+					<canvas id="canvas"  height = "800" style="border:1px solid #d3d3d3;">
+						  Sorry, your browser doesn't support the &lt;canvas&gt; element.
+					</canvas>
+				</div>
+				
+			</div>
+			<div class = "col-lg-4" style = "padding-right: 10px;">
+				
+				<div class = "row justify-content-center">
+					<h2>Properties</h2>
+				</div>
+				<div class = "row justify-content-center">
+					<p>Change the speed </p>
+				</div>
+				<div class="row" style = "margin-bottom:10px;margin-left: 10px;margin-right: 10px;">
+				<select class="form-control" id = "btnSpeed">
+					    <option value="slow">slow</option>
+					    <option value="medium">medium</option>
+					    <option value="fast">fast</option>
+					    <option value="very fast">very fast</option>
+					  </select>
+				</div>
+
+				<div class = "row justify-content-center">
+					<p>Change dimension of board</p>
+				</div>
+				<div class="row" style = "margin-bottom:10px;margin-left: 10px;margin-right: 10px;">
+					<select class="form-control" id = "btnSize" >
+					    <option value="1">1</option>
+					    <option value="2">2</option>
+					    <option value="3">3</option>
+					    <option value="4">4</option>
+					    <option value="5">5</option>
+					    <option value="6">6</option>
+					    <option value="7">7</option>
+					    <option value="8" selected = "selected">8</option>
+					    <option value="9">9</option>
+					    <option value="10">10</option>
+					    <option value="11">11</option>
+					    <option value="12">12</option>
+					  </select>
+					
+				</div>
+				
+				<div class = "row" id = "desc" style = "padding-left:10px;padding-right:10px; padding-top:10px">
+					<p>
+						The eight queens puzzle is the problem of placing eight chess queens on an 8x8 chessboard so that no two queens threaten each other. Thus, a solution requires that no two queens share the same row, column, or diagonal. The eight queens puzzle is an example of the more general n queens problem of placing n non-attacking queens on an nxn chessboard, for which solutions exist for all natural numbers n with the exception of n=2 and n=3.
+					</p>
+					<p>
+						In Computer Science we solve this puzzle by implementing a brute force solution known as "Backtracking". Backtracking is a general algorithm for finding all (or some) solutions to some computational problems, notably constraint satisfaction problems, that incrementally builds candidates to the solutions, and abandons a candidate ("backtracks") as soon as it determines that the candidate cannot possibly be completed to a valid solution.
+					</p>
+				</div>
+				
+				</div>
+			</div>
+	</div>
+	<hr>
+	<div class = "row justify-content-center" style = "margin-top: 10px;">
+		<h1>Found Solutions</h1>
+	</div>
+	<div class = "row " id = "divOfSolutions" style="margin-left:20px;">
+		
+	</div>
+	</div>
+</body>
+
+
+<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Image preview</h4>
+      </div>
+      <div class="modal-body">
+        <img src="" id="imagepreview" style="width: 100%; height: 100%;" >
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</html>
+<script type="text/javascript" src = "nqueens_script.js?v=78"></script>

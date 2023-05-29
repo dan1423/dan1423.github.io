@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://www.gstatic.com/charts/loader.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div class="container">
+	<div class="row">
+	<h3>Compare number of rides of a CTA bus route between two dates</h3>
+</div>
+<div class="row text-center">
+	<form id="form">
+		<select id="busRoutes"></select>
+		<input id="date1" type="date" name="date1" min ="2001-01-01" max="2020-04-01" required>
+		<input id="date2" type="date" name="date2" min ="2001-01-01" max="2020-04-01" required>
+		<button id ="compareButton" type="submit">Compare</button>
+	</form>
+</div>
+<div class ="row" id="error" style="display:none;">
+	<p style="color:red;"><strong>Chart cannot be displayed. please select another date range</strong></p>
+</div>
+<div id="routesChart" class="row" style="width: 600px; height: 600px;"></div>
+</div>
+
+</style>
+<script>
+google.charts.load("current", {packages:["corechart"]});
+let options = "";
+let arr =[];
+
+const select = document.querySelector('#busRoutes');
+readTextFile("routes.csv");
+
+document.querySelector("#form").addEventListener("submit", function(e){
+  	 e.target.checkValidity();
+        e.preventDefault();  
+
+        try{
+        	 let date1 = document.querySelector("#date1");  
+	        let date2 = document.querySelector("#date2"); 
+	   		let routeNumber = select.value;
+	   		
+	   		getSearchResults(`date=${date1.value}&route=${routeNumber}`,`date=${date2.value}&route=${routeNumber}`);
+        }
+        catch(e){
+        	console.log(e);
+        }  
+});
+
+ 
+ 
+ function drawChart(arr) {
+ 	let data = new google.visualization.DataTable();
+
+ 	 data.addColumn('string', 'Date');
+ 	 data.addColumn('number', '# Of Rides');
+ 	 data.addColumn({type: 'string', role: 'style'});
+ 	 try{
+ 	 	for(let i = 0; i < arr.length; i++){
+ 		let x = [formatDate(arr[i][0].date),parseInt(arr[i][0].rides),getRandomColor()];
+ 		data.addRows([x]);
+ 	}
+ 	 }
+ 	 catch(e){
+ 	 	document.querySelector('#error').style.display = null;
+ 	 	return;
+ 	 }
+ 	
+ 	document.querySelector('#error').style.display = 'none';
+
+ let options = {'title':`Comparison of # of rides for Route# ${select.options[select.selectedIndex].text}`,
+	    hAxis: {
+	    title: 'Date of Rides',
+	    logScale: true
+		},
+	    vAxis: {
+	        title: 'Number of Rides',
+	        logScale: false
+    }};
+      let chart = new google.visualization.ColumnChart(document.getElementById('routesChart'));
+      chart.draw(data, options);
+    }
+
+ 
+  
+	function getSearchResults(params1,params2){
+		let url1 = `https://data.cityofchicago.org/resource/jyb9-n7fm.json?${params1}`;
+		let url2 = `https://data.cityofchicago.org/resource/jyb9-n7fm.json?${params2}`;	
+
+		let result = null;
+		try{
+			Promise.all([
+			  fetch(url1).then(value => value.json()),
+			  fetch(url2).then(value => value.json())
+			]).then(value => {  
+				google.charts.setOnLoadCallback(drawChart(value));
+			})
+		}	
+		catch(e){
+			console.log(e);
+		}	
+	return null;	
+	}
+
+ function readTextFile(file){
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+    rawFile.setRequestHeader("Access-Control-Allow-Origin", "*");
+    rawFile.onreadystatechange = function ()
+    {
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            {
+                let allText = rawFile.responseText;
+                //let arr = allText.split("\r\n");
+                let arr = allText.split("\n");
+                arr.forEach(function(item,index){
+                	let r= item.replace(",","-");
+                	let routeNumber = item.split(",")[0];
+
+                	options+=`<option value='${routeNumber}'>${r}</option>`;
+                	 
+                });
+                select.insertAdjacentHTML('beforeend',options);
+            }
+        }
+    }
+    rawFile.send(null);
+}
+
+
+ function formatDate(d){
+	let date = new Date(d);
+	let year = date.getFullYear();
+	let month = date.getMonth()+1;
+	let day = date.getDate();
+
+	if (day < 10) {
+	  day = '0' + day;
+	}
+	if (month < 10) {
+	  month = '0' + month;
+	}
+	return (month + '-' + day + '-' + year);
+}
+	
+function getRandomColor() {
+	let letters = '0123456789ABCDEF';
+	let color = '#';
+	for (let i = 0; i < 6; i++) {
+		color += letters[Math.floor(Math.random() * 16)];
+	}
+	return color;
+	}
+</script> 
+
+</body>
+</html>
