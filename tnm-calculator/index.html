@@ -198,6 +198,9 @@ table tr td {
     <script>
 
         const BASE_URL ='https://dan1423-001-site1.btempurl.com';
+        //const BASE_URL = 'https://localhost:7166';
+
+        let FIRST_LOAD = true;
 
 class PrognosticStagingData {
     T ;
@@ -255,13 +258,13 @@ class PrognosticStagingData {
 
         });
         function setDiseaseSites() {
-            fetch(`${BASE_URL}/tnmstaging/condensed-diseases`)
+            fetch(`${BASE_URL}/tnmstaging/diseases`)
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data);
                     DIESASE_DROPDOWN.innerHTML = "";
                     for (let i = 0; i < data.length; i++) {
                         let x = data[i];
+                        
                         DIESASE_DROPDOWN.insertAdjacentHTML('beforeend', `<option value='${x.AJCCDiseaseId}'>${x.DiseaseTitle}</option>`);
                         DIESASE_DROPDOWN_REVERSE.insertAdjacentHTML('beforeend', `<option value='${x.AJCCDiseaseId}'>${x.DiseaseTitle}</option>`);
                     }
@@ -428,6 +431,8 @@ class PrognosticStagingData {
 
 
         function handleChange(className, diseaseId, dropDownId, tdId, stagingTypeName) {
+         
+         
             let dropdown = document.getElementById(dropDownId);
             let options = dropdown.options;
             let sel = options[dropdown.selectedIndex];
@@ -436,6 +441,7 @@ class PrognosticStagingData {
             let urlParamStringPath = generateUrl(className, 2);
             let encodedClinUrl = encodeURI(`${BASE_URL}/tnmstaging/calculate?diseaseId=${diseaseId}&${urlParamStringClin}`);
             let encodedPathUrl = encodeURI(`${BASE_URL}/tnmstaging/calculate?diseaseId=${diseaseId}&${urlParamStringPath}`);
+
             if (stagingTypeName == "clinical") {
                 calculateClinical(encodedClinUrl);
             }
@@ -496,7 +502,6 @@ class PrognosticStagingData {
         }
 
         function setStagingColorBasedOnSeverity(element,stage){
-            console.log(STAGE_0);
             let cl = ["stage-0","stage-1","stage-2","stage-3","stage-4","nostage"];
             for(let i=0;i<cl.length;i++){
                 element.classList.remove(cl[i]);
