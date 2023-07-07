@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.js": "/ajcc-mobile/static/js/main.71250424.js",
+    "static/js/212.afc2f26f.js": "/ajcc-mobile/static/js/212.afc2f26f.js",
+    "static/media/tick.png": "/ajcc-mobile/static/media/tick.32cb45231ee117d499e2.png",
+    "static/media/arrow-up.png": "/ajcc-mobile/static/media/arrow-up.0b0d1af9a5b464b93fde.png",
+    "static/media/close.png": "/ajcc-mobile/static/media/close.b65df71afd6c8e422619.png",
+    "static/media/arrow-down.png": "/ajcc-mobile/static/media/arrow-down.772a5382a31866c9198e.png",
+    "favicon.ico": "/ajcc-mobile/favicon.ico",
+    "index.html": "/ajcc-mobile/index.html",
+    "favicon-32.png": "/ajcc-mobile/favicon-32.png",
+    "favicon-16.png": "/ajcc-mobile/favicon-16.png",
+    "manifest.json": "/ajcc-mobile/manifest.json",
+    "serve.json": "/ajcc-mobile/serve.json",
+    "main.71250424.js.map": "/ajcc-mobile/static/js/main.71250424.js.map",
+    "212.afc2f26f.js.map": "/ajcc-mobile/static/js/212.afc2f26f.js.map"
+  },
+  "entrypoints": [
+    "static/js/212.afc2f26f.js",
+    "static/js/main.71250424.js"
+  ]
+}
