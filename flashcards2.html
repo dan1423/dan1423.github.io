@@ -221,66 +221,18 @@
     <script>
         // Flashcard Data
         const flashcards = [
-            {
-                category: "GD&T Symbols",
-                front: "<div class='symbol'>⌖</div><h2>What is this symbol?</h2>",
-                back: "<h3><strong>True Position</strong><br><br>It controls the total permissible variation a feature (like a hole) can have from its 'true' theoretical position.</h3>"
-            },
-            {
-                category: "GD&T Symbols",
-                front: "<div class='symbol'>Ⓜ</div><h2>What is this symbol?</h2>",
-                back: "<h3><strong>Maximum Material Condition (MMC)</strong><br><br>The condition where a part contains the most material within its size limits (e.g., Smallest Hole or Largest Pin).</h3>"
-            },
-            {
-                category: "Plating Math",
-                front: "<h2>Effect of Plating on a HOLE</h2>",
-                back: "<h3>Plating <strong>DECREASES</strong> the hole diameter.<br><br>Formula: Final Dia = Start Dia - (2 x Plating Thickness)</h3>"
-            },
-            {
-                category: "Plating Math",
-                front: "<h2>Effect of Plating on a PIN/SHAFT</h2>",
-                back: "<h3>Plating <strong>INCREASES</strong> the shaft diameter.<br><br>Formula: Final Dia = Start Dia + (2 x Plating Thickness)</h3>"
-            },
-            {
-                category: "Math Challenge",
-                front: "<h2>You need a final hole of 0.500\".<br>You will add 0.001\" plating.<br><br>What is the Pre-Plate size?</h2>",
-                back: "<h3><strong>0.502\"</strong><br><br>You must machine the hole LARGER so the plating shrinks it to the correct size.<br>(0.500 + 0.001 + 0.001)</h3>"
-            },
-            {
-                category: "Definitions",
-                front: "<h2>What is a 'Frozen Plan'?</h2>",
-                back: "<h3>A manufacturing process or control plan that is <strong>fixed</strong> and cannot be changed without specific approval from the customer or engineering.</h3>"
-            },
-            {
-                category: "Testing Methods",
-                front: "<h2>What is Eddy Current testing used for in this role?</h2>",
-                back: "<h3>Measuring the <strong>thickness of non-conductive coatings</strong> (like anodizing) on conductive metal substrates without damaging the part.</h3>"
-            },
-            {
-                category: "Regulations",
-                front: "<h2>What is the ITAR requirement for this job?</h2>",
-                back: "<h3>You must be a <strong>U.S. Citizen</strong> or a <strong>Lawful Permanent Resident</strong> (Green Card) to handle defense-related technical data.</h3>"
-            },
-            {
-                category: "Quality Control",
-                front: "<h2>What is a 'First Article Inspection' (FAI)?</h2>",
-                back: "<h3>A complete, independent verification of <strong>every single design characteristic</strong> on the first part produced to prove the process is valid.</h3>"
-            },
+         
             {
                 category: "Handling Issues",
                 front: "<h2>How do you handle a 'Non-Conformance'?</h2>",
                 back: "<h3>1. <strong>Stop</strong> the process.<br>2. <strong>Document</strong> the issue.<br>3. <strong>Segregate</strong> (Quarantine) the bad parts.<br>4. <strong>Notify</strong> proper authority.<br>(Never fix without approval).</h3>"
             },
-            {
-                category: "Behavioral",
-                front: "<h2>Tell me about yourself.</h2><p style='font-size:0.9rem'>(How should you structure this?)</p>",
-                back: "<h3><strong>Present-Past-Future Model</strong><br><br>1. Brief current role overview.<br>2. Pivot to your specific inspection/GD&T experience.<br>3. End with why you want to tackle mission-critical aerospace work at MIL.</h3>"
-            },
-            {
-                category: "Behavioral",
-                front: "<h2>Describe a time you were pressured to accept a bad part.</h2>",
-                back: "<h3>Focus on being <strong>Quality Driven</strong>.<br><br>Explain that you halted the shipment to protect the customer and the company's reputation, ensuring the part met print specs before release.</h3>"
-            },
+           {
+    category: "Behavioral",
+    front: "<h2>Tell me about yourself / Why do you want to work here?</h2>",
+    back: "<h3>I hold a BS in Manufacturing Engineering Technology and began my career as a QC Inspector at Fast Radius, where I supported quality inspection for 3D-printed parts across industries such as aerospace, medical, and sports. After relocating to Itasca, I joined WaterSaver Faucet Co. as a QC Inspector, focusing on laboratory faucets and precision components. I am now seeking a quality inspection role at MTL because of its strong presence across multiple industries and its reputation as a one-stop shop for complete product solutions. As my husband and I are moving to the north suburbs, I see this as a great long-term opportunity where I can grow and contribute.</h3>"
+}
+,
             {
                 category: "Technical",
                 front: "<h2>What is your procedure for ensuring measurement accuracy?</h2>",
@@ -291,11 +243,86 @@
                 front: "<h2>What does MIL do?</h2>",
                 back: "<h3>They provide <strong>Precision Metal Finishing</strong>, <strong>Coatings</strong>, and <strong>Non-Destructive Testing (NDT)</strong> for mission-critical aerospace, defense, and medical components.</h3>"
             },
+            // ===============================
+            // Quality Inspector Interview Q&A
+            // ===============================
+
             {
-                category: "Definitions",
-                front: "<h2>What is 'Bonus Tolerance'?</h2>",
-                back: "<h3>Additional tolerance available for a geometric control (like True Position) as the feature's actual size departs from MMC toward LMC.</h3>"
+                category: "Constructive Feedback",
+                front: "<h2>Describe a time when you received constructive criticism on your inspection work. How did you respond?</h2>",
+                back: "<h3>I received feedback that my inspection documentation needed to be clearer. I took the feedback positively, reviewed documentation standards, and adjusted how I recorded findings. As a result, my reports became more consistent and easier for others to understand.</h3>"
+            },
+            {
+                category: "Attention to Detail",
+                front: "<h2>Can you describe a time when you found a significant quality issue during an inspection? What steps did you take?</h2>",
+                back: "<h3>During a routine inspection, I identified materials that were out of specification. I documented the issue, informed my supervisor, and ensured the materials were quarantined while corrective actions were implemented.</h3>"
+            },
+            {
+                category: "Teamwork",
+                front: "<h2>Tell me about a time you had to work closely with team members to resolve a quality problem.</h2>",
+                back: "<h3>I collaborated with production and engineering to investigate recurring defects. By reviewing data together and updating inspection steps, we reduced defects and improved overall product quality.</h3>"
+            },
+            {
+                category: "Adaptability",
+                front: "<h2>Describe a situation where you had to adapt to new quality standards or regulations. How did you handle it?</h2>",
+                back: "<h3>I reviewed the new requirements, attended training, and updated inspection procedures and checklists. Although there was an adjustment period, we achieved compliance without impacting production.</h3>"
+            },
+            {
+                category: "Conflict Resolution",
+                front: "<h2>Have you ever disagreed with a colleague regarding a quality inspection outcome? How did you resolve it?</h2>",
+                back: "<h3>I suggested reviewing the product together using inspection criteria and objective data. This helped us reach a shared decision and apply corrective action.</h3>"
+            },
+            {
+                category: "Initiative",
+                front: "<h2>Give an example of a proactive measure you took to improve quality control processes.</h2>",
+                back: "<h3>I noticed defects were occasionally missed, so I created a more detailed inspection checklist. This improved consistency and reduced missed defects.</h3>"
+            },
+            {
+                category: "Inspection Methods",
+                front: "<h2>What types of inspection methods are you familiar with, and when would you use each?</h2>",
+                back: "<h3>I use visual inspections for surface defects, dimensional inspections for verifying specifications, and automated inspections for high-volume production based on risk and complexity.</h3>"
+            },
+            {
+                category: "Standards",
+                front: "<h2>What quality standards (ISO, Six Sigma, etc.) are you certified in or experienced with?</h2>",
+                back: "<h3>I have experience working within ISO-based quality systems and applying structured quality principles to ensure compliance and reduce defects.</h3>"
+            },
+            {
+                category: "Measurement Tools",
+                front: "<h2>What measurement tools do you commonly use for quality inspections? Can you explain how you use them?</h2>",
+                back: "<h3>I regularly use calipers, micrometers, and gauges, ensuring they are calibrated and zeroed before use to maintain accuracy.</h3>"
+            },
+            {
+                category: "Reporting",
+                front: "<h2>How do you document and report quality issues found during inspections?</h2>",
+                back: "<h3>I document issues clearly using standardized templates, report them promptly, and follow up to ensure corrective actions are completed.</h3>"
+            },
+            {
+                category: "Root Cause Analysis",
+                front: "<h2>Can you explain the importance of root cause analysis in quality control?</h2>",
+                back: "<h3>Root cause analysis identifies the true source of defects, allowing corrective actions to prevent repeat issues and improve long-term quality.</h3>"
+            },
+            {
+                category: "Decision Making",
+                front: "<h2>Imagine you are under pressure to approve a batch that has minor defects. How would you approach this situation?</h2>",
+                back: "<h3>I would assess the impact on safety and performance, document the defects, and make a decision based on quality standards and customer expectations.</h3>"
+            },
+            {
+                category: "Communication",
+                front: "<h2>If a production line manager disagrees with your assessment of a quality issue, how would you handle that conversation?</h2>",
+                back: "<h3>I would listen to their concerns, present inspection data, and work collaboratively to reach a solution that maintains quality.</h3>"
+            },
+            {
+                category: "Prioritization",
+                front: "<h2>You have multiple inspections scheduled and a tight deadline. How do you prioritize your tasks?</h2>",
+                back: "<h3>I prioritize inspections based on urgency and risk, plan my time carefully, and communicate with the team as needed.</h3>"
+            },
+            {
+                category: "Leadership",
+                front: "<h2>If you were leading a team of inspectors, how would you motivate them to achieve high-quality standards?</h2>",
+                back: "<h3>I would set clear expectations, recognize strong performance, encourage open communication, and lead by example.</h3>"
             }
+
         ];
 
         let currentIndex = 0;
