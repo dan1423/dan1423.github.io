@@ -221,28 +221,55 @@
     <script>
         // Flashcard Data
         const flashcards = [
+
+         {
+    category: "Behavioral",
+    front: "<h2>Tell me about yourself / Why do you want to work here?</h2>",
+    back: "<h3>I hold a BS in Manufacturing Engineering Technology and began my career as a QC Inspector at Fast Radius, where I supported quality inspection for 3D-printed parts across industries such as aerospace, medical, and sports. After relocating to Itasca, I joined WaterSaver Faucet Co. as a QC Inspector, focusing on laboratory faucets and precision components. I am now seeking a quality inspection role at MTL because of its strong presence across multiple industries and its reputation as a one-stop shop for complete product solutions. As my husband and I are moving to the north suburbs, I see this as a great long-term opportunity where I can grow and contribute.</h3>"
+},
+ {
+                category: "Company Knowledge",
+                front: "<h2>What does MIL do?</h2>",
+                back: "<h3>They provide <strong>Precision Metal Finishing</strong>, <strong>Coatings</strong>, and <strong>Non-Destructive Testing (NDT)</strong> for mission-critical aerospace, defense, and medical components.</h3>"
+            },
+             {
+                category: "Leadership",
+                front: "<h2>If you were leading a team of inspectors, how would you motivate them to achieve high-quality standards?</h2>",
+                back: "<h3>I would set clear expectations, recognize strong performance, encourage open communication, and lead by example.</h3>"
+            },
+              {
+                category: "Standards",
+                front: "<h2>What quality standards (ISO, Six Sigma, etc.) are you certified in or experienced with?</h2>",
+                back: "<h3>I have experience working within ISO-based quality systems and applying structured quality principles to ensure compliance and reduce defects.</h3>"
+            },
+             {
+                category: "Inspection Methods",
+                front: "<h2>What types of inspection methods are you familiar with, and when would you use each?</h2>",
+                back: "<h3>I use visual inspections for surface defects, dimensional inspections for verifying specifications, and automated inspections for high-volume production based on risk and complexity.</h3>"
+            },
+             {
+                category: "Measurement Tools",
+                front: "<h2>What measurement tools do you commonly use for quality inspections? Can you explain how you use them?</h2>",
+                back: "<h3>I regularly use calipers, micrometers, and gauges, ensuring they are calibrated and zeroed before use to maintain accuracy.</h3>"
+            },
+             {
+                category: "Reporting",
+                front: "<h2>How do you document and report quality issues found during inspections?</h2>",
+                back: "<h3>I document issues clearly using standardized templates, report them promptly, and follow up to ensure corrective actions are completed.</h3>"
+            },
          
             {
                 category: "Handling Issues",
                 front: "<h2>How do you handle a 'Non-Conformance'?</h2>",
                 back: "<h3>1. <strong>Stop</strong> the process.<br>2. <strong>Document</strong> the issue.<br>3. <strong>Segregate</strong> (Quarantine) the bad parts.<br>4. <strong>Notify</strong> proper authority.<br>(Never fix without approval).</h3>"
             },
-           {
-    category: "Behavioral",
-    front: "<h2>Tell me about yourself / Why do you want to work here?</h2>",
-    back: "<h3>I hold a BS in Manufacturing Engineering Technology and began my career as a QC Inspector at Fast Radius, where I supported quality inspection for 3D-printed parts across industries such as aerospace, medical, and sports. After relocating to Itasca, I joined WaterSaver Faucet Co. as a QC Inspector, focusing on laboratory faucets and precision components. I am now seeking a quality inspection role at MTL because of its strong presence across multiple industries and its reputation as a one-stop shop for complete product solutions. As my husband and I are moving to the north suburbs, I see this as a great long-term opportunity where I can grow and contribute.</h3>"
-}
-,
+          
             {
                 category: "Technical",
                 front: "<h2>What is your procedure for ensuring measurement accuracy?</h2>",
                 back: "<h3>1. Verify calibration date.<br>2. Clean gauge faces and part.<br>3. Check temperature/environment.<br>4. Perform a master check (gauge block) immediately before measuring.</h3>"
             },
-            {
-                category: "Company Knowledge",
-                front: "<h2>What does MIL do?</h2>",
-                back: "<h3>They provide <strong>Precision Metal Finishing</strong>, <strong>Coatings</strong>, and <strong>Non-Destructive Testing (NDT)</strong> for mission-critical aerospace, defense, and medical components.</h3>"
-            },
+           
             // ===============================
             // Quality Inspector Interview Q&A
             // ===============================
@@ -277,26 +304,10 @@
                 front: "<h2>Give an example of a proactive measure you took to improve quality control processes.</h2>",
                 back: "<h3>I noticed defects were occasionally missed, so I created a more detailed inspection checklist. This improved consistency and reduced missed defects.</h3>"
             },
-            {
-                category: "Inspection Methods",
-                front: "<h2>What types of inspection methods are you familiar with, and when would you use each?</h2>",
-                back: "<h3>I use visual inspections for surface defects, dimensional inspections for verifying specifications, and automated inspections for high-volume production based on risk and complexity.</h3>"
-            },
-            {
-                category: "Standards",
-                front: "<h2>What quality standards (ISO, Six Sigma, etc.) are you certified in or experienced with?</h2>",
-                back: "<h3>I have experience working within ISO-based quality systems and applying structured quality principles to ensure compliance and reduce defects.</h3>"
-            },
-            {
-                category: "Measurement Tools",
-                front: "<h2>What measurement tools do you commonly use for quality inspections? Can you explain how you use them?</h2>",
-                back: "<h3>I regularly use calipers, micrometers, and gauges, ensuring they are calibrated and zeroed before use to maintain accuracy.</h3>"
-            },
-            {
-                category: "Reporting",
-                front: "<h2>How do you document and report quality issues found during inspections?</h2>",
-                back: "<h3>I document issues clearly using standardized templates, report them promptly, and follow up to ensure corrective actions are completed.</h3>"
-            },
+           
+          
+           
+           
             {
                 category: "Root Cause Analysis",
                 front: "<h2>Can you explain the importance of root cause analysis in quality control?</h2>",
@@ -316,12 +327,8 @@
                 category: "Prioritization",
                 front: "<h2>You have multiple inspections scheduled and a tight deadline. How do you prioritize your tasks?</h2>",
                 back: "<h3>I prioritize inspections based on urgency and risk, plan my time carefully, and communicate with the team as needed.</h3>"
-            },
-            {
-                category: "Leadership",
-                front: "<h2>If you were leading a team of inspectors, how would you motivate them to achieve high-quality standards?</h2>",
-                back: "<h3>I would set clear expectations, recognize strong performance, encourage open communication, and lead by example.</h3>"
             }
+           
 
         ];
 
