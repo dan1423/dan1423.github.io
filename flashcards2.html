@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIL Interview Prep | Dimensional Inspector</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #003366; /* Aerospace Blue */
+            --secondary-color: #00509E;
+            --accent-color: #F4B400; /* Industrial Yellow/Gold */
+            --text-color: #333;
+            --bg-color: #f4f7f6;
+            --card-height: 400px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        h1 {
+            font-weight: 700;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        p.subtitle {
+            margin: 5px 0 0;
+            font-weight: 300;
+            color: #666;
+        }
+
+        /* Card Container with Perspective */
+        .card-container {
+            width: 100%;
+            max-width: 600px;
+            height: var(--card-height);
+            perspective: 1000px;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+
+        /* The Card Inner (Flipper) */
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-radius: 15px;
+        }
+
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        /* Front and Back Faces */
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* Hides back when facing away */
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            box-sizing: border-box;
+            text-align: center;
+            background: white;
+            border: 1px solid #e0e0e0;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
+        }
+
+        .card-front h2 {
+            color: var(--primary-color);
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        .card-front .category {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
+            color: #999;
+            font-weight: 500;
+        }
+
+        .card-front .hint {
+            position: absolute;
+            bottom: 20px;
+            font-size: 0.85rem;
+            color: #aaa;
+            font-style: italic;
+        }
+
+        /* Back Styling */
+        .card-back {
+            background-color: var(--primary-color);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .card-back h3 {
+            font-weight: 400;
+            line-height: 1.6;
+            font-size: 1.25rem;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            padding: 10px;
+            transition: transform 0.1s;
+        }
+
+        button:active {
+            transform: scale(0.9);
+        }
+
+        button:disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        #counter {
+            font-weight: 500;
+            color: #555;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        /* Symbol Styling */
+        .symbol {
+            font-size: 4rem;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 480px) {
+            :root {
+                --card-height: 350px;
+            }
+            .card-front h2 { font-size: 1.3rem; }
+            .card-back h3 { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>MIL Interview Prep</h1>
+        <p class="subtitle">Dimensional Inspector Role</p>
+    </header>
+
+    <div class="card-container" onclick="flipCard()">
+        <div class="card" id="flashcard">
+            <!-- Front Face -->
+            <div class="card-face card-front">
+                <div class="category" id="cardCategory">Category</div>
+                <div id="cardContentFront">
+                    <!-- Content injected via JS -->
+                </div>
+                <div class="hint"><i class="fas fa-hand-pointer"></i> Tap to flip</div>
+            </div>
+
+            <!-- Back Face -->
+            <div class="card-face card-back">
+                <div id="cardContentBack">
+                    <!-- Content injected via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button onclick="prevCard()" id="btnPrev"><i class="fas fa-chevron-left"></i></button>
+        <span id="counter">1 / 15</span>
+        <button onclick="nextCard()" id="btnNext"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <script>
+        // Flashcard Data
+        const flashcards = [
+            {
+                category: "GD&T Symbols",
+                front: "<div class='symbol'>⌖</div><h2>What is this symbol?</h2>",
+                back: "<h3><strong>True Position</strong><br><br>It controls the total permissible variation a feature (like a hole) can have from its 'true' theoretical position.</h3>"
+            },
+            {
+                category: "GD&T Symbols",
+                front: "<div class='symbol'>Ⓜ</div><h2>What is this symbol?</h2>",
+                back: "<h3><strong>Maximum Material Condition (MMC)</strong><br><br>The condition where a part contains the most material within its size limits (e.g., Smallest Hole or Largest Pin).</h3>"
+            },
+            {
+                category: "Plating Math",
+                front: "<h2>Effect of Plating on a HOLE</h2>",
+                back: "<h3>Plating <strong>DECREASES</strong> the hole diameter.<br><br>Formula: Final Dia = Start Dia - (2 x Plating Thickness)</h3>"
+            },
+            {
+                category: "Plating Math",
+                front: "<h2>Effect of Plating on a PIN/SHAFT</h2>",
+                back: "<h3>Plating <strong>INCREASES</strong> the shaft diameter.<br><br>Formula: Final Dia = Start Dia + (2 x Plating Thickness)</h3>"
+            },
+            {
+                category: "Math Challenge",
+                front: "<h2>You need a final hole of 0.500\".<br>You will add 0.001\" plating.<br><br>What is the Pre-Plate size?</h2>",
+                back: "<h3><strong>0.502\"</strong><br><br>You must machine the hole LARGER so the plating shrinks it to the correct size.<br>(0.500 + 0.001 + 0.001)</h3>"
+            },
+            {
+                category: "Definitions",
+                front: "<h2>What is a 'Frozen Plan'?</h2>",
+                back: "<h3>A manufacturing process or control plan that is <strong>fixed</strong> and cannot be changed without specific approval from the customer or engineering.</h3>"
+            },
+            {
+                category: "Testing Methods",
+                front: "<h2>What is Eddy Current testing used for in this role?</h2>",
+                back: "<h3>Measuring the <strong>thickness of non-conductive coatings</strong> (like anodizing) on conductive metal substrates without damaging the part.</h3>"
+            },
+            {
+                category: "Regulations",
+                front: "<h2>What is the ITAR requirement for this job?</h2>",
+                back: "<h3>You must be a <strong>U.S. Citizen</strong> or a <strong>Lawful Permanent Resident</strong> (Green Card) to handle defense-related technical data.</h3>"
+            },
+            {
+                category: "Quality Control",
+                front: "<h2>What is a 'First Article Inspection' (FAI)?</h2>",
+                back: "<h3>A complete, independent verification of <strong>every single design characteristic</strong> on the first part produced to prove the process is valid.</h3>"
+            },
+            {
+                category: "Handling Issues",
+                front: "<h2>How do you handle a 'Non-Conformance'?</h2>",
+                back: "<h3>1. <strong>Stop</strong> the process.<br>2. <strong>Document</strong> the issue.<br>3. <strong>Segregate</strong> (Quarantine) the bad parts.<br>4. <strong>Notify</strong> proper authority.<br>(Never fix without approval).</h3>"
+            },
+            {
+                category: "Behavioral",
+                front: "<h2>Tell me about yourself.</h2><p style='font-size:0.9rem'>(How should you structure this?)</p>",
+                back: "<h3><strong>Present-Past-Future Model</strong><br><br>1. Brief current role overview.<br>2. Pivot to your specific inspection/GD&T experience.<br>3. End with why you want to tackle mission-critical aerospace work at MIL.</h3>"
+            },
+            {
+                category: "Behavioral",
+                front: "<h2>Describe a time you were pressured to accept a bad part.</h2>",
+                back: "<h3>Focus on being <strong>Quality Driven</strong>.<br><br>Explain that you halted the shipment to protect the customer and the company's reputation, ensuring the part met print specs before release.</h3>"
+            },
+            {
+                category: "Technical",
+                front: "<h2>What is your procedure for ensuring measurement accuracy?</h2>",
+                back: "<h3>1. Verify calibration date.<br>2. Clean gauge faces and part.<br>3. Check temperature/environment.<br>4. Perform a master check (gauge block) immediately before measuring.</h3>"
+            },
+            {
+                category: "Company Knowledge",
+                front: "<h2>What does MIL do?</h2>",
+                back: "<h3>They provide <strong>Precision Metal Finishing</strong>, <strong>Coatings</strong>, and <strong>Non-Destructive Testing (NDT)</strong> for mission-critical aerospace, defense, and medical components.</h3>"
+            },
+            {
+                category: "Definitions",
+                front: "<h2>What is 'Bonus Tolerance'?</h2>",
+                back: "<h3>Additional tolerance available for a geometric control (like True Position) as the feature's actual size departs from MMC toward LMC.</h3>"
+            }
+        ];
+
+        let currentIndex = 0;
+        const cardElement = document.getElementById('flashcard');
+        const frontContent = document.getElementById('cardContentFront');
+        const backContent = document.getElementById('cardContentBack');
+        const categoryLabel = document.getElementById('cardCategory');
+        const counter = document.getElementById('counter');
+
+        function loadCard(index) {
+            const card = flashcards[index];
+            categoryLabel.textContent = card.category;
+            frontContent.innerHTML = card.front;
+            backContent.innerHTML = card.back;
+            counter.textContent = `${index + 1} / ${flashcards.length}`;
+            
+            // Ensure card starts facing front when loading new one
+            cardElement.classList.remove('is-flipped');
+        }
+
+        function flipCard() {
+            cardElement.classList.toggle('is-flipped');
+        }
+
+        function nextCard() {
+            if (currentIndex < flashcards.length - 1) {
+                currentIndex++;
+                loadCard(currentIndex);
+            } else {
+                // Loop back to start? Or just stop. Let's loop for continuous study.
+                currentIndex = 0;
+                loadCard(currentIndex);
+            }
+        }
+
+        function prevCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadCard(currentIndex);
+            } else {
+                currentIndex = flashcards.length - 1;
+                loadCard(currentIndex);
+            }
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' || e.code === 'Enter') {
+                flipCard();
+            } else if (e.code === 'ArrowRight') {
+                nextCard();
+            } else if (e.code === 'ArrowLeft') {
+                prevCard();
+            }
+        });
+
+        // Initialize
+        loadCard(currentIndex);
+
+    </script>
+</body>
+</html>
