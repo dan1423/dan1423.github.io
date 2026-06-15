@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISTQB CTFL v4.0 — Practice Exam (65 Questions)</title>
+<style>
+  :root{
+    --bg:#f5f5f0; --surface:#ffffff; --surface2:#f1efe8;
+    --text:#2c2c2a; --muted:#5f5e5a; --hint:#888780;
+    --border:rgba(0,0,0,.12); --border2:rgba(0,0,0,.28);
+    --info-bg:#e6f1fb; --info-bd:#378add; --info-tx:#0c447c;
+    --ok-bg:#eaf3de; --ok-bd:#639922; --ok-tx:#27500a;
+    --bad-bg:#fcebeb; --bad-bd:#e24b4a; --bad-tx:#791f1f;
+    --warn:#ba7517;
+    --radius:12px; --radius-sm:8px;
+  }
+  @media(prefers-color-scheme:dark){
+    :root{
+      --bg:#1c1c1a; --surface:#26261f; --surface2:#2c2c28;
+      --text:#ededea; --muted:#b4b2a9; --hint:#888780;
+      --border:rgba(255,255,255,.14); --border2:rgba(255,255,255,.28);
+      --info-bg:#13283a; --info-bd:#378add; --info-tx:#b5d4f4;
+      --ok-bg:#1a2a12; --ok-bd:#639922; --ok-tx:#c0dd97;
+      --bad-bg:#2e1414; --bad-bd:#e24b4a; --bad-tx:#f7c1c1;
+      --warn:#ef9f27;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:780px;margin:0 auto;padding:0 16px 60px;}
+  header.bar{position:sticky;top:0;z-index:10;background:var(--bg);
+    padding:14px 0;border-bottom:1px solid var(--border2);}
+  .bar-row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+  h1{font-size:19px;font-weight:500;margin:0;}
+  .sub{font-size:13px;color:var(--muted);margin-top:2px;}
+  .count{text-align:right;}
+  .count .lbl{font-size:12px;color:var(--muted);}
+  .count .num{font-size:20px;font-weight:500;}
+  .progress{height:6px;background:var(--surface2);border-radius:var(--radius-sm);margin-top:10px;overflow:hidden;}
+  .progress > div{height:100%;background:var(--info-bd);transition:width .2s;width:0;}
+  .chapter{margin:26px 0 10px;font-size:13px;font-weight:500;color:var(--muted);}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:16px 20px;margin-bottom:12px;}
+  .qhead{display:flex;gap:10px;margin-bottom:12px;}
+  .qnum{font-size:13px;font-weight:500;color:var(--muted);min-width:30px;}
+  .qtext{font-size:15px;}
+  .opt{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;margin-bottom:6px;
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);
+    cursor:pointer;font-size:14px;transition:background .12s,border-color .12s;}
+  .opt:hover{background:var(--surface2);}
+  .opt .ltr{font-weight:500;color:var(--muted);min-width:18px;}
+  .opt .mk{margin-left:auto;font-weight:700;}
+  .opt.sel{background:var(--info-bg);border-color:var(--info-bd);border-width:2px;}
+  .opt.correct{background:var(--ok-bg);border-color:var(--ok-bd);}
+  .opt.wrong{background:var(--bad-bg);border-color:var(--bad-bd);}
+  .locked .opt{cursor:default;}
+  .locked .opt:hover{background:var(--surface);}
+  .locked .opt.sel{background:var(--info-bg);}
+  .locked .opt.correct:hover{background:var(--ok-bg);}
+  .locked .opt.wrong:hover{background:var(--bad-bg);}
+  .expl{margin-top:10px;padding:10px 12px;background:var(--surface2);
+    border-radius:var(--radius-sm);font-size:13px;}
+  .expl b.ok{color:var(--ok-tx);} .expl b.bad{color:var(--bad-tx);}
+  .actions{margin:28px 0;display:flex;gap:12px;flex-wrap:wrap;}
+  button.main{flex:1;min-width:180px;padding:12px 16px;font-size:15px;font-weight:500;
+    border:2px solid var(--info-bd);background:var(--surface);color:var(--text);
+    border-radius:var(--radius-sm);cursor:pointer;}
+  button.main:hover{background:var(--surface2);}
+  .score{background:var(--surface2);border-radius:var(--radius);padding:20px 24px;margin-bottom:22px;}
+  .score .big{font-size:34px;font-weight:500;}
+  .score .verdict{font-size:16px;font-weight:500;margin-left:10px;}
+  .score .meta{font-size:13px;color:var(--muted);margin:6px 0 16px;}
+  .chrow{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+  .chrow .nm{font-size:13px;flex:1;}
+  .chbar{width:90px;height:6px;background:var(--surface);border-radius:var(--radius-sm);overflow:hidden;}
+  .chbar > div{height:100%;}
+  .chrow .frac{font-size:13px;font-weight:500;min-width:46px;text-align:right;}
+  footer{margin-top:30px;font-size:12px;color:var(--hint);text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <div class="bar-row">
+      <div>
+        <h1>ISTQB CTFL v4.0 — practice exam</h1>
+        <div class="sub">65 questions · pass mark 65% (43/65)</div>
+      </div>
+      <div class="count">
+        <div class="lbl">Answered</div>
+        <div class="num"><span id="answered">0</span>/65</div>
+      </div>
+    </div>
+    <div class="progress"><div id="pbar"></div></div>
+  </header>
+
+  <div id="score-slot"></div>
+  <div id="quiz"></div>
+
+  <div class="actions" id="actions"></div>
+  <footer>Real CTFL Foundation exam: 40 questions, 60 minutes, 65% to pass (26/40). Aligned to ISTQB CTFL syllabus v4.0.</footer>
+</div>
+
+<script>
+const CH_NAMES={1:"Fundamentals of testing",2:"Testing throughout the SDLC",3:"Static testing",4:"Test techniques",5:"Managing the test activities",6:"Test tools"};
+const QUESTIONS=[
+ {ch:1,q:"Which of the following is a valid objective of testing?",o:["To prove the software has no defects","To evaluate work products such as requirements and code","To guarantee 100% of the software will work in production","To replace the need for a requirements review"],a:1,e:"A key objective of testing is evaluating work products like requirements, user stories, and code. Testing cannot prove the absence of defects."},
+ {ch:1,q:"'Testing shows the presence, not the absence, of defects' is which testing principle?",o:["Tests wear out","Testing shows the presence of defects, not their absence","Exhaustive testing is impossible","Defects cluster together"],a:1,e:"This principle states testing can show defects are present but cannot prove there are none."},
+ {ch:1,q:"The pesticide paradox states that:",o:["Defects cluster in a few modules","Running the same tests repeatedly stops finding new defects","Testing early is cheaper","Context determines the testing approach"],a:1,e:"Repeating the same tests eventually stops finding new defects; tests must be reviewed and revised."},
+ {ch:1,q:"Which best describes the difference between an error, a defect, and a failure?",o:["They are synonyms","An error (mistake) leads to a defect in code, which may cause a failure when executed","A failure causes an error which causes a defect","A defect always causes a failure"],a:1,e:"A human error introduces a defect; executing the defective code may produce a failure."},
+ {ch:1,q:"Which is an example of a root cause of a defect?",o:["A failure observed during execution","A field calculation returning the wrong value","A misunderstanding of the requirement by a developer","A crash in production"],a:2,e:"The root cause is the earliest action/condition contributing to the defect, e.g. a misunderstood requirement."},
+ {ch:1,q:"The 'defects cluster together' principle is most useful for:",o:["Proving software correctness","Risk-based testing and focusing effort","Eliminating the need for regression testing","Choosing programming languages"],a:1,e:"A small number of modules usually contains most defects, supporting risk-based prioritization."},
+ {ch:1,q:"Which statement about the 'absence-of-errors fallacy' is correct?",o:["Finding and fixing many defects guarantees success","Software with no known defects can still fail to meet user needs","Testing should aim for zero defects","Error absence is impossible to assess"],a:1,e:"Even a defect-free system can be a failure if it does not meet user needs or expectations."},
+ {ch:1,q:"Why is 'early testing' (shift left) valuable?",o:["It removes the need for later testing","Removing defects early is much cheaper than later","It guarantees exhaustive coverage","It avoids test planning"],a:1,e:"Defects found early are far cheaper to fix; testing activities should start early in the SDLC."},
+ {ch:1,q:"Which of these is part of the test process activity 'test analysis'?",o:["Executing test cases","Determining what to test by analyzing the test basis","Reporting test results","Setting up the test environment"],a:1,e:"Test analysis identifies testable features and defines test conditions from the test basis."},
+ {ch:1,q:"Traceability between the test basis and test work products supports:",o:["Faster compilation","Coverage assessment and impact analysis","Eliminating documentation","Avoiding the need for test design"],a:1,e:"Traceability helps assess coverage, perform impact analysis, and make testing auditable."},
+
+ {ch:2,q:"In a sequential development model such as the V-model, test levels are:",o:["Skipped entirely","Mapped to corresponding development phases","Only performed at the end","Replaced by reviews"],a:1,e:"In the V-model each development phase has a corresponding test level (e.g. design ↔ system test design)."},
+ {ch:2,q:"A key characteristic of iterative/incremental development regarding testing is:",o:["Testing happens only once","Frequent regression testing is needed as the system grows","No test automation is allowed","Test levels disappear"],a:1,e:"As features accumulate across iterations, regression testing becomes increasingly important."},
+ {ch:2,q:"Shift-left in testing primarily means:",o:["Moving testing to the right of the timeline","Performing testing activities earlier in the lifecycle","Only testing the left side of the UI","Reducing the number of testers"],a:1,e:"Shift-left advocates starting test activities (e.g. reviewing requirements) as early as possible."},
+ {ch:2,q:"Which is a typical objective of confirmation testing (re-testing)?",o:["To find new defects","To confirm a previously failed test now passes after a fix","To measure code coverage","To replace regression testing"],a:1,e:"Confirmation testing re-runs failed tests after a fix to confirm the defect is resolved."},
+ {ch:2,q:"Regression testing is performed to:",o:["Confirm a fixed defect is resolved","Detect defects introduced by changes elsewhere in the system","Replace unit testing","Reduce the test basis"],a:1,e:"Regression testing checks that changes have not adversely affected unchanged parts of the system."},
+ {ch:2,q:"Which test level focuses on interactions between integrated components or systems?",o:["Component testing","Integration testing","Acceptance testing","Unit testing"],a:1,e:"Integration testing targets interfaces and interactions between components or systems."},
+ {ch:2,q:"Operational acceptance testing typically checks:",o:["Business workflows only","Aspects like backup/restore, recovery, and maintenance","Source code structure","Unit-level logic"],a:1,e:"OAT addresses operational aspects such as backup/restore, recovery, security, and maintenance."},
+ {ch:2,q:"Which is a functional test type?",o:["Performance testing","Testing what the system does (e.g. a calculation)","Usability testing","Portability testing"],a:1,e:"Functional testing evaluates what the system does — its functions and behavior."},
+ {ch:2,q:"Testing how well a system performs under load is an example of:",o:["Functional testing","A non-functional (performance) test type","White-box testing","Confirmation testing"],a:1,e:"Performance/load testing is a non-functional test type evaluating quality characteristics."},
+ {ch:2,q:"Maintenance testing is triggered by:",o:["Only new development","Modifications, migration, or retirement of an operational system","Writing the first line of code","Test planning"],a:1,e:"Maintenance testing occurs when an existing system is modified, migrated, or retired."},
+ {ch:2,q:"White-box testing is based on:",o:["Specifications only","The internal structure of the component or system","User expectations only","Random inputs"],a:1,e:"White-box (structure-based) testing derives tests from internal structure like code or architecture."},
+ {ch:2,q:"Component integration testing focuses on:",o:["The business processes end-to-end","Interactions and interfaces between integrated components","A single isolated unit","Acceptance criteria"],a:1,e:"Component integration testing examines interactions between integrated components."},
+
+ {ch:3,q:"A static testing technique that involves examining work products without executing them is:",o:["System testing","Reviews","Performance testing","Exploratory testing"],a:1,e:"Reviews are a form of static testing — work products are examined without executing code."},
+ {ch:3,q:"Which is a benefit of static testing?",o:["It can find defects early, before execution","It replaces all dynamic testing","It requires no work products","It only finds failures"],a:0,e:"Static testing detects defects early (e.g. in requirements), often cheaper than via execution."},
+ {ch:3,q:"In a formal review, the role responsible for the document under review is the:",o:["Moderator/facilitator","Author","Scribe","Manager"],a:1,e:"The author created or maintains the work product under review and fixes defects found."},
+ {ch:3,q:"The review role that records issues found during a review meeting is the:",o:["Author","Scribe (recorder)","Reviewer","Facilitator"],a:1,e:"The scribe/recorder documents anomalies, decisions, and findings during the review."},
+ {ch:3,q:"Which review type is the most formal and follows a defined process with metrics?",o:["Informal review","Walkthrough","Inspection","Ad-hoc review"],a:2,e:"Inspection is the most formal review type, with rules, metrics, and defined roles."},
+ {ch:3,q:"A walkthrough is typically:",o:["Led by the author to gather feedback and find defects","Always the most formal review","Never used for requirements","Performed without the author"],a:0,e:"In a walkthrough the author often leads, guiding participants through the work product."},
+ {ch:3,q:"Which is a success factor for reviews?",o:["Reviewing as large a document as possible in one session","Defining clear objectives and the right participants","Avoiding any preparation","Focusing on the author rather than the product"],a:1,e:"Clear objectives, appropriate participants, and adequate preparation make reviews effective."},
+ {ch:3,q:"Static analysis (tool-based) is typically used to:",o:["Execute the program with test data","Detect defects in code/structure without execution","Measure user satisfaction","Run acceptance tests"],a:1,e:"Static analysis tools examine code/models without execution to find defects and coding violations."},
+
+ {ch:4,q:"Equivalence partitioning divides input data into partitions where:",o:["Each value must be tested individually","All members are expected to be processed the same way","Only invalid values are used","Boundaries are ignored"],a:1,e:"Members of a partition are assumed to be handled the same, so one representative is tested per partition."},
+ {ch:4,q:"For an input field accepting 1–100, which values best test boundaries (2-value BVA)?",o:["50 and 51","0, 1, 100, 101","25 and 75","Only 1 and 100"],a:1,e:"Two-value BVA tests each boundary and the value just outside: 0,1 and 100,101."},
+ {ch:4,q:"A decision table is most useful for testing:",o:["Sequences of events over time","Combinations of conditions and their resulting actions","Code structure coverage","Single input fields"],a:1,e:"Decision tables capture combinations of conditions (inputs) and corresponding actions (outputs)."},
+ {ch:4,q:"State transition testing is appropriate when:",o:["The system has no memory of past inputs","System behavior depends on current state and events","Only boundary values matter","There is a single decision"],a:1,e:"State transition testing applies when outputs depend on current state plus events/inputs."},
+ {ch:4,q:"Statement coverage measures the percentage of:",o:["Decisions exercised","Executable statements exercised by tests","Paths through the code","Requirements covered"],a:1,e:"Statement coverage = executable statements exercised ÷ total executable statements."},
+ {ch:4,q:"100% branch (decision) coverage guarantees:",o:["100% statement coverage","100% path coverage","All defects are found","Exhaustive testing"],a:0,e:"Achieving 100% decision coverage also achieves 100% statement coverage (but not vice versa)."},
+ {ch:4,q:"Which is a black-box test technique?",o:["Statement testing","Branch testing","Boundary value analysis","Path testing"],a:2,e:"BVA is a black-box (specification-based) technique; statement/branch/path are white-box."},
+ {ch:4,q:"Experience-based testing includes which technique?",o:["Decision table testing","Error guessing","Equivalence partitioning","Branch coverage"],a:1,e:"Error guessing is experience-based: testers anticipate likely errors and defects from experience."},
+ {ch:4,q:"Exploratory testing is best described as:",o:["Fully scripted test execution","Simultaneous learning, test design, and execution","A coverage-measurement tool","A formal review type"],a:1,e:"Exploratory testing combines learning, designing, and executing tests concurrently."},
+ {ch:4,q:"Checklist-based testing uses:",o:["Code structure as the basis","A list of items/conditions to verify, from experience","Only boundary values","Decision tables"],a:1,e:"Testers use a checklist of conditions or rules, often derived from experience, to design tests."},
+ {ch:4,q:"In a decision table, the number of columns (rules) for 3 independent binary conditions is at most:",o:["3","6","8","9"],a:2,e:"3 binary conditions yield up to 2^3 = 8 combinations (before collapsing impossible ones)."},
+ {ch:4,q:"Which coverage criterion is the strongest among these?",o:["Statement coverage","Decision coverage","Both give identical strength","Neither involves code"],a:1,e:"Decision coverage subsumes statement coverage — it is the stronger criterion."},
+ {ch:4,q:"Collaboration-based test approaches such as ATDD primarily aim to:",o:["Replace all testers","Derive tests collaboratively from acceptance criteria","Measure code coverage","Avoid user stories"],a:1,e:"Acceptance Test-Driven Development derives tests collaboratively from acceptance criteria before coding."},
+ {ch:4,q:"A good user story acceptance criterion should be:",o:["Vague to allow flexibility","Testable and unambiguous","Written only by developers","Independent of the story"],a:1,e:"Acceptance criteria must be testable and clear so they can be verified."},
+
+ {ch:5,q:"The primary purpose of a test plan is to:",o:["List every defect found","Describe objectives, scope, approach, and resources for testing","Replace the test summary report","Record code coverage"],a:1,e:"A test plan documents test objectives, scope, approach, schedule, and resources."},
+ {ch:5,q:"Entry criteria for a test activity define:",o:["When testing can stop","Preconditions that must be met before the activity starts","The number of defects allowed","The test environment cost"],a:1,e:"Entry criteria are the conditions required before a test activity can begin."},
+ {ch:5,q:"Exit criteria (definition of done) are used to:",o:["Decide when to start testing","Determine whether testing is complete","Assign test cases","Estimate cost only"],a:1,e:"Exit criteria define when a test activity or level can be considered complete."},
+ {ch:5,q:"In risk-based testing, the level of risk is generally a function of:",o:["Likelihood and impact","Cost and schedule only","Number of testers","Lines of code only"],a:0,e:"Risk = likelihood (probability) × impact (consequence) of an adverse event."},
+ {ch:5,q:"A product risk is:",o:["A project being late","A possibility that the product fails to satisfy needs","A staffing shortage","A budget overrun"],a:1,e:"Product risk relates to the work product itself failing to meet expectations/quality needs."},
+ {ch:5,q:"A project risk is:",o:["A function returning the wrong value","Late delivery due to resource shortage","A crash in production","A usability defect"],a:1,e:"Project risks relate to managing and controlling the project (schedule, resources, suppliers)."},
+ {ch:5,q:"Which estimation technique relies on aggregating individual estimates from experts?",o:["Wideband Delphi","Code coverage analysis","Boundary value analysis","State transition testing"],a:0,e:"Wideband Delphi is an expert-based estimation technique aggregating expert judgments."},
+ {ch:5,q:"A defect report should NOT typically include:",o:["Steps to reproduce","Expected and actual results","The tester's salary","Severity and priority"],a:2,e:"Defect reports include reproduction steps, expected/actual results, severity, priority — not salaries."},
+ {ch:5,q:"Severity of a defect refers to:",o:["How soon it should be fixed","The degree of impact of the defect on the system","Who reported it","The cost of the test tool"],a:1,e:"Severity reflects the impact of a defect; priority reflects urgency of fixing it."},
+ {ch:5,q:"Priority of a defect refers to:",o:["The impact on the system","The urgency/order in which it should be fixed","The number of test cases","The test environment"],a:1,e:"Priority indicates how urgently a defect should be addressed relative to others."},
+ {ch:5,q:"A test monitoring metric commonly used is:",o:["Number of test cases executed/passed/failed","The author's experience","Tester salaries","Hardware brand"],a:0,e:"Test progress metrics include test cases planned, executed, passed, failed, and blocked."},
+ {ch:5,q:"The main purpose of a test summary report is to:",o:["Plan upcoming testing","Communicate test results and status to stakeholders","Replace defect reports","Set entry criteria"],a:1,e:"A test summary report communicates results, status, and conclusions to stakeholders."},
+ {ch:5,q:"Configuration management in testing helps to:",o:["Increase the number of defects","Maintain integrity and traceability of test work products and items","Replace the test plan","Avoid test design"],a:1,e:"Configuration management ensures test items and work products are identified, versioned, and traceable."},
+ {ch:5,q:"Which is a typical role of a test manager?",o:["Writing all production code","Developing and reviewing the test strategy and plan","Designing the database schema","Approving developer salaries"],a:1,e:"Test managers plan, monitor, and control testing — including strategy and test plans."},
+ {ch:5,q:"Risk-based testing influences which of the following?",o:["Only the programming language","Prioritization, depth, and order of testing","The compiler used","The hardware vendor"],a:1,e:"Risk levels guide what to test, how thoroughly, and in what order."},
+
+ {ch:6,q:"Which factor is essential when selecting a test tool?",o:["The tool's color scheme","Compatibility with the environment and assessment of organizational maturity","The vendor's office location","Avoiding any pilot project"],a:1,e:"Tool selection considers organizational maturity, environment fit, and is often preceded by a pilot."},
+ {ch:6,q:"A risk of using test execution (automation) tools is:",o:["Tests can never be repeated","Underestimating effort to maintain test scripts","No defects will be found","Tools eliminate the need for test design"],a:1,e:"Maintenance effort for automated scripts is frequently underestimated."},
+ {ch:6,q:"A benefit of test automation is:",o:["It removes the need for any human judgment","Reduction of repetitive manual work and increased consistency","Guaranteed defect-free software","Replacing the test plan"],a:1,e:"Automation reduces repetitive effort and improves consistency/repeatability of tests."},
+ {ch:6,q:"A pilot project for introducing a tool is used to:",o:["Roll the tool out to everyone immediately","Evaluate fit, learn the tool, and assess benefits before broad rollout","Avoid measuring results","Replace the procurement process"],a:1,e:"A pilot evaluates the tool in context, builds expertise, and assesses value before full deployment."},
+ {ch:6,q:"Which category of tool supports static analysis?",o:["Performance testing tools","Tools that analyze code without executing it","Test data preparation tools","Incident management tools"],a:1,e:"Static analysis tools examine code/models without execution to find defects and standard violations."},
+ {ch:6,q:"Success factors for tool deployment in an organization include:",o:["Skipping training to save time","Providing training, coaching, and adapting processes","Avoiding any evaluation of benefits","Never updating the tool"],a:1,e:"Successful deployment needs training, mentoring, process adaptation, and benefit tracking."}
+];
+
+let answers=new Array(QUESTIONS.length).fill(null);
+let submitted=false;
+let startTime=Date.now();
+
+const quiz=document.getElementById('quiz');
+const actions=document.getElementById('actions');
+const scoreSlot=document.getElementById('score-slot');
+
+function build(){
+  let html='';let lastCh=0;
+  QUESTIONS.forEach((item,i)=>{
+    if(item.ch!==lastCh){lastCh=item.ch;
+      html+=`<div class="chapter">Chapter ${item.ch} — ${CH_NAMES[item.ch]}</div>`;}
+    html+=`<div class="card ${submitted?'locked':''}" id="q${i}"><div class="qhead"><span class="qnum">Q${i+1}</span><span class="qtext">${item.q}</span></div>`;
+    item.o.forEach((opt,j)=>{
+      let cls='opt';let mk='';
+      if(submitted){
+        if(j===item.a){cls+=' correct';mk='<span class="mk" style="color:var(--ok-tx)">✓</span>';}
+        else if(j===answers[i]){cls+=' wrong';mk='<span class="mk" style="color:var(--bad-tx)">✗</span>';}
+      }else if(j===answers[i]){cls+=' sel';}
+      const ltr=String.fromCharCode(65+j);
+      html+=`<div class="${cls}" ${submitted?'':`onclick="pick(${i},${j})"`}><span class="ltr">${ltr}</span><span>${opt}</span>${mk}</div>`;
+    });
+    if(submitted){
+      const ok=answers[i]===item.a;
+      html+=`<div class="expl"><b class="${ok?'ok':'bad'}">${ok?'Correct.':'Incorrect.'}</b> ${item.e}</div>`;
+    }
+    html+=`</div>`;
+  });
+  quiz.innerHTML=html;
+  renderActions();
+  updateBar();
+}
+
+function updateBar(){
+  const n=answers.filter(x=>x!==null).length;
+  document.getElementById('answered').textContent=n;
+  document.getElementById('pbar').style.width=(n/QUESTIONS.length*100)+'%';
+}
+
+function renderActions(){
+  const n=answers.filter(x=>x!==null).length;
+  if(!submitted){
+    actions.innerHTML=`<button class="main" onclick="submitExam()">Submit exam (${n}/${QUESTIONS.length})</button>`;
+  }else{
+    actions.innerHTML=`<button class="main" onclick="resetExam()">Retake exam</button>`;
+  }
+}
+
+function pick(i,j){if(submitted)return;answers[i]=j;build();}
+
+function submitExam(){
+  const n=answers.filter(x=>x!==null).length;
+  if(n<QUESTIONS.length){
+    if(!confirm(`You answered ${n} of ${QUESTIONS.length}. Submit anyway? Unanswered count as incorrect.`))return;
+  }
+  submitted=true;renderScore();build();window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function renderScore(){
+  let correct=0;const byCh={};
+  QUESTIONS.forEach((item,i)=>{
+    if(!byCh[item.ch])byCh[item.ch]={c:0,t:0};
+    byCh[item.ch].t++;
+    if(answers[i]===item.a){correct++;byCh[item.ch].c++;}
+  });
+  const pct=Math.round(correct/QUESTIONS.length*100);
+  const passed=correct>=43;
+  const mins=Math.max(1,Math.round((Date.now()-startTime)/60000));
+  let rows='';
+  Object.keys(byCh).sort().forEach(ch=>{
+    const b=byCh[ch];const p=Math.round(b.c/b.t*100);
+    const col=p>=65?'var(--ok-bd)':'var(--warn)';
+    rows+=`<div class="chrow"><span class="nm">Ch ${ch} · ${CH_NAMES[ch]}</span><div class="chbar"><div style="width:${p}%;background:${col}"></div></div><span class="frac">${b.c}/${b.t}</span></div>`;
+  });
+  scoreSlot.innerHTML=`<div class="score"><div><span class="big">${pct}%</span><span class="verdict" style="color:${passed?'var(--ok-tx)':'var(--bad-tx)'}">${passed?'Pass':'Below pass mark'}</span></div><div class="meta">${correct}/${QUESTIONS.length} correct · ~${mins} min · pass mark 43/65 (65%)</div>${rows}</div>`;
+}
+
+function resetExam(){
+  answers=new Array(QUESTIONS.length).fill(null);
+  submitted=false;startTime=Date.now();
+  scoreSlot.innerHTML='';build();window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+</script>
+</body>
+</html>

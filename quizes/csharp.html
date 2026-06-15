@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C# Interview Quiz</title>
+<style>
+  :root {
+    --bg: #0a0e1a; --surface: #111827; --surface2: #1a2235;
+    --border: #1e2d45; --accent: #3b82f6; --accent2: #60a5fa;
+    --green: #10b981; --red: #ef4444; --yellow: #f59e0b;
+    --text: #e2e8f0; --muted: #64748b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 24px 16px; }
+  #app { width: 100%; max-width: 720px; }
+
+  /* Header */
+  .header { text-align: center; margin-bottom: 24px; }
+  .header h1 { font-size: 26px; font-weight: 800; color: var(--accent2); }
+  .header p { color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+  /* Progress */
+  .progress-wrap { margin-bottom: 20px; }
+  .progress-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .progress-bar { height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 3px; background: var(--accent); transition: width 0.4s; }
+
+  /* Stats */
+  .stats { display: flex; gap: 10px; margin-bottom: 20px; }
+  .stat { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; }
+  .stat-val { font-size: 22px; font-weight: 800; }
+  .stat-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+  .green { color: var(--green); } .red { color: var(--red); } .blue { color: var(--accent2); } .yellow { color: var(--yellow); }
+
+  /* Filter tabs */
+  .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .tab { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--surface); color: var(--muted); transition: all 0.15s; }
+  .tab:hover { color: var(--text); border-color: var(--accent); }
+  .tab.active { background: #1e3a5f; color: var(--accent2); border-color: var(--accent); }
+
+  /* Card */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 28px; margin-bottom: 16px; }
+  .q-meta { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; align-items: center; }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  .badge-cat { background: #1e3a5f; color: var(--accent2); }
+  .badge-num { background: var(--surface2); color: var(--muted); }
+  .q-text { font-size: 17px; font-weight: 600; line-height: 1.6; margin-bottom: 20px; color: var(--text); }
+  .q-code { background: #0d1b2e; border: 1px solid var(--border); border-radius: 8px; padding: 14px; font-family: 'Consolas', monospace; font-size: 13px; color: #e2e8f0; margin-bottom: 20px; white-space: pre-wrap; line-height: 1.6; overflow-x: auto; display: none; }
+
+  /* Options */
+  .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .opt { background: var(--surface2); border: 1.5px solid var(--border); border-radius: 9px; padding: 13px 16px; font-size: 14px; cursor: pointer; transition: all 0.15s; text-align: left; color: var(--text); font-family: inherit; line-height: 1.5; }
+  .opt:hover:not(:disabled) { border-color: var(--accent); background: #1e3a5f22; }
+  .opt.correct { background: #0d2b1e; border-color: var(--green); color: var(--green); }
+  .opt.wrong { background: #2b0d0d; border-color: var(--red); color: var(--red); }
+  .opt.dim { color: var(--muted); border-color: var(--border); }
+  .opt:disabled { cursor: default; }
+
+  /* Text answer */
+  .text-answer { display: none; }
+  .text-answer.show { display: block; }
+  .reveal-btn { width: 100%; padding: 13px; background: #1e3a5f; border: 1.5px solid var(--accent); border-radius: 9px; color: var(--accent2); font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.15s; margin-bottom: 16px; }
+  .reveal-btn:hover { background: #2d4f7a; }
+  .answer-box { background: #0d1b2e; border: 1px solid var(--border); border-radius: 9px; padding: 16px; font-size: 14px; color: #94a3b8; line-height: 1.8; margin-bottom: 16px; }
+  .answer-box strong { color: var(--text); }
+  .answer-box code { background: #0a1628; color: #60a5fa; padding: 1px 6px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 12px; }
+  .answer-box pre { background: #0a1628; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-size: 12px; color: #e2e8f0; font-family: 'Consolas', monospace; margin: 8px 0; overflow-x: auto; white-space: pre-wrap; line-height: 1.6; }
+  .answer-box table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 8px 0; }
+  .answer-box th { background: #0a1628; color: var(--accent2); padding: 7px 9px; text-align: left; font-size: 11px; font-weight: 700; }
+  .answer-box td { padding: 7px 9px; border-bottom: 1px solid var(--border); color: #94a3b8; vertical-align: top; }
+
+  /* Self-grade */
+  .self-grade { display: none; gap: 10px; margin-bottom: 16px; }
+  .self-grade.show { display: flex; }
+  .sg-btn { flex: 1; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; font-family: inherit; }
+  .sg-got { background: #0d2b1e; color: var(--green); border: 1px solid #10b98133; }
+  .sg-got:hover { background: var(--green); color: #fff; }
+  .sg-missed { background: #2b0d0d; color: var(--red); border: 1px solid #ef444433; }
+  .sg-missed:hover { background: var(--red); color: #fff; }
+
+  /* Explanation */
+  .explanation { display: none; background: #0d2b1e; border: 1px solid #10b98122; border-radius: 9px; padding: 14px 16px; margin-bottom: 16px; }
+  .explanation.show { display: block; }
+  .explanation.wrong-exp { background: #2b0d0d; border-color: #ef444422; }
+  .exp-title { font-size: 12px; font-weight: 700; color: var(--green); margin-bottom: 6px; }
+  .wrong-exp .exp-title { color: var(--red); }
+  .exp-text { font-size: 13px; color: #94a3b8; line-height: 1.75; }
+
+  /* Nav buttons */
+  .nav-btns { display: flex; gap: 10px; }
+  .btn { padding: 11px 24px; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; font-family: inherit; transition: opacity 0.15s; }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { background: linear-gradient(135deg, #2563eb, #3b82f6); color: #fff; flex: 1; }
+  .btn-ghost { background: var(--surface2); color: var(--muted); border: 1px solid var(--border); }
+  .btn-skip { background: var(--surface2); color: var(--muted); border: 1px solid var(--border); font-size: 12px; padding: 8px 16px; }
+
+  /* Result screen */
+  .result-card { text-align: center; padding: 40px 28px; }
+  .result-emoji { font-size: 56px; margin-bottom: 16px; }
+  .result-score { font-size: 48px; font-weight: 900; color: var(--accent2); }
+  .result-label { color: var(--muted); font-size: 14px; margin-bottom: 28px; }
+  .result-breakdown { display: flex; gap: 12px; justify-content: center; margin-bottom: 28px; flex-wrap: wrap; }
+  .rb { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 20px; text-align: center; min-width: 90px; }
+  .rb-val { font-size: 24px; font-weight: 800; }
+  .rb-lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; }
+  .missed-list { text-align: left; margin-top: 20px; }
+  .missed-title { font-size: 13px; font-weight: 700; color: var(--red); margin-bottom: 10px; }
+  .missed-item { padding: 10px 14px; background: #2b0d0d; border: 1px solid #ef444422; border-radius: 8px; margin-bottom: 8px; font-size: 13px; color: #94a3b8; cursor: pointer; }
+  .missed-item:hover { border-color: var(--red); color: var(--text); }
+
+  /* Intro */
+  .intro-card { text-align: center; padding: 40px 28px; }
+  .intro-topics { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 20px 0 28px; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="header">
+    <h1>C# Test</h1>
+    <p id="header-sub">190 questions from the QuestPond interview guide</p>
+  </div>
+  <div id="screen"></div>
+</div>
+
+<script>
+const ALL_QUESTIONS = [
+  // ── BASICS / .NET ──────────────────────────────────────────────────────────
+  {id:1,cat:"Basics",type:"mc",q:"What is the difference between .NET and C#?",opts:["Both are programming languages","C# is a framework, .NET is a language","NET is a framework, C# is a programming language","They are the same thing"],ans:2,exp:"NET is a platform/framework (provides CLR, libraries, tooling). C# is a language that runs on .NET."},
+  {id:2,cat:"Basics",type:"mc",q:"What is IL (Intermediate Language) Code?",opts:["Fully compiled machine code","Partially compiled code","Source code before compilation","A debugging format"],ans:1,exp:"IL is partially compiled code that the JIT then converts to native machine code at runtime."},
+  {id:3,cat:"Basics",type:"mc",q:"What does JIT stand for and what does it do?",opts:["Java Integrated Toolkit — runs Java","Just-In-Time — converts IL to machine code","Just-In-Time — compiles C# to IL","Joint Interface Technology — links DLLs"],ans:1,exp:"JIT (Just-In-Time) compiler converts IL code into native machine code optimised for the host machine at runtime."},
+  {id:4,cat:"Basics",type:"mc",q:"Can you view IL code?",opts:["No, it is encrypted","Yes, using tools like IL DASM","Only in Visual Studio Enterprise","Only on Windows"],ans:1,exp:"Yes — tools like IL DASM (IL Disassembler) let you inspect the IL produced by the compiler."},
+  {id:5,cat:"Basics",type:"mc",q:"What is the benefit of compiling to IL code instead of directly to machine code?",opts:["Smaller file sizes","Faster startup time","Runtime environment can optimise for the actual host machine","IL code is easier to debug"],ans:2,exp:"The development and runtime environments can differ. JIT can compile the best optimised native code specifically for the machine running the program."},
+  {id:6,cat:"Basics",type:"mc",q:"Does .NET support multiple programming languages?",opts:["No — only C#","Yes — C#, F#, VB.NET, C++ and more","Yes — but only two at a time","Only languages ending in #"],ans:1,exp:".NET supports multiple languages including C#, F#, VB.NET, C++/CLI, and more — all compile to the same IL."},
+  {id:7,cat:"Basics",type:"mc",q:"What does CLR do? (pick the BEST answer)",opts:["Only manages memory","Runs JavaScript in the browser","Invokes JIT to compile IL and cleans unused objects via GC","Handles only security policies"],ans:2,exp:"The Common Language Runtime (CLR) invokes JIT to compile IL to machine code AND runs the Garbage Collector to clean managed objects."},
+  {id:8,cat:"Basics",type:"mc",q:"What is managed code?",opts:["Code written in C++","Code that runs outside CLR control","Code that executes under the CLR execution environment","Code with no exceptions"],ans:2,exp:"Managed code runs inside the CLR, giving it automatic memory management, type safety, and security features."},
+  {id:9,cat:"Basics",type:"mc",q:"What is unmanaged code?",opts:["Code with bugs","Code that runs outside the CLR boundary (e.g. C++, COM)","Code without comments","Any C# code"],ans:1,exp:"Unmanaged code runs outside CLR control. Languages like C++ or COM components manage their own memory and have no GC."},
+  {id:10,cat:"Basics",type:"mc",q:"What is the importance of CTS (Common Type System)?",opts:["It defines coding style rules","It ensures data types from different languages compile to a common type","It manages thread scheduling","It is a garbage collection algorithm"],ans:1,exp:"CTS ensures that an int in C# and an Integer in VB.NET both map to System.Int32 — enabling cross-language interoperability."},
+  {id:11,cat:"Basics",type:"mc",q:"What is CLS (Common Language Specification)?",opts:["A memory model","A set of rules .NET languages must follow to be interoperable","A build tool","A type of exception handler"],ans:1,exp:"CLS is a set of rules/guidelines. When a language adheres to CLS, its code can be consumed by any other CLS-compliant .NET language."},
+  {id:12,cat:"Basics",type:"mc",q:"What does implicit casting mean?",opts:["Casting from higher to lower type — may lose data","Casting using the (type) syntax","Automatically moving from a smaller to a larger data type safely","Casting using Convert.To()"],ans:2,exp:"Implicit casting is automatic — moving from lower (e.g. int) to higher (e.g. double). No data loss possible."},
+  {id:13,cat:"Basics",type:"mc",q:"What can happen during explicit casting?",opts:["Nothing — it is always safe","The program will always crash","Data loss can occur","A new object is created"],ans:2,exp:"Explicit casting (e.g. double to int) truncates decimal data. The cast must be written manually: int x = (int)9.9; gives 9."},
+  {id:14,cat:"Basics",type:"text",q:"Explain the difference between .NET Framework, .NET Core, and .NET 5+.",a:"<strong>.NET Framework</strong>: Windows-only, original .NET. Legacy platform.<br><strong>.NET Core</strong>: Cross-platform rewrite (Windows, Linux, macOS), open-source, high-performance.<br><strong>.NET 5+</strong>: Unified successor — merges .NET Framework and .NET Core into a single platform. .NET 6, 7, 8 continue this unified lineage. Microsoft now just calls it '.NET'."},
+
+  // ── MEMORY ────────────────────────────────────────────────────────────────
+  {id:15,cat:"Memory",type:"mc",q:"Stack stores __ while Heap stores __.",opts:["Objects / primitives","Value types (int, bool) / Reference types (objects, strings)","Static data / instance data","Method names / property names"],ans:1,exp:"Stack: value types, method call frames — fast, auto-cleaned on method exit. Heap: reference types, objects — managed by GC."},
+  {id:16,cat:"Memory",type:"mc",q:"What is boxing in C#?",opts:["Wrapping a value type inside a reference type (object)","Converting a string to an int","Casting one class to another","Allocating memory on the stack"],ans:0,exp:"Boxing converts a value type (stack) into a reference type (heap), e.g.: object o = 42; — creates a new heap object wrapping the int."},
+  {id:17,cat:"Memory",type:"mc",q:"What is unboxing?",opts:["Removing an object from a collection","Extracting the value type back from a reference type","Converting string to char array","Freeing heap memory manually"],ans:1,exp:"Unboxing extracts the original value type from its boxed object wrapper, e.g.: int x = (int)o;"},
+  {id:18,cat:"Memory",type:"mc",q:"What is the consequence of boxing and unboxing?",opts:["Improved performance","No effect on performance","Decreased performance due to heap allocation and casting overhead","Only affects large objects"],ans:2,exp:"Boxing allocates on the heap and copying is slower. Unboxing requires a cast. Both together hurt performance, especially in tight loops."},
+  {id:19,cat:"Memory",type:"mc",q:"What does the Garbage Collector (GC) do?",opts:["Compresses source code files","Cleans unused managed objects from memory in the background","Optimises SQL queries","Handles unmanaged code cleanup"],ans:1,exp:"GC is a background process that non-deterministically cleans unreferenced managed objects from the heap and returns memory to the OS."},
+  {id:20,cat:"Memory",type:"mc",q:"Can the Garbage Collector clean unmanaged objects?",opts:["Yes, always","Yes, if you call GC.Collect()","No — GC only handles managed resources","Yes, via the Dispose pattern"],ans:2,exp:"GC CANNOT clean unmanaged resources (file handles, DB connections, COM objects). You must clean those manually via IDisposable/Dispose."},
+  {id:21,cat:"Memory",type:"mc",q:"What are GC Generations (GC0, GC1, GC2)?",opts:["Versions of the GC algorithm","Logical memory buckets based on object age","Priority queues for threads","Types of heap fragmentation"],ans:1,exp:"GC0: short-lived objects (local vars). GC1: intermediate-lived (buffers). GC2: long-lived (statics). GC checks GC0 most often since most objects die young."},
+  {id:22,cat:"Memory",type:"mc",q:"Why do we need GC Generations?",opts:["To support multiple data types","For performance — older objects are scanned less frequently","To enable multithreading","To track object creation order"],ans:1,exp:"The whole goal is performance. GC assumes objects that have survived longer will likely survive more — so it visits GC2 less often than GC0."},
+  {id:23,cat:"Memory",type:"mc",q:"What is the best place to clean unmanaged objects?",opts:["In the static constructor","In the Main method","In the destructor/finalizer","In a try block"],ans:2,exp:"The destructor (finalizer) is the best place. However, the Dispose pattern (IDisposable + GC.SuppressFinalize) is preferred for deterministic cleanup."},
+  {id:24,cat:"Memory",type:"mc",q:"How does GC behave when a class has a destructor?",opts:["Objects are collected faster","GC takes more trips — objects get promoted to higher generations, pressuring memory","The destructor prevents collection","GC ignores the class"],ans:1,exp:"When a class has a destructor, GC must make an extra pass to run it. This promotes objects to higher generations — using more memory longer."},
+  {id:25,cat:"Memory",type:"mc",q:"What happens if you have an empty destructor?",opts:["Nothing — it is ignored","It causes significant harm by promoting objects to higher generations unnecessarily","It speeds up GC","It prevents the object from being collected"],ans:1,exp:"An empty destructor still causes GC to promote objects to higher generations, wasting memory. Never write empty destructors."},
+  {id:26,cat:"Memory",type:"mc",q:"What is the Dispose pattern?",opts:["A way to force GC collection","Implementing IDisposable and calling GC.SuppressFinalize() for deterministic cleanup","A pattern to prevent object creation","An async memory release pattern"],ans:1,exp:"Implement IDisposable, put cleanup in Dispose(), call GC.SuppressFinalize(this) to stop GC from calling the finalizer again. Use with the 'using' statement."},
+  {id:27,cat:"Memory",type:"mc",q:"What is the use of the 'using' keyword for resources?",opts:["Only for namespace imports","Defines a scope — Dispose() is called automatically at the end of the block","Prevents the object from being garbage collected","Marks a class as unmanaged"],ans:1,exp:"'using' creates a scope. When execution leaves the block, Dispose() is called automatically — perfect for connections, streams, etc."},
+  {id:28,cat:"Memory",type:"mc",q:"Can you force the Garbage Collector to run?",opts:["No — it is fully automatic","Yes — via GC.Collect() but it is not recommended","Yes — using the 'gc' keyword","Yes — by calling Environment.Exit()"],ans:1,exp:"Yes, GC.Collect() forces a collection, but it's NOT recommended. GC already runs based on sophisticated criteria. Interfering usually hurts performance."},
+  {id:29,cat:"Memory",type:"mc",q:"What is a memory leak in .NET?",opts:["A bug where objects are created too fast","When memory consumed is not returned to the OS even when no longer needed","When GC runs too often","When a variable goes out of scope"],ans:1,exp:"Memory leaks happen even in .NET. Common causes: unmanaged resources not disposed, static references holding large graphs, event handlers not unsubscribed."},
+  {id:30,cat:"Memory",type:"mc",q:"What is a weak reference?",opts:["A reference to a null object","Permits GC to collect the object but allows access to it until it is collected","A reference that cannot be null","A pointer to unmanaged memory"],ans:1,exp:"WeakReference allows GC to collect the object if memory is needed, while still letting you access it if it hasn't been collected. Used in caching and object pools."},
+  {id:31,cat:"Memory",type:"mc",q:"When would you use weak references?",opts:["For all local variables","For caching and object pooling — where re-creation is expensive","For database connections","Only in unmanaged code"],ans:1,exp:"Weak references are ideal for caches and pools. If the cached object gets collected under memory pressure, you just re-create it — the app stays functional."},
+  {id:32,cat:"Memory",type:"text",q:"How can you detect memory issues in a .NET application?",a:"Use tools like <strong>Visual Studio Profiler</strong> or dotMemory. Look for two signs:<br>1. <strong>Memory growing linearly</strong> — healthy apps stay within a range; linear growth = leak<br>2. <strong>Allocations without deallocations</strong> — if you only see memory being allocated and nothing being freed, something is holding references<br><br>Total memory = Managed + Unmanaged. If total keeps growing but managed is stable, the leak is in unmanaged code."},
+
+  // ── OOP ────────────────────────────────────────────────────────────────────
+  {id:33,cat:"OOP",type:"mc",q:"What are the 4 pillars of OOP?",opts:["Arrays, Loops, Functions, Classes","Abstraction, Polymorphism, Inheritance, Encapsulation","Abstraction, Performance, Interfaces, Classes","Delegation, Events, Reflection, Generics"],ans:1,exp:"APIE — Abstraction (show only what's necessary), Polymorphism (act differently in different conditions), Inheritance (parent-child), Encapsulation (hide complexity)."},
+  {id:34,cat:"OOP",type:"mc",q:"What is Abstraction?",opts:["Hide complexity","Show only what is necessary to the outside world","Define parent-child relationships","Allow multiple method signatures"],ans:1,exp:"Abstraction means showing only what is necessary and hiding unnecessary detail. E.g. a car's steering wheel — you turn it without knowing the mechanics."},
+  {id:35,cat:"OOP",type:"mc",q:"What is Encapsulation?",opts:["Show only what is necessary","Allow multiple behaviours","Hide complexity behind a clean interface","Define contracts between classes"],ans:2,exp:"Encapsulation hides the internal complexity and state of an object. You interact through defined methods/properties, not directly with fields."},
+  {id:36,cat:"OOP",type:"mc",q:"What is a Class vs an Object?",opts:["They are the same thing","Class is an instance, Object is a blueprint","Class is a blueprint/type, Object is an instance of that class","Object is a static class"],ans:2,exp:"Class: the blueprint or type definition. Object: a specific instance created from that class. e.g. 'Car' is a class; your red Toyota is an object."},
+  {id:37,cat:"OOP",type:"mc",q:"What does the 'virtual' keyword do?",opts:["Makes a method static","Prevents a method from being overridden","Marks a parent method as overridable by child classes","Creates an abstract method"],ans:2,exp:"'virtual' in a parent class allows child classes to override that method using 'override'. Without it, child classes can only 'hide' it with 'new'."},
+  {id:38,cat:"OOP",type:"mc",q:"What is method overriding?",opts:["Multiple methods with same name but different parameters in the same class","Methods with same name and same signature in parent and child class","Replacing a method in the same class","Using the 'new' keyword to hide a method"],ans:1,exp:"Overriding: same name, same signature, but in different classes that have a parent-child relationship. Requires virtual/override keywords."},
+  {id:39,cat:"OOP",type:"mc",q:"What is method overloading?",opts:["Same method name, same signature in different classes","Same method name with different parameter signatures in the same class","Calling a base class method from a child","Using delegates to redirect method calls"],ans:1,exp:"Overloading: same method name but different parameter types/count in the SAME class. Resolved at compile time (static polymorphism)."},
+  {id:40,cat:"OOP",type:"mc",q:"Overloading vs Overriding — which is static polymorphism?",opts:["Overriding","Both","Neither","Overloading"],ans:3,exp:"Overloading = static (compile-time) polymorphism. Overriding = dynamic (runtime) polymorphism resolved via virtual dispatch."},
+  {id:41,cat:"OOP",type:"mc",q:"Can polymorphism work without inheritance?",opts:["Yes, always","Yes, via interfaces only","No","Only in C# 9+"],ans:2,exp:"Polymorphism requires inheritance (or interface implementation). An object needs a parent type to be treated differently based on its actual runtime type."},
+  {id:42,cat:"OOP",type:"mc",q:"What is operator overloading?",opts:["Creating multiple constructors","Redefining what +, -, *, / do for your custom types","Overriding the ToString method","Making operators thread-safe"],ans:1,exp:"Operator overloading lets you redefine the behaviour of built-in operators (+, -, *, /) for custom types. e.g. Vector + Vector = Vector."},
+  {id:43,cat:"OOP",type:"text",q:"Explain Inheritance and give an example.",a:"<strong>Inheritance</strong> defines a parent-child relationship. The child class inherits all public/protected members of the parent and can extend or override them.<br><pre>public class Animal {\n    public virtual void Speak() => Console.WriteLine(\"...\");\n}\npublic class Dog : Animal {\n    public override void Speak() => Console.WriteLine(\"Woof!\");\n}</pre>This enables code reuse and polymorphism. In C#, a class can only inherit from ONE base class (single inheritance), but can implement multiple interfaces."},
+
+  // ── ABSTRACT & INTERFACE ──────────────────────────────────────────────────
+  {id:44,cat:"Abstract & Interface",type:"mc",q:"Are abstract methods virtual by default?",opts:["No — you must add virtual keyword","Yes — abstract methods are implicitly virtual","Only if the class is sealed","Only in interfaces"],ans:1,exp:"Yes. Abstract methods are implicitly virtual — child classes MUST override them. You don't add the 'virtual' keyword to an abstract method."},
+  {id:45,cat:"Abstract & Interface",type:"mc",q:"Can you create an instance of an Abstract class?",opts:["Yes","Yes, but only using reflection","No","Only via a factory"],ans:2,exp:"No. Abstract classes cannot be instantiated directly. You must create a concrete subclass and instantiate that."},
+  {id:46,cat:"Abstract & Interface",type:"mc",q:"Is it compulsory to implement all abstract methods in a child class?",opts:["No — they are optional","Only if the child class is not also abstract","Yes — unless the child is also abstract","Only public ones"],ans:1,exp:"Yes — unless the child class is itself abstract. If the child is concrete (non-abstract), it MUST implement all inherited abstract methods."},
+  {id:47,cat:"Abstract & Interface",type:"mc",q:"Why can't a simple base class replace an Abstract class?",opts:["A simple class cannot have methods","A simple class can be instantiated directly, so you can't force it to be 'half defined'","Abstract classes are faster","Simple classes don't support inheritance"],ans:1,exp:"A simple base class can be instantiated directly. Abstract class forces a half-defined contract — some methods defined, others not — which a simple class can't enforce."},
+  {id:48,cat:"Abstract & Interface",type:"mc",q:"Can we write logic in an interface?",opts:["No — never","Yes, in C# 8+ via default interface methods","Yes, always","Only static methods"],ans:1,exp:"From C# 8 onwards, interfaces can have default method implementations. Before that, interfaces could only contain signatures — no logic."},
+  {id:49,cat:"Abstract & Interface",type:"mc",q:"Can we define private methods in an interface?",opts:["Yes, always","No — all members are public","Yes, in C# 8+","Only internal methods are allowed"],ans:2,exp:"In C# 8+, private methods in interfaces ARE allowed (for use within default implementations). Before C# 8, all interface members were implicitly public."},
+  {id:50,cat:"Abstract & Interface",type:"mc",q:"If you want to change an interface, what is the best practice?",opts:["Edit the existing interface","Create a new interface and use multiple inheritance","Delete and recreate","Use an abstract class instead"],ans:1,exp:"Create a NEW interface. Classes that need both old and new behaviour implement both interfaces. This avoids breaking existing implementations."},
+  {id:51,cat:"Abstract & Interface",type:"mc",q:"What is Multiple Inheritance in the context of interfaces?",opts:["One class inheriting from two abstract classes","A class implementing more than one interface","An interface extending another interface","Multiple constructors in one class"],ans:1,exp:"Multiple interface inheritance means a single class implements multiple interfaces, picking up the contracts from all of them. C# supports this."},
+  {id:52,cat:"Abstract & Interface",type:"mc",q:"Can you do Multiple Inheritance with Abstract classes in C#?",opts:["Yes","Yes, with the 'multi' keyword","No — C# only allows single class inheritance","Only with sealed classes"],ans:2,exp:"No. C# only allows a class to inherit from ONE base class (abstract or not). You can work around this by using interfaces for additional contracts."},
+  {id:53,cat:"Abstract & Interface",type:"mc",q:"What is the Interface Segregation Principle?",opts:["Interfaces should be as large as possible","Clients should not be forced to depend on interfaces they don't use","All interfaces must be internal","Interfaces replace abstract classes"],ans:1,exp:"ISP: split large interfaces into smaller, focused ones. A Penguin shouldn't be forced to implement Fly() just because it implements a Bird interface."},
+  {id:54,cat:"Abstract & Interface",type:"mc",q:"Can you create an instance of an interface?",opts:["Yes","Only via a static factory","No","Yes, using the 'new' keyword on the interface"],ans:2,exp:"No. You cannot instantiate an interface. You instantiate a class that implements the interface and assign it to an interface-type variable."},
+  {id:55,cat:"Abstract & Interface",type:"text",q:"Compare Abstract Class vs Interface — when to use which?",a:"<table><tr><th>Interface</th><th>Abstract Class</th></tr><tr><td>A contract</td><td>Half-defined parent class</td></tr><tr><td>For planning abstraction</td><td>For sharing common logic</td></tr><tr><td>Implemented</td><td>Inherited</td></tr><tr><td>Multiple inheritance ✅</td><td>Multiple inheritance ❌</td></tr><tr><td>No state (fields)</td><td>Can have fields, constructors</td></tr></table><br>Use an <strong>interface</strong> when unrelated classes need to share a contract. Use an <strong>abstract class</strong> when related classes share common implementation."},
+
+  // ── DELEGATES & EVENTS ────────────────────────────────────────────────────
+  {id:56,cat:"Delegates & Events",type:"mc",q:"What is a Delegate?",opts:["A design pattern for events","A type-safe pointer to a method","An interface for async operations","A base class for all events"],ans:1,exp:"A delegate is a type that holds a reference to a method. It enables methods to be passed as parameters, stored in variables, and called later — like a function pointer."},
+  {id:57,cat:"Delegates & Events",type:"mc",q:"How do you declare a delegate?",opts:["public pointer void MyDelegate(string s);","public delegate void MyDelegate(string s);","delegate: void MyDelegate(string s);","void delegate MyDelegate(string s);"],ans:1,exp:"Syntax: [access] delegate [return type] [name]([params]); e.g. public delegate void Notify(string message);"},
+  {id:58,cat:"Delegates & Events",type:"mc",q:"Where are delegates most useful?",opts:["For storing data","For non-blocking calls and callbacks (HTTP, file search, task schedulers)","For defining class hierarchies","For database queries"],ans:1,exp:"Delegates shine when you want non-blocking calls with a callback — HTTP requests, file searches, task schedulers. They let callers specify what to do when an operation completes."},
+  {id:59,cat:"Delegates & Events",type:"mc",q:"What is a Multicast Delegate?",opts:["A delegate that takes multiple parameters","A delegate that holds references to multiple methods","A delegate used across multiple threads","A delegate defined in multiple classes"],ans:1,exp:"A multicast delegate holds multiple method references. When invoked, it calls ALL attached methods in order. Events are built on multicast delegates."},
+  {id:60,cat:"Delegates & Events",type:"mc",q:"What is an Event in C#?",opts:["A special type of class","Encapsulation over a delegate — creates a publisher-subscriber model","A thread synchronisation primitive","A type of exception"],ans:1,exp:"Events wrap delegates to create publisher-subscriber patterns. Consumers can only subscribe (+= ) or unsubscribe (-=), not invoke the event directly. Safer than raw delegates."},
+  {id:61,cat:"Delegates & Events",type:"mc",q:"Delegate vs Event — which is the fairer comparison?",opts:["They are completely different concepts","It is unfair to compare them — events USE delegates internally","Delegates are better","Events are just renamed delegates"],ans:1,exp:"Events ARE delegates internally. Events encapsulate delegates and add a publisher-subscriber model with access control. In real code, raw delegates are rarely used directly."},
+  {id:62,cat:"Delegates & Events",type:"mc",q:"What does it mean for events to 'encapsulate' delegates?",opts:["Events compress delegate code","External code can only subscribe/unsubscribe — not invoke the event directly","Events run faster than delegates","Events can hold more methods than delegates"],ans:1,exp:"Encapsulation means outside code can't call the event like a method or reset it to null. Only the declaring class can raise it. This prevents accidental or malicious invocation."},
+  {id:63,cat:"Delegates & Events",type:"text",q:"Show the syntax for creating and using an event in C#.",a:"<pre>// Step 1: Define a delegate\npublic delegate void SearchHandler(string query);\n\n// Step 2: Declare the event\npublic event SearchHandler OnSearch;\n\n// Step 3: Raise the event (inside the class)\nOnSearch?.Invoke(\"C# tips\");\n\n// Step 4: Subscribe (outside the class)\nmyObj.OnSearch += HandleSearch;\nvoid HandleSearch(string q) { Console.WriteLine(q); }</pre>Modern C# prefers the built-in <code>EventHandler&lt;TEventArgs&gt;</code> delegate for standard events."},
+
+  // ── WHY OOP ───────────────────────────────────────────────────────────────
+  {id:64,cat:"OOP",type:"mc",q:"Why do we need Object Oriented Programming?",opts:["To write shorter code","To think in terms of real-world objects and solve real-world problems more naturally","To avoid using databases","Because procedural code is illegal in C#"],ans:1,exp:"OOP maps naturally to real-world domains. You model entities (Customer, Order, Product) as objects with state and behaviour, making code more intuitive, reusable, and maintainable."},
+
+  // ── CONSTRUCTORS ──────────────────────────────────────────────────────────
+  {id:65,cat:"Constructors",type:"mc",q:"Why do we need constructors?",opts:["To destroy objects","Special methods invoked automatically when an instance is created — used to initialise variables","To define static members","To implement interfaces"],ans:1,exp:"Constructors run automatically when you do 'new ClassName()'. They initialise the object's state. Without them, fields would have default/garbage values."},
+  {id:66,cat:"Constructors",type:"mc",q:"In a parent-child relationship, which constructor fires first?",opts:["Child fires first","Both fire simultaneously","Parent fires first, then child","Neither — you must call them manually"],ans:2,exp:"Parent constructor fires FIRST, then child. This ensures the parent part of the object is fully initialised before child-specific setup runs."},
+  {id:67,cat:"Constructors",type:"mc",q:"How are field initialisers (e.g. int x = 5;) executed in a parent-child hierarchy?",opts:["Parent initialisers first, then child","Child initialisers first, then parent","Both run simultaneously","Only the child's run"],ans:1,exp:"Field initialisers run CHILD first, then parent — the OPPOSITE of constructor order. This can be tricky in interviews!"},
+  {id:68,cat:"Constructors",type:"mc",q:"When does a static constructor fire?",opts:["Every time you create an instance","On application startup always","Exactly once — the first time the class is accessed","When you call it explicitly"],ans:2,exp:"A static constructor runs exactly ONCE, automatically, the first time the class is accessed (first instantiation or first static member reference). You cannot call it manually."},
+  {id:69,cat:"Constructors",type:"mc",q:"How are static constructors executed in a parent-child hierarchy?",opts:["Parent first, then child","Child first, then parent","Only the child's runs","Simultaneously"],ans:1,exp:"Static constructors run CHILD first, then parent — same as field initialisers, opposite of instance constructors."},
+
+  // ── COLLECTIONS ───────────────────────────────────────────────────────────
+  {id:70,cat:"Collections",type:"mc",q:"Which has better performance: Array or ArrayList?",opts:["ArrayList","They are the same","Array","Depends on the OS"],ans:2,exp:"Array is faster because it is strongly typed — no boxing/unboxing overhead. ArrayList stores everything as object, requiring boxing for value types."},
+  {id:71,cat:"Collections",type:"mc",q:"What are generic collections?",opts:["Collections that hold only strings","Strongly typed, flexible collections (e.g. List<T>) with better performance than ArrayList","Collections that auto-sort","Thread-safe collections"],ans:1,exp:"Generic collections like List<T>, Dictionary<K,V> are strongly typed AND flexible in size. No boxing, compile-time type safety, better performance than ArrayList."},
+  {id:72,cat:"Collections",type:"mc",q:"Why is ArrayList slower than List<T>?",opts:["ArrayList uses more threads","ArrayList requires boxing/unboxing for value types","ArrayList is not implemented in C#","List<T> uses hardware acceleration"],ans:1,exp:"ArrayList stores everything as 'object'. When you store an int, it gets boxed (heap allocation). When you read it back, it gets unboxed (cast). Both operations are slow."},
+
+  // ── EXCEPTIONS ────────────────────────────────────────────────────────────
+  {id:73,cat:"Exceptions",type:"mc",q:"How do we handle exceptions in C#?",opts:["Using if/else only","try block for risky code, catch block to handle exceptions","using statement","lock keyword"],ans:1,exp:"try: put risky code here. catch: handle specific exception types (most specific first). finally: cleanup code that ALWAYS runs regardless of exception."},
+  {id:74,cat:"Exceptions",type:"mc",q:"What is the purpose of the 'finally' block?",opts:["Runs only if an exception occurs","Runs only if NO exception occurs","Always runs — with or without an exception — used for cleanup","Catches all exceptions silently"],ans:2,exp:"finally ALWAYS runs. Use it to close connections, release file handles, or other cleanup that must happen regardless of success or failure."},
+  {id:75,cat:"Exceptions",type:"mc",q:"What is the 'out' keyword used for?",opts:["To declare optional parameters","To return multiple values from a method without using a tuple","To pass a parameter by reference (read and write)","To mark a method as async"],ans:1,exp:"'out' lets a method return multiple values. The variable doesn't need to be initialised before passing. The method MUST assign it before returning. e.g. int.TryParse()."},
+  {id:76,cat:"Exceptions",type:"text",q:"Show a try/catch/finally example with multiple catch blocks.",a:"<pre>try {\n    var conn = new SqlConnection(connStr);\n    conn.Open();\n    // execute query\n} catch (SqlException ex) {\n    // Handle DB-specific error first\n    Log(ex.Message);\n} catch (TimeoutException ex) {\n    // Handle timeout\n    Retry();\n} catch (Exception ex) {\n    // Catch-all — most general last\n    throw; // rethrow to preserve stack trace\n} finally {\n    conn?.Close(); // ALWAYS runs\n}</pre>Always order catch blocks from most specific to most general. Use <code>throw;</code> (not <code>throw ex;</code>) to preserve the original stack trace."},
+
+  // ── DESIGN PATTERNS ───────────────────────────────────────────────────────
+  {id:77,cat:"Design Patterns",type:"mc",q:"What are design patterns?",opts:["Reusable code libraries","Time-tested solutions to recurring architecture and design problems","A specific programming language feature","UI layout templates"],ans:1,exp:"Design patterns are proven solutions to common software design problems. They are language-agnostic templates you adapt, not copy-paste code."},
+  {id:78,cat:"Design Patterns",type:"mc",q:"What are the 3 categories of GoF design patterns?",opts:["Structural, Behavioural, Creational","Builder, Observer, Factory","Static, Dynamic, Hybrid","Creation, Destruction, Transformation"],ans:0,exp:"Creational: object creation (Singleton, Factory, Prototype). Behavioural: communication between objects (Observer, Command, Iterator). Structural: class composition (Adapter, Decorator, Composite)."},
+  {id:79,cat:"Design Patterns",type:"mc",q:"What does the Singleton pattern ensure?",opts:["Multiple instances with shared state","Only one instance of a class can exist in the application","Classes can only be static","Thread safety for all classes"],ans:1,exp:"Singleton ensures only ONE instance of a class exists application-wide. Used for: caching (countries, currencies), shared counters, config settings."},
+  {id:80,cat:"Design Patterns",type:"mc",q:"What are two key things needed in a Singleton implementation?",opts:["Public constructor and static field","Private constructor + static instance field","Abstract class + factory method","Interface + lazy loading only"],ans:1,exp:"Private constructor (prevents outside instantiation) + static instance field (holds the single instance). Also use double-null check or Lazy<T> for thread safety."},
+  {id:81,cat:"Design Patterns",type:"mc",q:"What is double null check in Singleton?",opts:["Checking the instance is null twice for fun","Outer null check for performance (avoid lock), inner null check for correctness (only create once)","A bug in Singleton implementations","A way to create two instances"],ans:1,exp:"Outer null check: don't acquire the (expensive) lock if instance already exists. Inner null check: after acquiring lock, verify another thread didn't already create it."},
+  {id:82,cat:"Design Patterns",type:"mc",q:"How can you simplify Singleton code in modern C#?",opts:["Use a static class","Use the abstract keyword","Use Lazy<T> — handles thread safety and lazy loading automatically","Use async/await"],ans:2,exp:"Lazy<T> handles both thread safety AND lazy (on-demand) initialisation in one line: private static readonly Lazy<T> _instance = new Lazy<T>(() => new T());"},
+  {id:83,cat:"Design Patterns",type:"mc",q:"Static class vs Singleton — which supports interfaces?",opts:["Static class","Both","Neither","Singleton"],ans:3,exp:"Singleton can implement interfaces and be inherited — it's a normal class pattern. Static classes CANNOT implement interfaces or be used as a type parameter."},
+  {id:84,cat:"Design Patterns",type:"mc",q:"What is the Repository pattern's main purpose?",opts:["To manage UI components","Abstract and centralise data access logic — providing a clean CRUD interface over data sources","To implement caching","To define REST API endpoints"],ans:1,exp:"Repository abstracts the data access layer. Business code talks to IRepository, not directly to EF/ADO/Dapper. Swap data tech without touching business logic."},
+  {id:85,cat:"Design Patterns",type:"mc",q:"Is DAL (Data Access Layer) the same as Repository?",opts:["Yes, they are identical","No — DAL is technology-centric; Repository is domain-centric abstraction","Repository is a type of DAL","DAL is more abstract than Repository"],ans:1,exp:"DAL focuses on HOW to access data (SQL, EF, etc.). Repository focuses on WHAT data domain objects need — a higher-level, domain-centric abstraction. Don't use them interchangeably in interviews."},
+  {id:86,cat:"Design Patterns",type:"mc",q:"What is a Generic Repository pattern?",opts:["A repository that uses generics to create a single interface/class for all entities","A pattern for creating generic data types","A REST API pattern","A pattern for generic error handling"],ans:0,exp:"Generic Repository avoids creating a separate IRepository<Customer>, IRepository<Order> etc. One IRepository<T> handles all entity types."},
+  {id:87,cat:"Design Patterns",type:"mc",q:"What is Unit of Work (UoW)?",opts:["A testing framework","A pattern that manages transactions — commit all or roll back all operations as a group","A scheduling algorithm","A way to batch database queries"],ans:1,exp:"UoW tracks changes across multiple repositories and either commits ALL of them or rolls back ALL — ensuring transaction atomicity. Works hand-in-glove with Repository."},
+  {id:88,cat:"Design Patterns",type:"mc",q:"Is it mandatory to use Unit of Work with Repository pattern?",opts:["Yes, always","No — only needed when you need to manage transactions across multiple repositories","Only in Entity Framework","Yes, for thread safety"],ans:1,exp:"UoW is only needed when multiple repository operations must succeed or fail together (a transaction). If your operations are independent, UoW isn't required."},
+  {id:89,cat:"Design Patterns",type:"mc",q:"How does Repository pattern make unit testing easy?",opts:["By generating test data automatically","By providing an interface that can be replaced with a mock during tests","By connecting to a test database","By logging all operations"],ans:1,exp:"The IRepository interface can be mocked (e.g. with Moq). Tests can inject a fake repository, bypassing database calls entirely — making tests fast, isolated, and reliable."},
+  {id:90,cat:"Design Patterns",type:"mc",q:"What is the Factory pattern's main benefit?",opts:["Ensures only one instance exists","Centralises object creation, leading to loose coupling","Makes classes immutable","Enables multiple inheritance"],ans:1,exp:"Factory centralises 'new' keyword usage. Instead of scattering concrete class instantiation everywhere, one factory creates them. When you swap implementations, only the factory changes."},
+  {id:91,cat:"Design Patterns",type:"mc",q:"Why does centralising object creation help with loose coupling?",opts:["Fewer files in the project","The 'new' keyword creates tight coupling — if it's scattered everywhere, changing implementations requires many changes","Smaller executables","Faster compilation"],ans:1,exp:"Every 'new ConcreteClass()' creates a dependency on that concrete class. Centralising 'new' in a factory means one change point when you swap implementations."},
+  {id:92,cat:"Design Patterns",type:"mc",q:"What is IOC (Inversion of Control)?",opts:["A method of controlling threads","A principle: delegate/invert object creation to an external framework","An interface for async operations","A way to control access modifiers"],ans:1,exp:"IOC says: don't create your dependencies inside your class — let an external framework inject them. This inverts the control of object creation from the class to the container."},
+  {id:93,cat:"Design Patterns",type:"mc",q:"What is DI vs IOC?",opts:["They are the same thing","IOC is a principle; DI is one implementation of that principle","DI is a principle; IOC is the implementation","IOC is a framework; DI is a language feature"],ans:1,exp:"IOC (Inversion of Control) = the PRINCIPLE. DI (Dependency Injection) = a specific IMPLEMENTATION of IOC. DI injects dependencies via constructor, property, or method."},
+  {id:94,cat:"Design Patterns",type:"mc",q:"What is a Service Locator?",opts:["A class that finds network services","A centralised registry for retrieving and managing dependencies","A tool for locating memory leaks","An alternative to garbage collection"],ans:1,exp:"Service Locator is a centralised registry you query to get dependencies. It implements IOC but is considered an anti-pattern by many — it hides dependencies and makes testing harder. Prefer DI."},
+  {id:95,cat:"Design Patterns",type:"mc",q:"Service Locator vs DI — which leads to looser coupling?",opts:["Service Locator","They are equal","DI","Neither — both are tightly coupled"],ans:2,exp:"DI creates looser coupling. Service Locator creates hidden dependencies (you have to know what to ask for). DI makes dependencies explicit and testable."},
+  {id:96,cat:"Design Patterns",type:"mc",q:"Can you use a simple class instead of an interface for DI?",opts:["No — DI requires interfaces","Technically yes, but interfaces provide proper abstraction and loose coupling","Yes, and it is the recommended approach","Only for value types"],ans:1,exp:"Technically you can inject concrete classes, but you lose loose coupling. Interfaces let you swap implementations (including mocks in tests) without changing the consuming code."},
+  {id:97,cat:"Design Patterns",type:"mc",q:"Is DI the same as Factory pattern?",opts:["Yes","No — DI manages how objects are injected; Factory manages complex object creation logic","Only in ASP.NET","Yes, both centralise object creation"],ans:1,exp:"No. DI focuses on HOW dependencies are provided to a class. Factory focuses on encapsulating COMPLEX creation logic. Just centralising 'new' is NOT a factory — there must be complex logic involved."},
+  {id:98,cat:"Design Patterns",type:"mc",q:"What is Static DI vs Dynamic DI?",opts:["Static uses interfaces; Dynamic uses classes","Static: requires restart to change injection; Dynamic: injection decided at runtime","Static is faster; Dynamic is safer","They are the same"],ans:1,exp:"Static DI is configured at app startup — changing what's injected requires a restart. Dynamic DI resolves what to inject at runtime (e.g. based on config or request context)."},
+  {id:99,cat:"Design Patterns",type:"mc",q:"What is the Abstract Factory pattern?",opts:["A factory with abstract methods","Provides an interface for creating FAMILIES of related objects without specifying concrete classes","A factory for creating abstract classes","A Singleton factory"],ans:1,exp:"Abstract Factory groups related factories together. e.g. UIFactory for Windows and UIFactory for Mac — each creates a family of related UI components consistently."},
+  {id:100,cat:"Design Patterns",type:"mc",q:"Does Abstract Factory use Factory pattern internally?",opts:["No — they are independent","Yes — Abstract Factory aggregates similar families of Factory patterns","Only in some implementations","Only when combined with Singleton"],ans:1,exp:"Yes. Abstract Factory typically uses Factory Method internally. Abstract Factory = a factory of factories, grouped by product family."},
+  {id:101,cat:"Design Patterns",type:"mc",q:"Simple Factory vs Factory Method — what is the key difference?",opts:["Simple Factory is official GoF; Factory Method is not","Factory Method is official GoF (defers creation to subclasses); Simple Factory is informal (if/switch based)","They are identical","Simple Factory uses generics"],ans:1,exp:"Simple Factory: not officially GoF — just centralised if/switch creation. Factory Method: official GoF — defines an interface for creation but lets SUBCLASSES decide which class to instantiate."},
+  {id:102,cat:"Design Patterns",type:"mc",q:"How are new behaviours added in the Factory pattern?",opts:["By modifying the factory class","By adding more if/else conditions","By inheritance — create a new subclass","By using reflection"],ans:2,exp:"New behaviours in Factory Method come from INHERITANCE. You create a new subclass that overrides the factory method, following Open/Closed Principle — open for extension, closed for modification."},
+  {id:103,cat:"Design Patterns",type:"mc",q:"How can you remove if/else conditions from a Simple Factory?",opts:["Use abstract classes","Use a Dictionary<type, factory> collection or a DI container","Use reflection only","You cannot — if/else is required"],ans:1,exp:"Replace if/else with a Dictionary mapping types to factory instances: dicts[type].Create(). Or use a DI container to resolve types by key. Both are cleaner and extensible."},
+  {id:104,cat:"Design Patterns",type:"text",q:"Explain the Singleton pattern with a thread-safe implementation.",a:"<pre>public class Singleton {\n    // Option 1: Lazy<T> (recommended - clean and thread-safe)\n    private static readonly Lazy&lt;Singleton&gt; _instance\n        = new Lazy&lt;Singleton&gt;(() => new Singleton());\n    \n    private Singleton() { } // private constructor\n    \n    public static Singleton Instance => _instance.Value;\n}\n\n// Option 2: Double-null check (classic)\npublic static Singleton Instance {\n    get {\n        if (_instance == null) {          // outer check - performance\n            lock (lockObj) {\n                if (_instance == null) {  // inner check - correctness\n                    _instance = new Singleton();\n                }\n            }\n        }\n        return _instance;\n    }\n}</pre>Uses: caching static data (currencies, countries), shared config, hit counters."},
+  {id:105,cat:"Design Patterns",type:"text",q:"Explain the Repository pattern with a code example.",a:"<pre>// Interface (the abstraction)\npublic interface IRepository&lt;T&gt; {\n    T GetById(int id);\n    IEnumerable&lt;T&gt; GetAll();\n    void Add(T entity);\n    void Save();\n}\n\n// Concrete EF implementation\npublic class CustomerEfRepository : IRepository&lt;Customer&gt; {\n    private readonly DbContext _ctx;\n    public CustomerEfRepository(DbContext ctx) => _ctx = ctx;\n    public Customer GetById(int id) => _ctx.Set&lt;Customer&gt;().Find(id);\n    // ... other methods\n}\n\n// Business layer - talks ONLY to interface\npublic class CustomerService {\n    private readonly IRepository&lt;Customer&gt; _repo;\n    public CustomerService(IRepository&lt;Customer&gt; repo) => _repo = repo;\n}</pre>To swap to Dapper: create CustomerDapperRepository — zero changes to business code."},
+
+  // ── MULTITHREADING ────────────────────────────────────────────────────────
+  {id:106,cat:"Multithreading",type:"mc",q:"What are threads / multithreading?",opts:["A way to organise code into methods","Running code in parallel using multiple threads of execution","A type of collection","An async/await mechanism"],ans:1,exp:"Threads let you run code in parallel. The OS allocates CPU time slices to each thread. Multithreading enables responsiveness (UI stays alive while work happens in background)."},
+  {id:107,cat:"Multithreading",type:"mc",q:"How are Threads different from TPL (Task Parallel Library)?",opts:["They are the same thing","Threads are low-level; TPL abstracts thread management and provides Task, async/await, parallel loops","TPL is faster than threads always","Threads are only for I/O; TPL is only for CPU work"],ans:1,exp:"Threads are low-level OS constructs. TPL (System.Threading.Tasks) abstracts this — Task, Task<T>, Parallel.For, async/await. TPL manages thread pools automatically, reducing boilerplate."},
+  {id:108,cat:"Multithreading",type:"text",q:"What is the 'lock' keyword and why is it used in Singleton?",a:"The <code>lock</code> keyword creates a critical section — only ONE thread can execute the locked code at a time.\n<pre>private static readonly object _lockObj = new object();\n\nlock (_lockObj) {\n    // Only one thread executes this at a time\n    if (_instance == null)\n        _instance = new Singleton();\n}</pre>In Singleton, without locking, two threads could both see _instance == null and both create new instances — violating the single-instance guarantee. Lock prevents this race condition."},
+
+  // ── GC DEEP DIVE ──────────────────────────────────────────────────────────
+  {id:109,cat:"Memory",type:"mc",q:"Does the Garbage Collector clean primitive (value) types?",opts:["Yes, after each method call","No — primitives live on the stack and are removed when the variable goes out of scope","Yes, via the Finalize method","Only if you set them to null"],ans:1,exp:"No. Value types live on the STACK. When a method returns, the stack frame is popped and all local value types are immediately cleaned. No GC needed."},
+  {id:110,cat:"Memory",type:"mc",q:"Finalize vs Destructor in C# — what is the relationship?",opts:["They are completely different","Finalize IS the destructor — ~MyClass() compiles to an override of Object.Finalize()","Finalize is called before the destructor","Destructor calls Dispose, not Finalize"],ans:1,exp:"~MyClass() syntax is just syntactic sugar for overriding Object.Finalize(). They are the same mechanism. GC calls Finalize on objects before collecting them."},
+
+  // ── ASSOCIATIONS ──────────────────────────────────────────────────────────
+  {id:111,cat:"OOP",type:"mc",q:"What is the difference between Aggregation and Composition?",opts:["They are the same","Aggregation: child has independent lifetime; Composition: child's lifetime depends on parent","Composition: child is independent; Aggregation: child depends on parent","Aggregation uses interfaces; Composition uses abstract classes"],ans:1,exp:"Aggregation: part-whole, but parts can exist independently (e.g. Car and Driver — Driver can exist without Car). Composition: parts cannot exist without the parent (e.g. House and Rooms — Rooms don't exist without House)."},
+  {id:112,cat:"OOP",type:"mc",q:"Aggregation and Composition are both subsets of what?",opts:["Inheritance","Encapsulation","Association","Delegation"],ans:2,exp:"Association indicates dependency between objects. Aggregation and Composition are both specific types of Association — both describe part-whole relationships but with different lifetimes."},
+
+  // ── CASTING DEEP DIVE ─────────────────────────────────────────────────────
+  {id:113,cat:"Basics",type:"mc",q:"What keyword lets you check a type before casting?",opts:["typeof","as and is keywords","cast","convert"],ans:1,exp:"'is' checks if an object is a certain type. 'as' attempts a cast and returns null if it fails (instead of throwing). Both safer than direct explicit casting."},
+
+  // ── MORE PATTERNS ─────────────────────────────────────────────────────────
+  {id:114,cat:"Design Patterns",type:"mc",q:"What is the Prototype design pattern?",opts:["Creates a single instance","A fully initialised instance to be copied or cloned","Matches incompatible interfaces","Defers creation to subclasses"],ans:1,exp:"Prototype: create a fully initialised object and clone it instead of recreating from scratch. Useful when object creation is expensive."},
+  {id:115,cat:"Design Patterns",type:"mc",q:"What is the Adapter design pattern?",opts:["Adds responsibilities to objects dynamically","Defers algorithm steps to a subclass","Makes incompatible interfaces compatible","Passes a request through a chain of objects"],ans:2,exp:"Adapter wraps an incompatible interface to make it work with another. Like a power plug adapter — same electricity, different socket."},
+  {id:116,cat:"Design Patterns",type:"mc",q:"What is the Decorator design pattern?",opts:["Creates a tree structure of objects","Adds responsibilities/behaviour to objects dynamically without subclassing","Provides simplified access to a subsystem","Defines a skeleton algorithm in a parent class"],ans:1,exp:"Decorator wraps an object to add behaviour without changing the class. e.g. adding logging, caching, or validation around an existing service."},
+  {id:117,cat:"Design Patterns",type:"mc",q:"What is the Template Method design pattern?",opts:["Defines a default interface for creating objects","Defers the exact steps of an algorithm to subclasses","Encapsulates a command as an object","Defines simplified communication between classes"],ans:1,exp:"Template Method defines the skeleton of an algorithm in a parent class, letting subclasses override specific steps without changing the overall structure."},
+  {id:118,cat:"Design Patterns",type:"mc",q:"What is the Iterator pattern?",opts:["Creates new objects","Iterates over elements of a collection without exposing its internal representation","Handles exceptions in loops","Converts one type to another"],ans:1,exp:"Iterator provides a standard way to traverse a collection. In C#, IEnumerable/IEnumerator implement this pattern — that's why you can use foreach on any collection."},
+  {id:119,cat:"Design Patterns",type:"mc",q:"What is the Command pattern?",opts:["A way to name methods","Encapsulates a request/command as an object","A thread control mechanism","An alternative to switches"],ans:1,exp:"Command encapsulates a request as an object, enabling queuing, logging, undo/redo. Heavily used in CQRS (Command Query Responsibility Segregation)."},
+  {id:120,cat:"Design Patterns",type:"mc",q:"What is the Facade pattern?",opts:["Adds behaviour to objects","Represents a complex subsystem via a simplified interface","Creates a family of objects","Chains requests through objects"],ans:1,exp:"Facade provides a simple unified interface to a complex subsystem. Like a TV remote — one button does many things under the hood."},
+
+  // ── PRACTICAL / APPLIED ───────────────────────────────────────────────────
+  {id:121,cat:"Design Patterns",type:"text",q:"Which design patterns would you mention in a C# interview and why?",a:"Strong choices (avoid ONLY saying Singleton — everyone says it):<br><br><strong>Repository</strong>: Most apps are CRUD. Abstracts data access, enables mock testing. Mention it with UoW for transactions.<br><br><strong>Iterator</strong>: You've used it with foreach every day — IEnumerable implements it. Shows you know patterns beyond theory.<br><br><strong>Factory</strong>: When third-party components or complex creation logic exists.<br><br><strong>Command</strong>: If you've used CQRS in any project.<br><br><strong>Adapter</strong>: When integrating with legacy or third-party systems.<br><br>Rule: only mention patterns you can explain confidently. Natural, specific answers beat rehearsed textbook answers."},
+  {id:122,cat:"Design Patterns",type:"text",q:"Do we need Repository pattern if we're already using Entity Framework?",a:"This is a subjective question with two schools of thought:<br><br><strong>Repository IS needed</strong>: EF only abstracts RDBMS sources. Repository abstracts across heterogeneous sources (EF, Dapper, files, APIs, REST). Also: mock unit testing is far easier with IRepository than with DbContext.<br><br><strong>Repository may be overkill</strong>: If you only use one RDBMS and don't need to swap data tech, the extra abstraction layer adds complexity without benefit. EF's DbSet IS conceptually similar to a repository.<br><br><strong>Interview tip</strong>: Present both perspectives, then lean toward 'Repository is good practice for testability and loose coupling.' Read the interviewer's reaction — some are anti-Repository. Validate their perspective diplomatically while making your case."},
+];
+
+// State
+const CATS = ['All', ...new Set(ALL_QUESTIONS.map(q => q.cat))];
+let session = { questions: [], idx: 0, correct: 0, wrong: 0, skipped: 0, wrongIds: [] };
+let answers = {}; // id -> {status: 'correct'|'wrong'|'skipped'}
+let currentCat = 'All';
+let revealed = false;
+let selfGraded = false;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startQuiz(cat) {
+  currentCat = cat;
+  const pool = cat === 'All' ? ALL_QUESTIONS : ALL_QUESTIONS.filter(q => q.cat === cat);
+  session = { questions: shuffle(pool), idx: 0, correct: 0, wrong: 0, skipped: 0, wrongIds: [] };
+  answers = {};
+  renderQuiz();
+}
+
+function renderIntro() {
+  document.getElementById('header-sub').textContent = ALL_QUESTIONS.length + ' questions from the QuestPond interview guide';
+  const s = document.getElementById('screen');
+  s.innerHTML = `
+    <div class="card intro-card">
+      <div style="font-size:48px;margin-bottom:12px">🎯</div>
+      <div style="font-size:20px;font-weight:700;margin-bottom:8px">Pick a topic to start</div>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:4px">Multiple choice + open-ended questions. Rate yourself honestly.</p>
+      <div class="intro-topics">
+        ${CATS.map(c => {
+          const count = c === 'All' ? ALL_QUESTIONS.length : ALL_QUESTIONS.filter(q=>q.cat===c).length;
+          return `<div class="tab" onclick="startQuiz('${c}')">${c} <span style="opacity:0.6">${count}</span></div>`;
+        }).join('')}
+      </div>
+    </div>`;
+}
+
+function renderQuiz() {
+  const { questions, idx } = session;
+  if (idx >= questions.length) { renderResult(); return; }
+
+  const q = questions[idx];
+  const pct = Math.round((idx / questions.length) * 100);
+  revealed = false; selfGraded = false;
+
+  const s = document.getElementById('screen');
+  s.innerHTML = `
+    <div class="progress-wrap">
+      <div class="progress-row">
+        <span>${idx+1} / ${questions.length}</span>
+        <span style="display:flex;gap:14px">
+          <span class="green">✓ ${session.correct}</span>
+          <span class="red">✗ ${session.wrong}</span>
+          <span style="color:var(--muted)">→ ${session.skipped}</span>
+        </span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    </div>
+
+    <div class="tabs">
+      ${CATS.map(c => `<div class="tab${c===currentCat?' active':''}" onclick="startQuiz('${c}')">${c}</div>`).join('')}
+    </div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="badge badge-num">Q${q.id}</span>
+        <span class="badge badge-cat">${q.cat}</span>
+        <span class="badge" style="background:#1a2235;color:var(--yellow)">${q.type==='mc'?'Multiple Choice':'Open Answer'}</span>
+      </div>
+      <div class="q-text">${q.q}</div>
+      ${q.code ? `<pre class="q-code" style="display:block">${q.code}</pre>` : ''}
+
+      ${q.type==='mc' ? `
+        <div class="options" id="options">
+          ${q.opts.map((o,i) => `<button class="opt" id="opt-${i}" onclick="selectOpt(${i})">${String.fromCharCode(65+i)}) ${o}</button>`).join('')}
+        </div>
+        <div class="explanation" id="explanation">
+          <div class="exp-title" id="exp-title">✓ Correct!</div>
+          <div class="exp-text" id="exp-text">${q.exp||''}</div>
+        </div>
+      ` : `
+        <button class="reveal-btn" id="reveal-btn" onclick="revealAnswer()">👁 Reveal Answer</button>
+        <div class="text-answer" id="text-answer">
+          <div class="answer-box">${q.a}</div>
+          <div class="self-grade" id="self-grade">
+            <button class="sg-btn sg-got" onclick="selfGrade(true)">✓ Got it</button>
+            <button class="sg-btn sg-missed" onclick="selfGrade(false)">✗ Missed it</button>
+          </div>
+        </div>
+      `}
+
+      <div class="nav-btns" id="nav-btns" style="margin-top:${q.type==='mc'?'0':'12px'}">
+        <button class="btn btn-skip" onclick="skipQ()">Skip →</button>
+        <button class="btn btn-ghost" onclick="renderIntro()">← Menu</button>
+        ${q.type==='text' ? '<button class="btn btn-primary" id="next-btn" onclick="nextQ()" style="display:none">Next →</button>' : '<button class="btn btn-primary" id="next-btn" onclick="nextQ()" style="display:none">Next →</button>'}
+      </div>
+    </div>`;
+}
+
+function selectOpt(i) {
+  if (revealed) return;
+  revealed = true;
+  const q = session.questions[session.idx];
+  const correct = i === q.ans;
+
+  q.opts.forEach((_,j) => {
+    const el = document.getElementById('opt-'+j);
+    el.disabled = true;
+    if (j === q.ans) el.classList.add('correct');
+    else if (j === i) el.classList.add('wrong');
+    else el.classList.add('dim');
+  });
+
+  const expEl = document.getElementById('explanation');
+  const titleEl = document.getElementById('exp-title');
+  expEl.classList.add('show');
+  if (!correct) { expEl.classList.add('wrong-exp'); titleEl.textContent = '✗ Incorrect'; titleEl.style.color='var(--red)'; }
+  else { titleEl.textContent = '✓ Correct!'; }
+
+  if (correct) session.correct++; else { session.wrong++; session.wrongIds.push(q.id); }
+  document.getElementById('next-btn').style.display = 'flex';
+}
+
+function revealAnswer() {
+  if (revealed) return;
+  revealed = true;
+  document.getElementById('reveal-btn').style.display = 'none';
+  document.getElementById('text-answer').classList.add('show');
+  document.getElementById('self-grade').classList.add('show');
+}
+
+function selfGrade(got) {
+  if (selfGraded) return;
+  selfGraded = true;
+  const q = session.questions[session.idx];
+  if (got) session.correct++; else { session.wrong++; session.wrongIds.push(q.id); }
+  document.getElementById('self-grade').style.display = 'none';
+  document.getElementById('next-btn').style.display = 'flex';
+}
+
+function skipQ() {
+  session.skipped++;
+  session.idx++;
+  renderQuiz();
+}
+
+function nextQ() {
+  session.idx++;
+  renderQuiz();
+}
+
+function renderResult() {
+  const { questions, correct, wrong, skipped, wrongIds } = session;
+  const total = questions.length;
+  const pct = Math.round((correct / (correct+wrong||1)) * 100);
+  const emoji = pct >= 80 ? '🏆' : pct >= 60 ? '💪' : pct >= 40 ? '📚' : '🔄';
+  const msg = pct >= 80 ? 'Excellent! Interview ready.' : pct >= 60 ? 'Good progress — keep going.' : pct >= 40 ? 'Getting there — review the misses.' : 'Keep practising — you\'ve got this.';
+
+  const missedQs = ALL_QUESTIONS.filter(q => wrongIds.includes(q.id));
+
+  document.getElementById('screen').innerHTML = `
+    <div class="card result-card">
+      <div class="result-emoji">${emoji}</div>
+      <div class="result-score">${pct}%</div>
+      <div class="result-label">${msg}</div>
+      <div class="result-breakdown">
+        <div class="rb"><div class="rb-val green">${correct}</div><div class="rb-lbl">Correct</div></div>
+        <div class="rb"><div class="rb-val red">${wrong}</div><div class="rb-lbl">Wrong</div></div>
+        <div class="rb"><div class="rb-val" style="color:var(--muted)">${skipped}</div><div class="rb-lbl">Skipped</div></div>
+        <div class="rb"><div class="rb-val blue">${total}</div><div class="rb-lbl">Total</div></div>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px">
+        <button class="btn btn-primary" onclick="startQuiz('${currentCat}')" style="flex:none">Retry ${currentCat}</button>
+        ${wrongIds.length ? `<button class="btn btn-ghost" onclick="retryWrong()" style="flex:none">Retry wrong (${wrongIds.length})</button>` : ''}
+        <button class="btn btn-ghost" onclick="renderIntro()" style="flex:none">← Menu</button>
+      </div>
+      ${missedQs.length ? `
+        <div class="missed-list">
+          <div class="missed-title">Questions you missed:</div>
+          ${missedQs.map(q => `<div class="missed-item" onclick="reviewQ(${q.id})">Q${q.id}: ${q.q}</div>`).join('')}
+        </div>` : ''}
+    </div>`;
+}
+
+function retryWrong() {
+  const wrongIds = session.wrongIds;
+  const pool = ALL_QUESTIONS.filter(q => wrongIds.includes(q.id));
+  session = { questions: shuffle(pool), idx: 0, correct: 0, wrong: 0, skipped: 0, wrongIds: [] };
+  revealed = false; selfGraded = false;
+  renderQuiz();
+}
+
+function reviewQ(id) {
+  const q = ALL_QUESTIONS.find(x => x.id === id);
+  if (!q) return;
+  session = { questions: [q], idx: 0, correct: 0, wrong: 0, skipped: 0, wrongIds: [] };
+  revealed = false; selfGraded = false;
+  renderQuiz();
+}
+
+renderIntro();
+</script>
+</body>
+</html>
