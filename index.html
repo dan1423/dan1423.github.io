@@ -84,7 +84,7 @@
 
         .panel {
             display: none;
-            padding: 22px 26px 34px;
+            padding: 18px 12px 16px;
         }
         .panel.active { display: block; }
 
@@ -138,16 +138,13 @@
             border-top: 1px dashed var(--blue-line);
             margin: 20px 0;
         }
-        .tag {
-            display: inline-block;
-            font-size: 12px;
-            font-style: italic;
-            color: var(--blue-dark);
-            background: var(--blue-soft);
-            border: 1px solid var(--blue-line);
-            padding: 1px 8px;
-            margin-left: 6px;
-            vertical-align: middle;
+        .sidebyside {
+            display: flex;
+            gap: 20px;
+        }
+        .sidebyside .half { flex: 1; }
+        @media (max-width: 640px) {
+            .sidebyside { flex-direction: column; gap: 12px; }
         }
         footer {
             background: var(--blue-soft);
@@ -161,7 +158,7 @@
             .tabs { padding: 8px 6px 0; }
             .tab { flex: 1 1 auto; padding: 9px 8px; margin-right: 3px; }
             .masthead h1 { font-size: 21px; letter-spacing: 2px; }
-            .panel { padding: 16px 14px 26px; }
+            .panel { padding: 14px 10px 14px; }
         }
     </style>
 </head>
@@ -169,7 +166,7 @@
     <div class="page">
         <div class="masthead">
             <h1>Daniel Oluwadare</h1>
-            <p>Biomedical Informatics &middot; Chicago, Illinois</p>
+            <p>Programmer Analyst &middot; Chicago, Illinois</p>
         </div>
 
         <div class="tabs" role="tablist">
@@ -189,7 +186,7 @@
                 <tr>
                     <td>
                         <b>University of Chicago</b><br>
-                        M.S., Biomedical Informatics
+                        M.S., Health Informatics
                     </td>
                     <td>
                         <b>Duchossois Family Institute &mdash; Bioinformatics</b><br>
@@ -204,7 +201,7 @@
                     <td>
                         <b>AJCC &mdash; Cancer Surveillance DLL</b> <i>(Lead Developer)</i><br>
                         Maintaining and upgrading the Cancer Staging DLL, originally created by the CDC and later transferred to AJCC. Used by cancer registrars; integrates with EMR/EHR systems for automated staging workflows.<br>
-                        <a href="https://www.facs.org/quality-programs/cancer-programs/american-joint-committee-on-cancer/cancer-staging-systems/ajcc-cancer-surveillance-dll/" target="_blank">View on AJCC &rarr;</a>
+                        <a href="https://www.facs.org/quality-programs/cancer-programs/american-joint-committee-on-cancer/cancer-staging-systems/ajcc-cancer-surveillance-dll/" target="_blank">View on AJCC</a>
                     </td>
                 </tr>
             </table>
@@ -213,21 +210,22 @@
         <!-- RESEARCH -->
         <div class="panel" id="panel-research" role="tabpanel" aria-labelledby="tab-research">
             <h2>Research Projects</h2>
-            <ol class="projects">
-                <li>
-                    <h3 style="margin-top:0; display:inline-block;">Streamlining Clinical &amp; Multi-Omics Data</h3><span class="tag">Capstone</span>
-                    <p>Standardized data using existing vocabularies (LOINC, SNOMED, etc.) and built an ETL pipeline to load data from various sources into a standardized format for research and analysis.</p>
+            <h3 style="margin-top:0;">Streamlining Clinical &amp; Multi-Omics Data</h3>
+            <p>Standardized data using existing vocabularies (LOINC, SNOMED, etc.) and built an ETL pipeline to load data from various sources into a standardized data library used in research at the University of Chicago.</p>
+            <div class="sidebyside">
+                <div class="half">
+                    <b>ETL Pipeline</b>
+                    <br>
                     <a href="https://github.com/dan1423/dfi_etl" target="_blank"><img class="shot" src="public/data_library_image.png" alt="Multi-omics ETL project" width="300" height="150"></a><br>
-                    <a href="https://github.com/dan1423/dfi_etl" target="_blank">Source on GitHub &rarr;</a>
-                </li>
-                <hr class="divider">
-                <li>
-                    <h3 style="margin-top:0; display:inline-block;">Data Library for Clinical Research</h3><span class="tag">Capstone</span>
-                    <p>Standardized data from labs into a data library used in research at the University of Chicago.</p>
+                    <a href="https://github.com/dan1423/dfi_etl" target="_blank">Source on GitHub</a>
+                </div>
+                <div class="half">
+                    <b>Data Library</b>
+                    <br>
                     <a href="https://github.com/dan1423/dfi_etl" target="_blank"><img class="shot" src="public/dfi_data_library_spreadsheet.png" alt="Clinical research data library" width="300" height="150"></a><br>
-                    <a href="https://github.com/dan1423/dfi_etl" target="_blank">Source on GitHub &rarr;</a>
-                </li>
-            </ol>
+                    <a href="https://github.com/dan1423/dfi_etl" target="_blank">View the data library</a>
+                </div>
+            </div>
         </div>
 
         <!-- WEB APPS -->
@@ -238,7 +236,7 @@
                     <h3 style="margin-top:0;">AJCC TNM 8 Calculator</h3>
                     <p>Web-based medical staging calculator built with Blazor WebAssembly, used by healthcare professionals for clinical decision support.</p>
                     <a href="https://dan1423.github.io/tnm-calculator-web/" target="_blank"><img class="shot" src="public/tnm-calculator.jpg" alt="TNM 8 Calculator" width="300" height="150"></a><br>
-                    <a href="https://dan1423.github.io/tnm-calculator-web/" target="_blank">Open the calculator &rarr;</a>
+                    <a href="https://dan1423.github.io/tnm-calculator-web/" target="_blank">Open the calculator</a>
                 </li>
             </ol>
         </div>
