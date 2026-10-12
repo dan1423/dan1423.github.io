@@ -20,12 +20,11 @@
   button:focus-visible, select:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
 
   .shell { max-width: 1080px; margin: 20px auto; padding: 0 16px; }
-  .frame { background: var(--white); border: 1px solid var(--border); border-top: 3px solid var(--blue); }
+  .frame { background: var(--white); border: 1px solid var(--border); border-top: 4px solid var(--accent); }
 
   /* ── Top bar ── */
   .top { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-end; justify-content: space-between; }
   .top h1 { font-size: 16px; color: var(--blue); margin: 0 0 4px; letter-spacing: .02em; }
-  .sub { color: var(--text-mid); font-size: 12px; }
   .site { min-width: 220px; }
   .label { display: block; font-weight: 600; font-size: 11px; color: var(--text-mid); margin-bottom: 3px; text-transform: uppercase; letter-spacing: .05em; }
   select { width: 100%; padding: 6px 8px; font-size: 13px; font-family: var(--sans); border: 1px solid var(--border); border-radius: 0; background: var(--white); cursor: pointer; }
@@ -34,8 +33,8 @@
   /* ── Test strip ── */
   .tests { padding: 8px 20px; border-bottom: 1px solid var(--border-light); background: var(--panel-alt); display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
   .tests > span { font-size: 10px; font-weight: 700; color: var(--text-mid); text-transform: uppercase; letter-spacing: .06em; margin-right: 4px; }
-  .btn { font-size: 11px; padding: 4px 10px; border: 1px solid var(--blue); background: var(--white); color: var(--blue); cursor: pointer; border-radius: 0; }
-  .btn:hover { background: var(--blue-light); }
+  .btn { font-size: 11px; padding: 4px 10px; border: 1px solid var(--accent); background: var(--white); color: var(--accent); cursor: pointer; border-radius: 0; }
+  .btn:hover { background: var(--accent-light); }
   .btn.ghost { border-color: var(--border); color: var(--text-mid); }
 
   /* ── Two panes ── */
@@ -43,33 +42,53 @@
   .main { padding: 20px; border-right: 1px solid var(--border); min-width: 0; }
   .detail { padding: 20px; background: var(--panel-alt); min-width: 0; overflow: hidden; }
 
-  .sec-title { display: flex; justify-content: space-between; align-items: baseline; font-size: 11px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: .06em; border-bottom: 2px solid var(--blue); padding-bottom: 4px; margin: 0 0 10px; }
-  .sec-title.yp { color: var(--red); border-color: var(--red); }
-  .sec-title em { font-style: normal; font-weight: 400; color: var(--text-light); text-transform: none; letter-spacing: 0; }
+  /* ── Color coding: each staging type has a tone (accent, light fill, hover fill) ── */
+  .tone-clinical     { --accent: #003087; --accent-light: #e8edf5; --accent-hover: #f3f6fb; }
+  .tone-pathological { --accent: #1e6b3a; --accent-light: #e5f1e9; --accent-hover: #f2f8f4; }
+  .tone-posttherapy  { --accent: #5a2d82; --accent-light: #efe8f6; --accent-hover: #f8f4fb; }
+  .tone-denovo       { --accent: #c41e3a; --accent-light: #fce8ec; --accent-hover: #fdf4f6; }
+  .tone-factor       { --accent: #8a5a00; --accent-light: #fbf1de; --accent-hover: #fdf8ee; }
+
+  .sec-title { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; border-bottom: 2px solid var(--accent); padding-bottom: 4px; margin: 0 0 10px; }
   .sec + .sec { margin-top: 18px; }
 
   .rowbtn { width: 100%; border: 1px solid var(--border-light); background: var(--white); padding: 11px 12px; margin-bottom: -1px; text-align: left; display: flex; justify-content: space-between; align-items: center; gap: 10px; cursor: pointer; border-radius: 0; position: relative; }
-  .rowbtn:hover { background: var(--blue-hover); border-color: var(--blue); z-index: 1; }
-  .rowbtn.on { background: var(--blue-light); border-color: var(--blue); z-index: 2; box-shadow: inset 3px 0 0 var(--blue); }
-  .rowbtn .code { font-family: var(--mono); font-weight: 700; font-size: 18px; color: var(--blue); display: inline-block; min-width: 46px; }
+  .rowbtn:hover { background: var(--accent-hover); border-color: var(--accent); z-index: 1; }
+  .rowbtn.on { background: var(--accent-light); border-color: var(--accent); z-index: 2; box-shadow: inset 3px 0 0 var(--accent); }
+  .rowbtn .code { font-family: var(--mono); font-weight: 700; font-size: 18px; color: var(--accent); display: inline-block; min-width: 46px; }
   .rowbtn .name { color: var(--text-mid); font-size: 12px; }
   .rowbtn .val { font-family: var(--mono); font-weight: 700; font-size: 14px; color: var(--text); white-space: nowrap; }
   .rowbtn .val.empty { font-family: var(--sans); font-weight: 400; font-size: 12px; color: var(--text-light); }
   .rowbtn .val::after { content: " \203A"; color: var(--text-light); font-family: var(--sans); }
   .rowbtn.small { padding: 7px 12px; }
-  .rowbtn.small .code { font-size: 12px; min-width: 52px; font-family: var(--sans); color: var(--text-mid); }
-  .rowbtn.small .val { font-size: 12px; }
-  .factors { margin-top: 10px; }
-  .factors summary { cursor: pointer; font-size: 11px; color: var(--text-mid); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; padding: 4px 0 8px; }
+  .rowbtn.small .code { font-size: 12px; min-width: 52px; font-family: var(--sans); }
+
+  /* Prognostic factors: amber group, values shown as colored chips */
+  .factors { margin-top: 12px; }
+  .factors-title { width: 100%; display: flex; align-items: center; gap: 6px; background: none; border: 0; border-bottom: 1px solid var(--accent); border-radius: 0; cursor: pointer; text-align: left; font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; padding: 0 0 6px; margin-bottom: 6px; }
+  .factors-title .caret { display: inline-block; font-size: 9px; transition: transform .15s; }
+  .factors.collapsed .factors-title .caret { transform: rotate(-90deg); }
+  .factors-title .count { margin-left: auto; font-weight: 400; color: var(--text-light); letter-spacing: 0; text-transform: none; font-size: 11px; }
+  .factors.collapsed .factors-title { margin-bottom: 0; }
+  .factors.collapsed .rowbtn { display: none; }
+  .factors .rowbtn { border-left: 3px solid var(--accent); }
+  .chip { display: inline-block; font-family: var(--sans); font-size: 11px; font-weight: 700; padding: 1px 7px; border: 1px solid; letter-spacing: .02em; }
+  .chip.pos { color: #1e6b3a; background: #e5f1e9; border-color: #1e6b3a; }
+  .chip.neg { color: #c41e3a; background: #fce8ec; border-color: #c41e3a; }
+  .chip.g1  { color: #8a5a00; background: #fdf8ee; border-color: #e0c48f; }
+  .chip.g2  { color: #8a5a00; background: #f7e3bd; border-color: #c99a45; }
+  .chip.g3  { color: #ffffff; background: #8a5a00; border-color: #8a5a00; }
+  .chip.other { color: var(--text-mid); background: var(--panel-alt); border-color: var(--border); }
+  .rowbtn .val.chipval::after { margin-left: 2px; }
 
   /* ── Result boxes ── */
   .result { margin-top: 18px; }
-  .tnmbox { background: var(--blue); color: var(--white); padding: 12px 14px; border: 2px solid var(--blue); }
+  .tnmbox { background: var(--accent); color: var(--white); padding: 12px 14px; border: 2px solid var(--accent); }
   .cap { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 3px; }
-  .tnmbox .cap { opacity: .7; }
+  .tnmbox .cap { opacity: .75; }
   .tnmbox .v { font-family: var(--mono); font-size: 17px; font-weight: 700; word-break: break-word; }
-  .stagebox { border: 2px solid var(--red); padding: 12px 14px; margin-top: 8px; background: var(--white); }
-  .stagebox .cap, .stagebox .v { color: var(--red); }
+  .stagebox { border: 2px solid var(--accent); padding: 12px 14px; margin-top: 8px; background: var(--accent-light); }
+  .stagebox .cap, .stagebox .v { color: var(--accent); }
   .stagebox .v { font-size: 20px; font-weight: 700; }
   .stagebox.iv .v { font-size: 26px; }
   .stagebox p { margin: 6px 0 0; font-size: 12px; color: var(--text-mid); line-height: 1.5; }
@@ -77,31 +96,29 @@
   .pending strong { display: block; color: var(--text-mid); font-size: 13px; margin-bottom: 2px; }
 
   .cmp { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 10px; }
-  .cmp th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--blue); padding: 5px 8px; border-bottom: 2px solid var(--blue); }
-  .cmp th.yp { color: var(--red); }
+  .cmp th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); padding: 5px 8px; border-bottom: 2px solid var(--accent); }
   .cmp td { padding: 5px 8px; border-bottom: 1px solid var(--border-light); font-family: var(--mono); }
   .cmp td:first-child { font-family: var(--sans); font-weight: 600; color: var(--text-mid); }
-  .cmp td.c { color: var(--blue); } .cmp td.yp { color: var(--red); }
+  .cmp td.c, .cmp td.yp { color: var(--accent); font-weight: 700; }
   .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .respbox { border: 1px solid var(--border); padding: 12px 14px; background: var(--white); }
   .respbox .cap { color: var(--text-light); }
-  .respbox .v { font-size: 15px; font-weight: 700; color: var(--blue); }
-  .respbox .v.err { color: var(--red); }
+  .respbox .v { font-size: 15px; font-weight: 700; color: var(--accent); }
+  .respbox .v.err { color: #c41e3a; }
   .duo .tnmbox .v { font-family: var(--sans); font-size: 16px; }
-  .duo .tnmbox .m { font-family: var(--mono); font-size: 11px; opacity: .75; margin-top: 4px; }
+  .duo .tnmbox .m { font-family: var(--mono); font-size: 11px; opacity: .8; margin-top: 4px; }
 
   /* ── Detail pane ── */
-  .back { background: none; border: 0; color: var(--blue); font-weight: 700; cursor: pointer; padding: 0 0 14px; font-size: 12px; }
-  .detail h2 { font-size: 14px; margin: 0 0 4px; color: var(--text); }
-  .detail h2 .code { font-family: var(--mono); color: var(--blue); }
-  .detail h2 .code.yp { color: var(--red); }
+  .back { background: none; border: 0; color: var(--accent); font-weight: 700; cursor: pointer; padding: 0 0 14px; font-size: 12px; }
+  .detail h2 { font-size: 14px; margin: 0 0 12px; color: var(--text); padding-bottom: 6px; border-bottom: 2px solid var(--accent); }
+  .detail h2 .code { font-family: var(--mono); color: var(--accent); }
   .detail .muted { font-size: 12px; color: var(--text-mid); line-height: 1.5; margin: 0 0 12px; }
-  .choice { display: flex; gap: 12px; align-items: flex-start; text-align: left; width: 100%; padding: 9px 12px; border: 1px solid var(--border-light); background: var(--white); margin-bottom: -1px; cursor: pointer; border-radius: 0; position: relative; }
-  .choice:hover { border-color: var(--blue); background: var(--blue-hover); z-index: 1; }
-  .choice.sel { border-color: var(--blue); background: var(--blue-light); z-index: 2; box-shadow: inset 3px 0 0 var(--blue); }
-  .choice b { font-family: var(--mono); font-size: 14px; color: var(--blue); min-width: 60px; }
+  .choice { display: flex; gap: 12px; align-items: center; text-align: left; width: 100%; padding: 9px 12px; border: 1px solid var(--border-light); background: var(--white); margin-bottom: -1px; cursor: pointer; border-radius: 0; position: relative; }
+  .choice:hover { border-color: var(--accent); background: var(--accent-hover); z-index: 1; }
+  .choice.sel { border-color: var(--accent); background: var(--accent-light); z-index: 2; box-shadow: inset 3px 0 0 var(--accent); }
+  .choice b { font-family: var(--mono); font-size: 14px; color: var(--accent); min-width: 72px; }
   .choice span { font-size: 12px; color: var(--text-mid); line-height: 1.4; }
-  .choice .tick { margin-left: auto; color: var(--blue); font-weight: 700; }
+  .choice .tick { margin-left: auto; color: var(--accent); font-weight: 700; }
   .clear { margin-top: 10px; background: none; border: 0; padding: 0; color: var(--text-light); font-size: 11px; cursor: pointer; text-decoration: underline; }
   .note { margin-top: 12px; font-size: 11px; color: var(--text-light); line-height: 1.5; border-left: 2px solid var(--border); padding-left: 8px; }
 
@@ -110,21 +127,17 @@
   .flow li + li { margin-top: 18px; }
   .flow li + li::before { content: "\2193"; position: absolute; top: -17px; left: 20px; color: var(--text-light); font-size: 12px; }
   .flow .n { font-family: var(--mono); font-weight: 700; color: var(--text-light); }
-  .flow li.done { border-color: var(--blue); }
-  .flow li.done .n { color: var(--blue); }
-  .flow li.red { border-color: var(--red); }
-  .flow li.red .n { color: var(--red); }
+  .flow li.done { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
+  .flow li.done .n { color: var(--accent); }
   .flow li small { display: block; color: var(--text-light); font-size: 11px; margin-top: 2px; }
 
-  /* ── Bottom tabs ── */
+  /* ── Bottom tabs: each tab always carries its own color ── */
   .tabs { display: flex; border-top: 1px solid var(--border); background: var(--white); }
-  .tab { flex: 1; border: 0; border-right: 1px solid var(--border-light); border-top: 3px solid transparent; background: var(--white); color: var(--text-mid); padding: 11px 8px 12px; cursor: pointer; font-size: 12px; font-weight: 600; border-radius: 0; }
+  .tab { flex: 1; border: 0; border-right: 1px solid var(--border-light); border-top: 4px solid var(--accent); background: var(--white); color: var(--accent); padding: 10px 8px 12px; cursor: pointer; font-size: 12px; font-weight: 600; border-radius: 0; }
   .tab:last-child { border-right: 0; }
-  .tab:hover { background: var(--blue-hover); color: var(--blue); }
-  .tab.active { border-top-color: var(--blue); background: var(--blue-light); color: var(--blue); font-weight: 700; }
-  .tab.active.red { border-top-color: var(--red); background: var(--red-light); color: var(--red); }
-  .tab small { display: block; font-weight: 400; font-size: 10px; color: var(--text-light); margin-top: 2px; }
-  .tab .chk { color: var(--blue); }
+  .tab:hover { background: var(--accent-hover); }
+  .tab.active { background: var(--accent); color: var(--white); font-weight: 700; }
+  .tab .chk { font-weight: 700; }
 
   .footer { padding: 8px 4px; font-size: 11px; color: var(--text-light); line-height: 1.6; }
   .footer strong { color: var(--text-mid); }
@@ -143,7 +156,6 @@
     .detail.open { display: block; background: var(--white); padding: 16px; }
     .tabs { position: sticky; bottom: 0; flex-wrap: wrap; }
     .tab { flex: 1 1 50%; border-bottom: 1px solid var(--border-light); padding: 10px 4px; }
-    .tab small { display: none; }
     .top { padding: 14px 16px; }
     .site { width: 100%; }
     .duo { grid-template-columns: 1fr; }
@@ -153,7 +165,7 @@
 </head>
 <body>
 <div class="shell">
-  <div class="frame">
+  <div class="frame tone-clinical">
     <div class="top" id="top"></div>
     <div id="tests"></div>
     <div class="content">
@@ -273,17 +285,17 @@ const api = {
  *   prefix: shown on values (c / p / yp); typeId: API stagingTypeId
  * ════════════════════════════════════════════════════════════════════════ */
 const MODES = [
-  { key: "clinical", label: "Clinical", sub: "cTNM",
-    sections: [{ key: "c", title: "Clinical classification", prefix: "c", typeId: 1 }] },
-  { key: "pathological", label: "Pathological", sub: "pTNM",
-    sections: [{ key: "p", title: "Pathological classification", prefix: "p", typeId: 2 }] },
-  { key: "posttherapy", label: "Post-therapy", sub: "cTNM vs ypTNM",
+  { key: "clinical", label: "Clinical",
+    sections: [{ key: "c", title: "Clinical (cTNM)", prefix: "c", typeId: 1, tone: "clinical" }] },
+  { key: "pathological", label: "Pathological",
+    sections: [{ key: "p", title: "Pathological (pTNM)", prefix: "p", typeId: 2, tone: "pathological" }] },
+  { key: "posttherapy", label: "Post-therapy",
     sections: [
-      { key: "c", title: "Pre-treatment", hint: "cTNM", prefix: "c", typeId: 1 },
-      { key: "yp", title: "Post-therapy", hint: "after neoadjuvant + surgery", prefix: "yp", typeId: 2 },
+      { key: "c", title: "Pre-treatment (cTNM)", prefix: "c", typeId: 1, tone: "clinical" },
+      { key: "yp", title: "Post-therapy (ypTNM)", prefix: "yp", typeId: 2, tone: "posttherapy" },
     ] },
-  { key: "denovo", label: "De Novo Metastatic", sub: "cM1 → Stage IV", red: true,
-    sections: [{ key: "c", title: "Clinical classification", prefix: "c", typeId: 1 }] },
+  { key: "denovo", label: "De Novo Metastatic",
+    sections: [{ key: "c", title: "Clinical (cTNM)", prefix: "c", typeId: 1, tone: "denovo" }] },
 ];
 
 const FIELD_NAMES = { T: "Primary tumor", N: "Regional nodes", M: "Distant metastasis" };
@@ -329,6 +341,7 @@ const emptyMode = (m) => ({
 const state = {
   diseaseSites: [], disease: "", items: { 1: [], 2: [] },
   modeIdx: 0, field: null, // field = { sec, col }
+  collapsed: new Set(),    // "<mode>-<section>" keys whose prognostic factors are collapsed (expanded by default)
   modes: Object.fromEntries(MODES.map((m) => [m.key, emptyMode(m)])),
 };
 const mode = () => MODES[state.modeIdx];
@@ -349,6 +362,15 @@ function shown(sec, col, v) {
   if (!CORE.includes(col) || /^(c|p|yp)[TNM]/.test(v)) return v;
   return (sec.prefix === "yp" && col === "M" ? "c" : sec.prefix) + v;
 }
+/** Color class for a prognostic factor value. */
+function chipClass(v) {
+  const s = clean(v).toLowerCase();
+  if (s === "positive") return "pos";
+  if (s === "negative") return "neg";
+  if (/^g[123]$/.test(s)) return s;
+  return "other";
+}
+const chip = (v) => `<span class="chip ${chipClass(v)}">${esc(v)}</span>`;
 const codeLabel = (sec, col) => (CORE.includes(col) ? (sec.prefix === "yp" && col === "M" ? "cM" : sec.prefix + col) : col);
 
 const sectionComplete = (modeKey, secKey) => CORE.every((k) => ms(modeKey).values[secKey][k]);
@@ -462,7 +484,6 @@ function renderTop() {
   $("top").innerHTML = `
     <div>
       <h1>AJCC Staging Calculator${USE_MOCK ? `<span class="badge">Mock data</span>` : ""}</h1>
-      <div class="sub">Choose a staging type below, then select each category.</div>
     </div>
     <div class="site">
       <label class="label" for="disease">Primary disease site</label>
@@ -481,20 +502,21 @@ function rowButton(sec, col, title, small) {
   const on = state.field && state.field.sec === sec.key && state.field.col === col;
   return `<button class="rowbtn ${small ? "small" : ""} ${on ? "on" : ""}" data-action="pick" data-sec="${sec.key}" data-col="${col}">
     <span><span class="code">${esc(small ? title : codeLabel(sec, col))}</span>${small ? "" : ` <span class="name">${FIELD_NAMES[col]}</span>`}</span>
-    <span class="val ${v ? "" : "empty"}">${v ? esc(shown(sec, col, v)) : "Select"}</span></button>`;
+    <span class="val ${v ? (small ? "chipval" : "") : "empty"}">${v ? (small ? chip(v) : esc(shown(sec, col, v))) : "Select"}</span></button>`;
 }
 
 function renderSection(m, sec) {
   const items = state.items[sec.typeId] || [];
   const factors = items.filter((i) => !CORE.includes(i.columnName));
-  const vals = ms().values[sec.key];
-  const anyFactor = factors.some((f) => vals[f.columnName]);
-  const open = anyFactor || (state.field && state.field.sec === sec.key && !CORE.includes(state.field.col));
-  return `<div class="sec">
-    <div class="sec-title ${sec.prefix === "yp" ? "yp" : ""}">${esc(sec.title)} ${sec.hint ? `<em>${esc(sec.hint)}</em>` : ""}</div>
+  return `<div class="sec tone-${sec.tone}">
+    <div class="sec-title">${esc(sec.title)}</div>
     ${CORE.map((k) => rowButton(sec, k)).join("")}
-    ${factors.length ? `<details class="factors" ${open ? "open" : ""}><summary>Prognostic factors (${factors.filter((f) => vals[f.columnName]).length}/${factors.length})</summary>
-      ${factors.map((f) => rowButton(sec, f.columnName, f.columnTitle, true)).join("")}</details>` : ""}
+    ${factors.length ? (() => {
+      const key = `${m.key}-${sec.key}`, closed = state.collapsed.has(key);
+      const n = factors.filter((f) => ms().values[sec.key][f.columnName]).length;
+      return `<div class="factors tone-factor ${closed ? "collapsed" : ""}"><button class="factors-title" data-action="toggle-factors" data-key="${key}" aria-expanded="${!closed}"><span class="caret">&#9660;</span>Prognostic factors<span class="count">${n}/${factors.length}</span></button>`;
+    })() +`
+      ${factors.map((f) => rowButton(sec, f.columnName, f.columnTitle, true)).join("")}</div>` : ""}
   </div>`;
 }
 
@@ -515,8 +537,8 @@ function renderResult(m) {
     const r = st.response, c = st.values.c, p = st.values.yp;
     const secC = sectionOf(m, "c"), secY = sectionOf(m, "yp");
     return `<div class="result">
-      <table class="cmp"><thead><tr><th></th><th>Clinical</th><th class="yp">Post-therapy</th></tr></thead><tbody>
-        ${CORE.map((k) => `<tr><td>${k}</td><td class="c">${esc(shown(secC, k, c[k]))}</td><td class="yp">${esc(shown(secY, k, p[k]))}</td></tr>`).join("")}
+      <table class="cmp"><thead><tr><th></th><th class="tone-clinical">Clinical</th><th>Post-therapy</th></tr></thead><tbody>
+        ${CORE.map((k) => `<tr><td>${k}</td><td class="c tone-clinical">${esc(shown(secC, k, c[k]))}</td><td class="yp">${esc(shown(secY, k, p[k]))}</td></tr>`).join("")}
       </tbody></table>
       <div class="duo">
         <div class="respbox"><div class="cap">Response</div><div class="v ${r.type === "Error" ? "err" : ""}">${r.loading ? "Calculating…" : esc(r.type || "—")}</div></div>
@@ -549,8 +571,8 @@ function renderFlow(m) {
       ["Compare cTNM vs ypTNM", "Complete, partial or no response", !!st.response.type && st.response.type !== "Error"],
       ["Post-therapy stage", "", st.response.stage !== "..." && st.response.stage !== "Error"]],
   }[m.key]();
-  return `<ol class="flow">${steps.map(([t, s, d, red], i) =>
-    `<li class="${d ? (red ? "red" : "done") : ""}"><span class="n">${d ? "&#10003;" : i + 1}</span><span>${esc(t)}${s ? `<small>${esc(s)}</small>` : ""}</span></li>`).join("")}</ol>`;
+  return `<ol class="flow">${steps.map(([t, s, d], i) =>
+    `<li class="${d ? "done" : ""}"><span class="n">${d ? "&#10003;" : i + 1}</span><span>${esc(t)}${s ? `<small>${esc(s)}</small>` : ""}</span></li>`).join("")}</ol>`;
 }
 
 function renderDetail() {
@@ -569,18 +591,17 @@ function renderDetail() {
   const cur = ms().values[sec.key][col];
   const list = optionsFor(m, sec, col);
   const isCore = CORE.includes(col);
-  const title = isCore ? `<span class="code ${sec.prefix === "yp" ? "yp" : ""}">${esc(codeLabel(sec, col))}</span> ${FIELD_NAMES[col]}`
+  const title = isCore ? `<span class="code">${esc(codeLabel(sec, col))}</span> ${FIELD_NAMES[col]}`
     : esc((state.items[sec.typeId].find((i) => i.columnName === col) || {}).columnTitle || col);
   let note = "";
   if (col === "M" && m.key === "denovo") note = "Only M1 is offered: De Novo Metastatic staging requires distant metastasis at diagnosis.";
   if (col === "M" && m.key === "posttherapy") note = sec.prefix === "yp" ? "Post-therapy staging carries the clinical M category." : "M1 is not offered: a patient with cM1 is staged as De Novo Metastatic.";
-  d.innerHTML = `<div class="screen" data-k="${sec.key}-${col}">
+  d.innerHTML = `<div class="screen tone-${isCore ? sec.tone : "factor"}" data-k="${sec.key}-${col}">
     <button class="back" data-action="back">&larr; Back to ${esc(m.label.toLowerCase())} summary</button>
     <h2>${title}</h2>
-    <p class="muted">${esc(sec.title)} · select one</p>
     ${list.map((v) => {
       const val = clean(v.validValue), sel = val === cur;
-      return `<button class="choice ${sel ? "sel" : ""}" data-action="choose" data-v="${esc(val)}"><b>${esc(isCore ? shown(sec, col, val) : val)}</b><span>${esc(v.descr)}</span>${sel ? `<span class="tick">&#10003;</span>` : ""}</button>`;
+      return `<button class="choice ${sel ? "sel" : ""}" data-action="choose" data-v="${esc(val)}"><b>${isCore ? esc(shown(sec, col, val)) : chip(val)}</b><span>${esc(v.descr)}</span>${sel ? `<span class="tick">&#10003;</span>` : ""}</button>`;
     }).join("")}
     ${cur ? `<button class="clear" data-action="choose" data-v="">Clear selection</button>` : ""}
     ${note ? `<p class="note">${esc(note)}</p>` : ""}
@@ -588,13 +609,14 @@ function renderDetail() {
 }
 
 function renderTabs() {
-  $("tabs").innerHTML = MODES.map((m, i) => `<button class="tab ${m.red ? "red" : ""} ${i === state.modeIdx ? "active" : ""}" data-action="tab" data-i="${i}" ${i === state.modeIdx ? 'aria-current="true"' : ""}>
-    ${modeComplete(m) ? `<span class="chk">&#10003;</span> ` : ""}${esc(m.label)}<small>${esc(m.sub)}</small></button>`).join("");
+  $("tabs").innerHTML = MODES.map((m, i) => `<button class="tab tone-${m.key} ${i === state.modeIdx ? "active" : ""}" data-action="tab" data-i="${i}" ${i === state.modeIdx ? 'aria-current="true"' : ""}>
+    ${modeComplete(m) ? `<span class="chk">&#10003;</span> ` : ""}${esc(m.label)}</button>`).join("");
 }
 
 // Only re-run the slide animation when the screen actually changes
 let lastKeys = {};
 function render() {
+  document.querySelector(".frame").className = "frame tone-" + mode().key;
   renderTop(); renderMain(); renderDetail(); renderTabs();
   for (const id of ["main", "detail"]) {
     const el = $(id).querySelector(".screen");
@@ -617,6 +639,11 @@ document.addEventListener("click", (e) => {
   if (a === "pick") { state.field = { sec: el.dataset.sec, col: el.dataset.col }; render(); }
   else if (a === "choose") choose(el.dataset.v);
   else if (a === "back") { state.field = null; render(); }
+  else if (a === "toggle-factors") {
+    const k = el.dataset.key;
+    state.collapsed.has(k) ? state.collapsed.delete(k) : state.collapsed.add(k);
+    render();
+  }
   else if (a === "tab") { state.modeIdx = +el.dataset.i; state.field = null; render(); }
   else if (a === "test") loadTest(+el.dataset.i);
   else if (a === "clear") clearMode();
