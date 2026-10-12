@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AJCC Staging Calculator</title>
+<style>
+  :root {
+    --blue: #003087; --blue-light: #e8edf5; --blue-hover: #f3f6fb;
+    --red: #c41e3a; --red-light: #fce8ec;
+    --white: #ffffff; --bg: #f5f5f5; --panel-alt: #fafafa;
+    --border: #cccccc; --border-light: #e0e0e0;
+    --text: #1a1a1a; --text-mid: #555555; --text-light: #888888; --disabled: #bbbbbb;
+    --mono: "Courier New", Courier, monospace;
+    --sans: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 13px; }
+  button { font-family: var(--sans); color: inherit; }
+  button:focus-visible, select:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+
+  .shell { max-width: 1080px; margin: 20px auto; padding: 0 16px; }
+  .frame { background: var(--white); border: 1px solid var(--border); border-top: 3px solid var(--blue); }
+
+  /* ── Top bar ── */
+  .top { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-end; justify-content: space-between; }
+  .top h1 { font-size: 16px; color: var(--blue); margin: 0 0 4px; letter-spacing: .02em; }
+  .sub { color: var(--text-mid); font-size: 12px; }
+  .site { min-width: 220px; }
+  .label { display: block; font-weight: 600; font-size: 11px; color: var(--text-mid); margin-bottom: 3px; text-transform: uppercase; letter-spacing: .05em; }
+  select { width: 100%; padding: 6px 8px; font-size: 13px; font-family: var(--sans); border: 1px solid var(--border); border-radius: 0; background: var(--white); cursor: pointer; }
+  .badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border: 1px dashed var(--text-light); color: var(--text-mid); text-transform: uppercase; letter-spacing: .08em; margin-left: 8px; vertical-align: 2px; }
+
+  /* ── Test strip ── */
+  .tests { padding: 8px 20px; border-bottom: 1px solid var(--border-light); background: var(--panel-alt); display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .tests > span { font-size: 10px; font-weight: 700; color: var(--text-mid); text-transform: uppercase; letter-spacing: .06em; margin-right: 4px; }
+  .btn { font-size: 11px; padding: 4px 10px; border: 1px solid var(--blue); background: var(--white); color: var(--blue); cursor: pointer; border-radius: 0; }
+  .btn:hover { background: var(--blue-light); }
+  .btn.ghost { border-color: var(--border); color: var(--text-mid); }
+
+  /* ── Two panes ── */
+  .content { display: grid; grid-template-columns: 1fr 1fr; min-height: 470px; }
+  .main { padding: 20px; border-right: 1px solid var(--border); min-width: 0; }
+  .detail { padding: 20px; background: var(--panel-alt); min-width: 0; overflow: hidden; }
+
+  .sec-title { display: flex; justify-content: space-between; align-items: baseline; font-size: 11px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: .06em; border-bottom: 2px solid var(--blue); padding-bottom: 4px; margin: 0 0 10px; }
+  .sec-title.yp { color: var(--red); border-color: var(--red); }
+  .sec-title em { font-style: normal; font-weight: 400; color: var(--text-light); text-transform: none; letter-spacing: 0; }
+  .sec + .sec { margin-top: 18px; }
+
+  .rowbtn { width: 100%; border: 1px solid var(--border-light); background: var(--white); padding: 11px 12px; margin-bottom: -1px; text-align: left; display: flex; justify-content: space-between; align-items: center; gap: 10px; cursor: pointer; border-radius: 0; position: relative; }
+  .rowbtn:hover { background: var(--blue-hover); border-color: var(--blue); z-index: 1; }
+  .rowbtn.on { background: var(--blue-light); border-color: var(--blue); z-index: 2; box-shadow: inset 3px 0 0 var(--blue); }
+  .rowbtn .code { font-family: var(--mono); font-weight: 700; font-size: 18px; color: var(--blue); display: inline-block; min-width: 46px; }
+  .rowbtn .name { color: var(--text-mid); font-size: 12px; }
+  .rowbtn .val { font-family: var(--mono); font-weight: 700; font-size: 14px; color: var(--text); white-space: nowrap; }
+  .rowbtn .val.empty { font-family: var(--sans); font-weight: 400; font-size: 12px; color: var(--text-light); }
+  .rowbtn .val::after { content: " \203A"; color: var(--text-light); font-family: var(--sans); }
+  .rowbtn.small { padding: 7px 12px; }
+  .rowbtn.small .code { font-size: 12px; min-width: 52px; font-family: var(--sans); color: var(--text-mid); }
+  .rowbtn.small .val { font-size: 12px; }
+  .factors { margin-top: 10px; }
+  .factors summary { cursor: pointer; font-size: 11px; color: var(--text-mid); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; padding: 4px 0 8px; }
+
+  /* ── Result boxes ── */
+  .result { margin-top: 18px; }
+  .tnmbox { background: var(--blue); color: var(--white); padding: 12px 14px; border: 2px solid var(--blue); }
+  .cap { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 3px; }
+  .tnmbox .cap { opacity: .7; }
+  .tnmbox .v { font-family: var(--mono); font-size: 17px; font-weight: 700; word-break: break-word; }
+  .stagebox { border: 2px solid var(--red); padding: 12px 14px; margin-top: 8px; background: var(--white); }
+  .stagebox .cap, .stagebox .v { color: var(--red); }
+  .stagebox .v { font-size: 20px; font-weight: 700; }
+  .stagebox.iv .v { font-size: 26px; }
+  .stagebox p { margin: 6px 0 0; font-size: 12px; color: var(--text-mid); line-height: 1.5; }
+  .pending { border: 1px dashed var(--border); padding: 12px 14px; color: var(--text-light); font-size: 12px; line-height: 1.5; background: var(--white); }
+  .pending strong { display: block; color: var(--text-mid); font-size: 13px; margin-bottom: 2px; }
+
+  .cmp { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 10px; }
+  .cmp th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--blue); padding: 5px 8px; border-bottom: 2px solid var(--blue); }
+  .cmp th.yp { color: var(--red); }
+  .cmp td { padding: 5px 8px; border-bottom: 1px solid var(--border-light); font-family: var(--mono); }
+  .cmp td:first-child { font-family: var(--sans); font-weight: 600; color: var(--text-mid); }
+  .cmp td.c { color: var(--blue); } .cmp td.yp { color: var(--red); }
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .respbox { border: 1px solid var(--border); padding: 12px 14px; background: var(--white); }
+  .respbox .cap { color: var(--text-light); }
+  .respbox .v { font-size: 15px; font-weight: 700; color: var(--blue); }
+  .respbox .v.err { color: var(--red); }
+  .duo .tnmbox .v { font-family: var(--sans); font-size: 16px; }
+  .duo .tnmbox .m { font-family: var(--mono); font-size: 11px; opacity: .75; margin-top: 4px; }
+
+  /* ── Detail pane ── */
+  .back { background: none; border: 0; color: var(--blue); font-weight: 700; cursor: pointer; padding: 0 0 14px; font-size: 12px; }
+  .detail h2 { font-size: 14px; margin: 0 0 4px; color: var(--text); }
+  .detail h2 .code { font-family: var(--mono); color: var(--blue); }
+  .detail h2 .code.yp { color: var(--red); }
+  .detail .muted { font-size: 12px; color: var(--text-mid); line-height: 1.5; margin: 0 0 12px; }
+  .choice { display: flex; gap: 12px; align-items: flex-start; text-align: left; width: 100%; padding: 9px 12px; border: 1px solid var(--border-light); background: var(--white); margin-bottom: -1px; cursor: pointer; border-radius: 0; position: relative; }
+  .choice:hover { border-color: var(--blue); background: var(--blue-hover); z-index: 1; }
+  .choice.sel { border-color: var(--blue); background: var(--blue-light); z-index: 2; box-shadow: inset 3px 0 0 var(--blue); }
+  .choice b { font-family: var(--mono); font-size: 14px; color: var(--blue); min-width: 60px; }
+  .choice span { font-size: 12px; color: var(--text-mid); line-height: 1.4; }
+  .choice .tick { margin-left: auto; color: var(--blue); font-weight: 700; }
+  .clear { margin-top: 10px; background: none; border: 0; padding: 0; color: var(--text-light); font-size: 11px; cursor: pointer; text-decoration: underline; }
+  .note { margin-top: 12px; font-size: 11px; color: var(--text-light); line-height: 1.5; border-left: 2px solid var(--border); padding-left: 8px; }
+
+  .flow { list-style: none; margin: 14px 0 0; padding: 0; }
+  .flow li { border: 1px solid var(--border-light); background: var(--white); padding: 9px 12px; font-size: 12px; position: relative; display: flex; gap: 10px; align-items: baseline; }
+  .flow li + li { margin-top: 18px; }
+  .flow li + li::before { content: "\2193"; position: absolute; top: -17px; left: 20px; color: var(--text-light); font-size: 12px; }
+  .flow .n { font-family: var(--mono); font-weight: 700; color: var(--text-light); }
+  .flow li.done { border-color: var(--blue); }
+  .flow li.done .n { color: var(--blue); }
+  .flow li.red { border-color: var(--red); }
+  .flow li.red .n { color: var(--red); }
+  .flow li small { display: block; color: var(--text-light); font-size: 11px; margin-top: 2px; }
+
+  /* ── Bottom tabs ── */
+  .tabs { display: flex; border-top: 1px solid var(--border); background: var(--white); }
+  .tab { flex: 1; border: 0; border-right: 1px solid var(--border-light); border-top: 3px solid transparent; background: var(--white); color: var(--text-mid); padding: 11px 8px 12px; cursor: pointer; font-size: 12px; font-weight: 600; border-radius: 0; }
+  .tab:last-child { border-right: 0; }
+  .tab:hover { background: var(--blue-hover); color: var(--blue); }
+  .tab.active { border-top-color: var(--blue); background: var(--blue-light); color: var(--blue); font-weight: 700; }
+  .tab.active.red { border-top-color: var(--red); background: var(--red-light); color: var(--red); }
+  .tab small { display: block; font-weight: 400; font-size: 10px; color: var(--text-light); margin-top: 2px; }
+  .tab .chk { color: var(--blue); }
+
+  .footer { padding: 8px 4px; font-size: 11px; color: var(--text-light); line-height: 1.6; }
+  .footer strong { color: var(--text-mid); }
+
+  .screen { animation: slide .2s ease-out; }
+  @keyframes slide { from { transform: translateX(18px); opacity: .4; } to { transform: none; opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .screen { animation: none; } }
+
+  @media (max-width: 680px) {
+    .shell { margin: 0; padding: 0; }
+    .frame { min-height: 100vh; display: flex; flex-direction: column; border-left: 0; border-right: 0; }
+    .content { display: block; min-height: 0; flex: 1; }
+    .main { border: 0; padding: 16px; }
+    .main.hidden { display: none; }
+    .detail { display: none; }
+    .detail.open { display: block; background: var(--white); padding: 16px; }
+    .tabs { position: sticky; bottom: 0; flex-wrap: wrap; }
+    .tab { flex: 1 1 50%; border-bottom: 1px solid var(--border-light); padding: 10px 4px; }
+    .tab small { display: none; }
+    .top { padding: 14px 16px; }
+    .site { width: 100%; }
+    .duo { grid-template-columns: 1fr; }
+    .footer { padding: 8px 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="frame">
+    <div class="top" id="top"></div>
+    <div id="tests"></div>
+    <div class="content">
+      <main id="main" class="main"></main>
+      <aside id="detail" class="detail" aria-live="polite"></aside>
+    </div>
+    <nav id="tabs" class="tabs" aria-label="Staging type"></nav>
+  </div>
+  <div class="footer"><strong>Logic:</strong> Clinical → cTNM stage · Pathological → pTNM stage · De Novo → Clinical (cM1) → Stage IV · Post-therapy → cTNM (cM0) + ypTNM → Response (cTNM vs ypTNM) → Post-therapy stage</div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════════
+ * CONFIG — set USE_MOCK = false to call the real API at BASE_URL
+ * ════════════════════════════════════════════════════════════════════════ */
+const USE_MOCK = true;
+const BASE_URL = "https://localhost:7166";
+
+/* ════════════════════════════════════════════════════════════════════════
+ * MOCK DATA (test values only — simplified AJCC 8th ed. breast anatomic rules)
+ * ════════════════════════════════════════════════════════════════════════ */
+const MOCK_DISEASES = [{ ajccDiseaseId: "BRE-DCIS", diseaseTitle: "Breast" }];
+const opt = (id, list) => list.map(([v, d]) => ({ validValueId: id, validValue: v, descr: d }));
+
+function mockStagingItems(typeId) {
+  const p = typeId === 1 ? "Clinical" : "Pathological";
+  return [
+    { columnName: "T", columnTitle: "T", valueDescList: opt("T", [
+      ["TX", "Primary tumor cannot be assessed"], ["T0", "No evidence of primary tumor"], ["Tis", "Carcinoma in situ (DCIS or Paget disease)"],
+      ["T1mi", "Tumor ≤ 1 mm"], ["T1a", "Tumor > 1 mm but ≤ 5 mm"], ["T1b", "Tumor > 5 mm but ≤ 10 mm"], ["T1c", "Tumor > 10 mm but ≤ 20 mm"],
+      ["T2", "Tumor > 20 mm but ≤ 50 mm"], ["T3", "Tumor > 50 mm"], ["T4a", "Extension to the chest wall"],
+      ["T4b", "Ulceration, satellite nodules or skin edema"], ["T4c", "Both T4a and T4b"], ["T4d", "Inflammatory carcinoma"]]) },
+    { columnName: "N", columnTitle: "N", valueDescList: opt("N", [
+      ["NX", "Regional lymph nodes cannot be assessed"], ["N0", "No regional lymph node metastasis"], ["N1mi", "Micrometastases (> 0.2 mm, ≤ 2 mm)"],
+      ["N1", "Metastasis to 1–3 axillary nodes / movable nodes"], ["N2", "Metastasis to 4–9 axillary nodes / fixed or matted nodes"],
+      ["N3", "≥ 10 axillary nodes, or infra- / supraclavicular nodes"]]) },
+    { columnName: "M", columnTitle: "M", valueDescList: opt("M", [
+      ["M0", "No clinical or radiographic evidence of distant metastasis"],
+      ["cM0(i+)", "Tumor cells ≤ 0.2 mm in blood, marrow or distant tissue, no symptoms"],
+      ["M1", "Distant metastasis present"]]) },
+    { columnName: "AJCCfactorG", columnTitle: "Grade", valueDescList: opt("AJCCfactorG", [["G1", "Low combined histologic grade"], ["G2", "Intermediate combined histologic grade"], ["G3", "High combined histologic grade"]]) },
+    { columnName: "AJCCfactorER", columnTitle: "ER", valueDescList: opt("AJCCfactorER", [["Positive", `${p} estrogen receptor positive`], ["Negative", `${p} estrogen receptor negative`]]) },
+    { columnName: "AJCCfactorPR", columnTitle: "PR", valueDescList: opt("AJCCfactorPR", [["Positive", `${p} progesterone receptor positive`], ["Negative", `${p} progesterone receptor negative`]]) },
+    { columnName: "AJCCfactorHER2", columnTitle: "HER2", valueDescList: opt("AJCCfactorHER2", [["Positive", "HER2 positive"], ["Negative", "HER2 negative"]]) },
+  ];
+}
+
+const stripPrefix = (v) => (v || "").replace(/^(yp|c|p)(?=[TNM])/, "");
+
+/** Simplified anatomic stage group (mock only). */
+function anatomicStage(Traw, Nraw, Mraw) {
+  const T = stripPrefix(Traw), N = stripPrefix(Nraw), M = stripPrefix(Mraw);
+  if (M.startsWith("M1")) return "IV";
+  if (!T || !N) return null;
+  if (T === "TX" || N === "NX") return "Unknown (TX / NX)";
+  if (N === "N3") return "IIIC";
+  if (T.startsWith("T4")) return "IIIB";
+  if (T === "Tis" && N === "N0") return "0";
+  const t = T === "Tis" || T === "T0" ? 0 : T.startsWith("T1") ? 1 : T === "T2" ? 2 : 3;
+  const n = N === "N0" ? 0 : N === "N1mi" ? 0.5 : N === "N1" ? 1 : 2;
+  if (n === 2) return "IIIA";
+  if (t === 3) return n === 0 ? "IIB" : "IIIA";
+  if (t === 2) return n === 0 ? "IIA" : "IIB";
+  if (n === 1) return "IIA";
+  if (n === 0.5) return "IB";
+  return t === 1 ? "IA" : "No residual tumor";
+}
+const fmtStage = (g) => (!g ? "..." : /^[0IV]/.test(g) ? "Stage " + g : g);
+
+function tnmString(prefix, v) {
+  const mPrefix = prefix === "yp" ? "c" : prefix; // yp staging carries clinical M
+  return [v.T && prefix + stripPrefix(v.T), v.N && prefix + stripPrefix(v.N), v.M && mPrefix + stripPrefix(v.M)].filter(Boolean).join(" ") || "...";
+}
+
+const T_RANK = { TX: -1, T0: 0, Tis: 0.5, T1mi: 1, T1a: 1, T1b: 1, T1c: 1, T2: 2, T3: 3, T4a: 4, T4b: 4, T4c: 4, T4d: 4 };
+const N_RANK = { NX: -1, N0: 0, N1mi: 0.5, N1: 1, N2: 2, N3: 3 };
+
+/** Mock /breastresponse → 0 = No Response, 1 = Partial, 2 = Complete. */
+function mockResponse(c, p) {
+  const ypT = stripPrefix(p.T), ypN = stripPrefix(p.N);
+  if ((ypT === "T0" || ypT === "Tis") && ypN === "N0") return 2;
+  const tSameOrWorse = (T_RANK[ypT] ?? 0) >= (T_RANK[stripPrefix(c.T)] ?? 0);
+  const nSameOrWorse = (N_RANK[ypN] ?? 0) >= (N_RANK[stripPrefix(c.N)] ?? 0);
+  return tSameOrWorse && nSameOrWorse ? 0 : 1;
+}
+
+const delay = (v) => new Promise((r) => setTimeout(() => r(v), 220));
+const getJson = (url, init) => fetch(url, init).then((r) => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); });
+
+/* ════════════════════════════════════════════════════════════════════════
+ * API LAYER — same endpoints as the React version
+ * ════════════════════════════════════════════════════════════════════════ */
+const api = {
+  diseases: () => USE_MOCK ? delay(MOCK_DISEASES) : getJson(`${BASE_URL}/tnmstaging/diseases`),
+  stagingItems: (diseaseId, typeId) => USE_MOCK ? delay(mockStagingItems(typeId))
+    : getJson(`${BASE_URL}/tnmstaging/staging-data-items-v2/${diseaseId}/${typeId}`),
+  calculate: (diseaseId, typeId, values, prefix) => {
+    if (USE_MOCK) return delay({ stage: fmtStage(anatomicStage(values.T, values.N, values.M)), tnmClassification: tnmString(prefix, values) });
+    const q = new URLSearchParams({ diseaseId, stagingTypeId: String(typeId), ...values });
+    return getJson(`${BASE_URL}/tnmstaging/calculate?${q}`);
+  },
+  breastResponse: (clinical, pathological) => USE_MOCK ? delay(mockResponse(clinical, pathological))
+    : getJson(`${BASE_URL}/tnmstaging/breastresponse`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ clinical, pathological }) }),
+  calculateBreast: (b, responseTypeId) => {
+    if (USE_MOCK) {
+      const tnm = tnmString("yp", b);
+      return delay(responseTypeId === 2 ? { stage: "pCR", tnmClassification: tnm } : { stage: fmtStage(anatomicStage(b.T, b.N, b.M)), tnmClassification: tnm });
+    }
+    const q = new URLSearchParams({ responseTypeId: String(responseTypeId), T: b.T, N: b.N, M: b.M,
+      AJCCfactorER: b.AJCCfactorER, AJCCfactorG: b.AJCCfactorG, AJCCfactorHER2: b.AJCCfactorHER2, AJCCfactorPR: b.AJCCfactorPR });
+    return getJson(`${BASE_URL}/tnmstaging/calculatebreast?${q}`);
+  },
+};
+
+/* ════════════════════════════════════════════════════════════════════════
+ * STAGING TYPES — each has one or two input sections
+ *   prefix: shown on values (c / p / yp); typeId: API stagingTypeId
+ * ════════════════════════════════════════════════════════════════════════ */
+const MODES = [
+  { key: "clinical", label: "Clinical", sub: "cTNM",
+    sections: [{ key: "c", title: "Clinical classification", prefix: "c", typeId: 1 }] },
+  { key: "pathological", label: "Pathological", sub: "pTNM",
+    sections: [{ key: "p", title: "Pathological classification", prefix: "p", typeId: 2 }] },
+  { key: "posttherapy", label: "Post-therapy", sub: "cTNM vs ypTNM",
+    sections: [
+      { key: "c", title: "Pre-treatment", hint: "cTNM", prefix: "c", typeId: 1 },
+      { key: "yp", title: "Post-therapy", hint: "after neoadjuvant + surgery", prefix: "yp", typeId: 2 },
+    ] },
+  { key: "denovo", label: "De Novo Metastatic", sub: "cM1 → Stage IV", red: true,
+    sections: [{ key: "c", title: "Clinical classification", prefix: "c", typeId: 1 }] },
+];
+
+const FIELD_NAMES = { T: "Primary tumor", N: "Regional nodes", M: "Distant metastasis" };
+const CORE = ["T", "N", "M"];
+const RESPONSE_TYPE_LABELS = ["No Response", "Partial Response", "Complete Response"];
+const M1_VALUES = ["M1", "cM1", "pM1", "M1a", "M1b", "M1c", "cM1a", "cM1b", "cM1c"];
+
+const bio = { AJCCfactorG: "G2", AJCCfactorER: "Positive", AJCCfactorPR: "Positive", AJCCfactorHER2: "Negative" };
+/** Test cases per staging type: [label, { sectionKey: values }] */
+const TEST_CASES = {
+  clinical: [
+    ["cT2 cN1 cM0 → IIB", { c: { T: "T2", N: "N1", M: "M0", ...bio } }],
+    ["cT1c cN0 cM0 → IA", { c: { T: "T1c", N: "N0", M: "M0", ...bio } }],
+    ["cT3 cN3 cM0 → IIIC", { c: { T: "T3", N: "N3", M: "M0", ...bio } }],
+  ],
+  pathological: [
+    ["pT1c pN0 → IA", { p: { T: "T1c", N: "N0", M: "M0", ...bio } }],
+    ["pT2 pN2 → IIIA", { p: { T: "T2", N: "N2", M: "M0", ...bio } }],
+    ["pTis pN0 → 0", { p: { T: "Tis", N: "N0", M: "M0", ...bio } }],
+  ],
+  posttherapy: [
+    ["Complete: cT2 cN1 → ypT0 ypN0", { c: { T: "T2", N: "N1", M: "M0", ...bio }, yp: { T: "T0", N: "N0", M: "M0", ...bio } }],
+    ["Partial: cT3 cN2 → ypT1c ypN1", { c: { T: "T3", N: "N2", M: "M0", ...bio }, yp: { T: "T1c", N: "N1", M: "M0", ...bio } }],
+    ["No response: cT1c cN2 → ypT2 ypN2", { c: { T: "T1c", N: "N2", M: "M0", ...bio }, yp: { T: "T2", N: "N2", M: "M0", ...bio } }],
+  ],
+  denovo: [
+    ["cT2 cN1 cM1 → IV", { c: { T: "T2", N: "N1", M: "M1", ...bio } }],
+    ["cT4d cN3 cM1 → IV", { c: { T: "T4d", N: "N3", M: "M1", ...bio } }],
+  ],
+};
+
+/* ════════════════════════════════════════════════════════════════════════
+ * STATE — values are kept per staging type, so switching tabs keeps entries
+ * ════════════════════════════════════════════════════════════════════════ */
+const emptyResult = () => ({ stage: "...", tnm: "..." });
+const emptyMode = (m) => ({
+  values: Object.fromEntries(m.sections.map((s) => [s.key, {}])),
+  results: Object.fromEntries(m.sections.map((s) => [s.key, emptyResult()])),
+  response: { type: "", id: null, loading: false, stage: "...", tnm: "..." },
+  run: 0,
+});
+
+const state = {
+  diseaseSites: [], disease: "", items: { 1: [], 2: [] },
+  modeIdx: 0, field: null, // field = { sec, col }
+  modes: Object.fromEntries(MODES.map((m) => [m.key, emptyMode(m)])),
+};
+const mode = () => MODES[state.modeIdx];
+const ms = (key = mode().key) => state.modes[key];
+
+/* ════════════════════════════════════════════════════════════════════════
+ * HELPERS
+ * ════════════════════════════════════════════════════════════════════════ */
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const clean = (s) => (s ?? "").toString().replace(/[\n\r]/g, "").trim();
+const isM1 = (m) => M1_VALUES.some((v) => clean(m).toUpperCase() === v.toUpperCase());
+const sectionOf = (m, key) => m.sections.find((s) => s.key === key);
+
+/** Displayed value with its classification prefix (yp keeps clinical M). */
+function shown(sec, col, v) {
+  if (!v) return "";
+  if (!CORE.includes(col) || /^(c|p|yp)[TNM]/.test(v)) return v;
+  return (sec.prefix === "yp" && col === "M" ? "c" : sec.prefix) + v;
+}
+const codeLabel = (sec, col) => (CORE.includes(col) ? (sec.prefix === "yp" && col === "M" ? "cM" : sec.prefix + col) : col);
+
+const sectionComplete = (modeKey, secKey) => CORE.every((k) => ms(modeKey).values[secKey][k]);
+function modeComplete(m) {
+  return m.sections.every((s) => sectionComplete(m.key, s.key));
+}
+
+/** Options for a field, restricted by the flow's M rules. */
+function optionsFor(m, sec, col) {
+  const list = (state.items[sec.typeId] || []).find((i) => i.columnName === col)?.valueDescList || [];
+  if (col !== "M") return list;
+  if (m.key === "denovo") return list.filter((v) => isM1(v.validValue));
+  if (m.key === "posttherapy") return list.filter((v) => !isM1(v.validValue));
+  return list;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+ * ACTIONS
+ * ════════════════════════════════════════════════════════════════════════ */
+async function calcSection(m, sec) {
+  const st = ms(m.key), vals = st.values[sec.key];
+  if (!Object.keys(vals).length) { st.results[sec.key] = emptyResult(); return render(); }
+  try {
+    const d = await api.calculate(state.disease, sec.typeId, vals, sec.prefix);
+    st.results[sec.key] = { stage: d?.stage || "...", tnm: d?.tnmClassification || "..." };
+  } catch { st.results[sec.key] = { stage: "Error", tnm: "Error" }; }
+  render();
+}
+
+async function runResponse() {
+  const m = MODES.find((x) => x.key === "posttherapy"), st = ms("posttherapy");
+  const run = ++st.run;
+  if (!modeComplete(m)) { st.response = { type: "", id: null, loading: false, stage: "...", tnm: "..." }; return render(); }
+  st.response = { type: "", id: null, loading: true, stage: "...", tnm: "..." };
+  render();
+  const c = st.values.c, p = st.values.yp;
+  try {
+    const data = await api.breastResponse(c, p);
+    if (run !== st.run) return;
+    const idx = typeof data === "number" ? data : parseInt(String(data ?? ""), 10);
+    if (isNaN(idx) || !RESPONSE_TYPE_LABELS[idx]) throw new Error("bad response");
+    Object.assign(st.response, { id: idx, type: RESPONSE_TYPE_LABELS[idx], loading: false });
+    render();
+    const fin = await api.calculateBreast(p, idx);
+    if (run !== st.run) return;
+    Object.assign(st.response, { stage: fin?.stage || "...", tnm: fin?.tnmClassification || "..." });
+  } catch {
+    if (run !== st.run) return;
+    Object.assign(st.response, { type: st.response.type || "Error", loading: false, stage: "Error", tnm: "Error" });
+  }
+  render();
+}
+
+function setValue(secKey, col, value) {
+  const m = mode(), sec = sectionOf(m, secKey), vals = ms().values[secKey];
+  if (value) vals[col] = clean(value); else delete vals[col];
+  render();
+  calcSection(m, sec);
+  if (m.key === "posttherapy") runResponse();
+}
+
+/** After choosing, jump to the next empty T/N/M in the same flow; otherwise return to the summary. */
+function nextEmptyField() {
+  const m = mode();
+  for (const s of m.sections) for (const k of CORE) if (!ms().values[s.key][k]) return { sec: s.key, col: k };
+  return null;
+}
+
+function choose(value) {
+  const { sec, col } = state.field;
+  setValue(sec, col, value);
+  const next = CORE.includes(col) ? nextEmptyField() : null;
+  const wide = !window.matchMedia || window.matchMedia("(min-width: 681px)").matches;
+  state.field = next && wide ? next : null;
+  render();
+}
+
+function loadTest(i) {
+  const m = mode(), [, data] = TEST_CASES[m.key][i];
+  state.modes[m.key] = emptyMode(m);
+  for (const s of m.sections) state.modes[m.key].values[s.key] = { ...(data[s.key] || {}) };
+  state.field = null;
+  render();
+  m.sections.forEach((s) => calcSection(m, s));
+  if (m.key === "posttherapy") runResponse();
+}
+
+function clearMode() {
+  const m = mode();
+  state.modes[m.key] = emptyMode(m);
+  state.field = null;
+  render();
+}
+
+async function selectDisease(id) {
+  state.disease = id;
+  state.items = { 1: [], 2: [] };
+  state.field = null;
+  MODES.forEach((m) => (state.modes[m.key] = emptyMode(m)));
+  render();
+  if (!id) return;
+  const [c, p] = await Promise.all([api.stagingItems(id, 1).catch(() => []), api.stagingItems(id, 2).catch(() => [])]);
+  state.items = { 1: c, 2: p };
+  render();
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+ * RENDER
+ * ════════════════════════════════════════════════════════════════════════ */
+function renderTop() {
+  $("top").innerHTML = `
+    <div>
+      <h1>AJCC Staging Calculator${USE_MOCK ? `<span class="badge">Mock data</span>` : ""}</h1>
+      <div class="sub">Choose a staging type below, then select each category.</div>
+    </div>
+    <div class="site">
+      <label class="label" for="disease">Primary disease site</label>
+      <select id="disease" data-action="disease">
+        <option value="">-- Select --</option>
+        ${state.diseaseSites.map((d) => `<option value="${esc(d.ajccDiseaseId)}" ${d.ajccDiseaseId === state.disease ? "selected" : ""}>${esc(d.diseaseTitle)}</option>`).join("")}
+      </select>
+    </div>`;
+  $("tests").innerHTML = USE_MOCK && state.disease ? `<div class="tests"><span>Test cases</span>
+    ${TEST_CASES[mode().key].map((t, i) => `<button class="btn" data-action="test" data-i="${i}">${esc(t[0])}</button>`).join("")}
+    <button class="btn ghost" data-action="clear">Clear</button></div>` : "";
+}
+
+function rowButton(sec, col, title, small) {
+  const v = ms().values[sec.key][col];
+  const on = state.field && state.field.sec === sec.key && state.field.col === col;
+  return `<button class="rowbtn ${small ? "small" : ""} ${on ? "on" : ""}" data-action="pick" data-sec="${sec.key}" data-col="${col}">
+    <span><span class="code">${esc(small ? title : codeLabel(sec, col))}</span>${small ? "" : ` <span class="name">${FIELD_NAMES[col]}</span>`}</span>
+    <span class="val ${v ? "" : "empty"}">${v ? esc(shown(sec, col, v)) : "Select"}</span></button>`;
+}
+
+function renderSection(m, sec) {
+  const items = state.items[sec.typeId] || [];
+  const factors = items.filter((i) => !CORE.includes(i.columnName));
+  const vals = ms().values[sec.key];
+  const anyFactor = factors.some((f) => vals[f.columnName]);
+  const open = anyFactor || (state.field && state.field.sec === sec.key && !CORE.includes(state.field.col));
+  return `<div class="sec">
+    <div class="sec-title ${sec.prefix === "yp" ? "yp" : ""}">${esc(sec.title)} ${sec.hint ? `<em>${esc(sec.hint)}</em>` : ""}</div>
+    ${CORE.map((k) => rowButton(sec, k)).join("")}
+    ${factors.length ? `<details class="factors" ${open ? "open" : ""}><summary>Prognostic factors (${factors.filter((f) => vals[f.columnName]).length}/${factors.length})</summary>
+      ${factors.map((f) => rowButton(sec, f.columnName, f.columnTitle, true)).join("")}</details>` : ""}
+  </div>`;
+}
+
+function renderResult(m) {
+  const st = ms();
+  const missing = m.sections.flatMap((s) => CORE.filter((k) => !st.values[s.key][k]).map((k) => codeLabel(s, k)));
+  if (missing.length) {
+    const what = m.key === "denovo" ? "De Novo stage" : m.key === "posttherapy" ? "Response and post-therapy stage" : "Stage group";
+    return `<div class="result"><div class="pending"><strong>${what}</strong>Select ${missing.join(", ")} to calculate.</div></div>`;
+  }
+  if (m.key === "denovo") {
+    return `<div class="result">
+      <div class="tnmbox"><div class="cap">cTNM</div><div class="v">${esc(st.results.c.tnm)}</div></div>
+      <div class="stagebox iv"><div class="cap">De Novo Metastatic · AJCC Prognostic Stage</div><div class="v">Stage IV</div>
+        <p>Distant metastasis at diagnosis. Pathological and response staging do not apply.</p></div></div>`;
+  }
+  if (m.key === "posttherapy") {
+    const r = st.response, c = st.values.c, p = st.values.yp;
+    const secC = sectionOf(m, "c"), secY = sectionOf(m, "yp");
+    return `<div class="result">
+      <table class="cmp"><thead><tr><th></th><th>Clinical</th><th class="yp">Post-therapy</th></tr></thead><tbody>
+        ${CORE.map((k) => `<tr><td>${k}</td><td class="c">${esc(shown(secC, k, c[k]))}</td><td class="yp">${esc(shown(secY, k, p[k]))}</td></tr>`).join("")}
+      </tbody></table>
+      <div class="duo">
+        <div class="respbox"><div class="cap">Response</div><div class="v ${r.type === "Error" ? "err" : ""}">${r.loading ? "Calculating…" : esc(r.type || "—")}</div></div>
+        <div class="tnmbox"><div class="cap">Post-therapy stage</div><div class="v">${esc(r.stage)}</div>${r.tnm !== "..." ? `<div class="m">${esc(r.tnm)}</div>` : ""}</div>
+      </div></div>`;
+  }
+  const sec = m.sections[0], res = st.results[sec.key];
+  return `<div class="result">
+    <div class="tnmbox"><div class="cap">${sec.prefix}TNM</div><div class="v">${esc(res.tnm)}</div></div>
+    <div class="stagebox"><div class="cap">${m.key === "clinical" ? "Clinical" : "Pathological"} stage group</div><div class="v">${esc(res.stage)}</div></div></div>`;
+}
+
+function renderMain() {
+  const m = mode();
+  const main = $("main");
+  main.className = "main" + (state.field ? " hidden" : "");
+  if (!state.disease) { main.innerHTML = `<div class="pending"><strong>No disease site selected</strong>Choose a primary disease site above to begin.</div>`; return; }
+  if (!state.items[1].length) { main.innerHTML = `<div class="pending">Loading categories…</div>`; return; }
+  main.innerHTML = `<div class="screen" data-k="${m.key}">${m.sections.map((s) => renderSection(m, s)).join("")}${renderResult(m)}</div>`;
+}
+
+function renderFlow(m) {
+  const st = ms(), done = (s) => sectionComplete(m.key, s);
+  const steps = {
+    clinical: () => [["Select cT, cN, cM", "Clinical findings before any treatment", done("c")], ["Clinical stage group", "", done("c")]],
+    pathological: () => [["Select pT, pN, pM", "Pathology findings after surgery (no neoadjuvant therapy)", done("p")], ["Pathological stage group", "", done("p")]],
+    denovo: () => [["Select cT, cN", "Clinical findings at diagnosis", !!(st.values.c.T && st.values.c.N)], ["cM1", "Only M1 is offered for this staging type", !!st.values.c.M], ["De Novo Metastatic · Stage IV", "", done("c"), true]],
+    posttherapy: () => [["Pre-treatment cTNM (cM0)", "Clinical findings before neoadjuvant therapy", done("c")],
+      ["Neoadjuvant therapy → surgery → ypTNM", "Post-therapy pathology findings", done("yp")],
+      ["Compare cTNM vs ypTNM", "Complete, partial or no response", !!st.response.type && st.response.type !== "Error"],
+      ["Post-therapy stage", "", st.response.stage !== "..." && st.response.stage !== "Error"]],
+  }[m.key]();
+  return `<ol class="flow">${steps.map(([t, s, d, red], i) =>
+    `<li class="${d ? (red ? "red" : "done") : ""}"><span class="n">${d ? "&#10003;" : i + 1}</span><span>${esc(t)}${s ? `<small>${esc(s)}</small>` : ""}</span></li>`).join("")}</ol>`;
+}
+
+function renderDetail() {
+  const m = mode(), d = $("detail");
+  d.className = "detail" + (state.field ? " open" : "");
+  if (!state.field) {
+    d.innerHTML = `<div class="screen" data-k="${m.key}-intro">
+      <h2>${esc(m.label)} staging</h2>
+      <p class="muted">Select a category on the left to open its definitions. Choosing a value moves you to the next empty category.</p>
+      ${renderFlow(m)}
+      ${USE_MOCK ? `<p class="note">Test data: definitions and stage groups are simplified from AJCC 8th edition breast anatomic staging and are not for clinical use.</p>` : ""}
+    </div>`;
+    return;
+  }
+  const sec = sectionOf(m, state.field.sec), col = state.field.col;
+  const cur = ms().values[sec.key][col];
+  const list = optionsFor(m, sec, col);
+  const isCore = CORE.includes(col);
+  const title = isCore ? `<span class="code ${sec.prefix === "yp" ? "yp" : ""}">${esc(codeLabel(sec, col))}</span> ${FIELD_NAMES[col]}`
+    : esc((state.items[sec.typeId].find((i) => i.columnName === col) || {}).columnTitle || col);
+  let note = "";
+  if (col === "M" && m.key === "denovo") note = "Only M1 is offered: De Novo Metastatic staging requires distant metastasis at diagnosis.";
+  if (col === "M" && m.key === "posttherapy") note = sec.prefix === "yp" ? "Post-therapy staging carries the clinical M category." : "M1 is not offered: a patient with cM1 is staged as De Novo Metastatic.";
+  d.innerHTML = `<div class="screen" data-k="${sec.key}-${col}">
+    <button class="back" data-action="back">&larr; Back to ${esc(m.label.toLowerCase())} summary</button>
+    <h2>${title}</h2>
+    <p class="muted">${esc(sec.title)} · select one</p>
+    ${list.map((v) => {
+      const val = clean(v.validValue), sel = val === cur;
+      return `<button class="choice ${sel ? "sel" : ""}" data-action="choose" data-v="${esc(val)}"><b>${esc(isCore ? shown(sec, col, val) : val)}</b><span>${esc(v.descr)}</span>${sel ? `<span class="tick">&#10003;</span>` : ""}</button>`;
+    }).join("")}
+    ${cur ? `<button class="clear" data-action="choose" data-v="">Clear selection</button>` : ""}
+    ${note ? `<p class="note">${esc(note)}</p>` : ""}
+  </div>`;
+}
+
+function renderTabs() {
+  $("tabs").innerHTML = MODES.map((m, i) => `<button class="tab ${m.red ? "red" : ""} ${i === state.modeIdx ? "active" : ""}" data-action="tab" data-i="${i}" ${i === state.modeIdx ? 'aria-current="true"' : ""}>
+    ${modeComplete(m) ? `<span class="chk">&#10003;</span> ` : ""}${esc(m.label)}<small>${esc(m.sub)}</small></button>`).join("");
+}
+
+// Only re-run the slide animation when the screen actually changes
+let lastKeys = {};
+function render() {
+  renderTop(); renderMain(); renderDetail(); renderTabs();
+  for (const id of ["main", "detail"]) {
+    const el = $(id).querySelector(".screen");
+    if (!el) continue;
+    if (lastKeys[id] === el.dataset.k) el.style.animation = "none";
+    lastKeys[id] = el.dataset.k;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+ * EVENTS (delegated)
+ * ════════════════════════════════════════════════════════════════════════ */
+document.addEventListener("change", (e) => {
+  if (e.target.dataset.action === "disease") selectDisease(e.target.value);
+});
+document.addEventListener("click", (e) => {
+  const el = e.target.closest("[data-action]");
+  if (!el || el.tagName === "SELECT") return;
+  const a = el.dataset.action;
+  if (a === "pick") { state.field = { sec: el.dataset.sec, col: el.dataset.col }; render(); }
+  else if (a === "choose") choose(el.dataset.v);
+  else if (a === "back") { state.field = null; render(); }
+  else if (a === "tab") { state.modeIdx = +el.dataset.i; state.field = null; render(); }
+  else if (a === "test") loadTest(+el.dataset.i);
+  else if (a === "clear") clearMode();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && state.field) { state.field = null; render(); }
+});
+
+/* Init: load sites; auto-select when there is only one */
+render();
+api.diseases().then((data) => {
+  const d = data.find((x) => x.ajccDiseaseId === "BRE-DCIS");
+  state.diseaseSites = d ? [d] : [];
+  if (state.diseaseSites.length === 1) selectDisease(state.diseaseSites[0].ajccDiseaseId); else render();
+}).catch((err) => console.error("Error fetching diseases:", err));
+</script>
+</body>
+</html>
