@@ -131,6 +131,31 @@
   .flow li.done .n { color: var(--accent); }
   .flow li small { display: block; color: var(--text-light); font-size: 11px; margin-top: 2px; }
 
+  /* ── Guide mode ── */
+  .top-right { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; }
+  .switch { display: inline-flex; align-items: center; gap: 8px; background: none; border: 1px solid var(--border); border-radius: 0; padding: 6px 10px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-mid); height: 32px; }
+  .switch:hover { border-color: var(--accent); }
+  .switch .track { width: 30px; height: 16px; border: 1px solid var(--text-light); background: var(--white); position: relative; }
+  .switch .knob { position: absolute; top: 2px; left: 2px; width: 10px; height: 10px; background: var(--text-light); transition: left .15s; }
+  .switch[aria-checked="true"] { color: var(--accent); border-color: var(--accent); }
+  .switch[aria-checked="true"] .track { background: var(--accent); border-color: var(--accent); }
+  .switch[aria-checked="true"] .knob { left: 16px; background: var(--white); }
+  .switch .state { font-weight: 400; color: var(--text-light); min-width: 20px; text-align: left; }
+
+  .guide { border: 1px solid var(--accent); border-left: 4px solid var(--accent); background: var(--accent-light); padding: 10px 12px; margin-bottom: 16px; }
+  .guide .step { font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .07em; }
+  .guide h4 { margin: 3px 0 4px; font-size: 13px; color: var(--text); }
+  .guide p { margin: 0; font-size: 12px; color: var(--text-mid); line-height: 1.5; }
+  .guide p + p { margin-top: 6px; }
+  .guide .about { padding-bottom: 6px; margin-bottom: 6px; border-bottom: 1px solid var(--border-light); }
+  .guide .go { margin-top: 8px; font-size: 11px; font-weight: 700; padding: 5px 10px; border: 1px solid var(--accent); background: var(--accent); color: var(--white); cursor: pointer; border-radius: 0; }
+  .guide .go:hover { filter: brightness(1.15); }
+  .guide .bar { height: 3px; background: var(--white); margin-top: 8px; }
+  .guide .bar span { display: block; height: 100%; background: var(--accent); transition: width .2s; }
+  .rowbtn.next { outline: 2px dashed var(--accent); outline-offset: -2px; z-index: 3; }
+  .rowbtn .val.nexttag { color: var(--accent); font-weight: 700; }
+  .tip { border-left: 3px solid var(--accent); background: var(--accent-light); padding: 8px 10px; font-size: 12px; color: var(--text-mid); line-height: 1.5; margin: 0 0 12px; }
+
   /* ── Bottom tabs: each tab always carries its own color ── */
   .tabs { display: flex; border-top: 1px solid var(--border); background: var(--white); }
   .tab { flex: 1; border: 0; border-right: 1px solid var(--border-light); border-top: 4px solid var(--accent); background: var(--white); color: var(--accent); padding: 10px 8px 12px; cursor: pointer; font-size: 12px; font-weight: 600; border-radius: 0; }
@@ -338,9 +363,64 @@ const emptyMode = (m) => ({
   run: 0,
 });
 
+/** Guide preference: on by default; remembered per browser when storage is available. */
+function loadGuidePref() {
+  try { const v = localStorage.getItem("ajcc-guide"); return v === null ? true : v === "on"; } catch { return true; }
+}
+function saveGuidePref(on) {
+  try { localStorage.setItem("ajcc-guide", on ? "on" : "off"); } catch { /* storage unavailable: keep in memory */ }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+ * GUIDE CONTENT — shown when Guide is on
+ * ════════════════════════════════════════════════════════════════════════ */
+const GUIDE_ABOUT = {
+  clinical: "Clinical staging uses information gathered before any treatment: physical exam, imaging and biopsy.",
+  pathological: "Pathological staging is for patients who went to surgery first, with no neoadjuvant therapy. Use the surgical pathology report.",
+  posttherapy: "Post-therapy staging is for patients who had neoadjuvant therapy before surgery. Enter the pre-treatment clinical values first, then the ypTNM values from surgery. The response is calculated by comparing the two.",
+  denovo: "De Novo Metastatic staging is for patients with distant metastasis at diagnosis (cM1). Any cM1 is Stage IV.",
+};
+
+const GUIDE_DONE = {
+  clinical: "The clinical stage group is shown below. Add prognostic factors if they're available.",
+  pathological: "The pathological stage group is shown below. Add prognostic factors if they're available.",
+  posttherapy: "The response (cTNM vs ypTNM) and the post-therapy stage are shown below.",
+  denovo: "Stage IV is assigned. Pathological and response staging don't apply.",
+};
+
+/** Instruction for one field, specific to the staging type and section. */
+function fieldTip(m, sec, col) {
+  if (!CORE.includes(col)) return "Optional for this calculation. Enter it if the result is available; it does not block the stage result.";
+  const p = sec.prefix;
+  const tips = {
+    T: { c: "Primary tumor size and extent from physical exam and imaging.",
+         p: "Primary tumor size and extent from the surgical specimen.",
+         yp: "Residual invasive tumor in the surgical specimen after neoadjuvant therapy. Choose T0 if no invasive tumor remains." },
+    N: { c: "Regional lymph node status from exam, imaging or needle biopsy.",
+         p: "Lymph nodes examined in the surgical specimen.",
+         yp: "Residual nodal disease after neoadjuvant therapy. Choose N0 if all examined nodes are negative." },
+    M: { c: "Distant metastasis from exam and imaging.",
+         p: "Distant metastasis status at the time of surgery.",
+         yp: "Carry over the clinical M category (cM0)." },
+  };
+  if (col === "M" && m.key === "denovo") return "Select cM1: distant metastasis present at diagnosis. This assigns Stage IV.";
+  if (col === "M" && m.key === "posttherapy" && p === "c") return "Must be cM0. A patient with cM1 at diagnosis is staged as De Novo Metastatic instead.";
+  return tips[col][p];
+}
+
+/** Current guide step for the active staging type. */
+function guideStep(m) {
+  const st = ms(m.key);
+  const total = m.sections.length * CORE.length;
+  const filled = m.sections.reduce((n, s) => n + CORE.filter((k) => st.values[s.key][k]).length, 0);
+  const next = (() => { for (const s of m.sections) for (const k of CORE) if (!st.values[s.key][k]) return { sec: s, col: k }; return null; })();
+  return { total, filled, next };
+}
+
 const state = {
   diseaseSites: [], disease: "", items: { 1: [], 2: [] },
   modeIdx: 0, field: null, // field = { sec, col }
+  guide: loadGuidePref(),  // guided instructions on/off (remembered in this browser)
   collapsed: new Set(),    // "<mode>-<section>" keys whose prognostic factors are collapsed (expanded by default)
   modes: Object.fromEntries(MODES.map((m) => [m.key, emptyMode(m)])),
 };
@@ -485,12 +565,17 @@ function renderTop() {
     <div>
       <h1>AJCC Staging Calculator${USE_MOCK ? `<span class="badge">Mock data</span>` : ""}</h1>
     </div>
-    <div class="site">
-      <label class="label" for="disease">Primary disease site</label>
-      <select id="disease" data-action="disease">
-        <option value="">-- Select --</option>
-        ${state.diseaseSites.map((d) => `<option value="${esc(d.ajccDiseaseId)}" ${d.ajccDiseaseId === state.disease ? "selected" : ""}>${esc(d.diseaseTitle)}</option>`).join("")}
-      </select>
+    <div class="top-right">
+      <button class="switch" role="switch" aria-checked="${state.guide}" data-action="guide" title="Show step-by-step instructions">
+        <span class="track"><span class="knob"></span></span>Guide <span class="state">${state.guide ? "On" : "Off"}</span>
+      </button>
+      <div class="site">
+        <label class="label" for="disease">Primary disease site</label>
+        <select id="disease" data-action="disease">
+          <option value="">-- Select --</option>
+          ${state.diseaseSites.map((d) => `<option value="${esc(d.ajccDiseaseId)}" ${d.ajccDiseaseId === state.disease ? "selected" : ""}>${esc(d.diseaseTitle)}</option>`).join("")}
+        </select>
+      </div>
     </div>`;
   $("tests").innerHTML = USE_MOCK && state.disease ? `<div class="tests"><span>Test cases</span>
     ${TEST_CASES[mode().key].map((t, i) => `<button class="btn" data-action="test" data-i="${i}">${esc(t[0])}</button>`).join("")}
@@ -500,9 +585,11 @@ function renderTop() {
 function rowButton(sec, col, title, small) {
   const v = ms().values[sec.key][col];
   const on = state.field && state.field.sec === sec.key && state.field.col === col;
-  return `<button class="rowbtn ${small ? "small" : ""} ${on ? "on" : ""}" data-action="pick" data-sec="${sec.key}" data-col="${col}">
+  const g = state.guide && guideStep(mode()).next;
+  const isNext = !small && g && g.sec.key === sec.key && g.col === col && !on;
+  return `<button class="rowbtn ${small ? "small" : ""} ${on ? "on" : ""} ${isNext ? "next" : ""}" data-action="pick" data-sec="${sec.key}" data-col="${col}">
     <span><span class="code">${esc(small ? title : codeLabel(sec, col))}</span>${small ? "" : ` <span class="name">${FIELD_NAMES[col]}</span>`}</span>
-    <span class="val ${v ? (small ? "chipval" : "") : "empty"}">${v ? (small ? chip(v) : esc(shown(sec, col, v))) : "Select"}</span></button>`;
+    <span class="val ${v ? (small ? "chipval" : "") : isNext ? "empty nexttag" : "empty"}">${v ? (small ? chip(v) : esc(shown(sec, col, v))) : isNext ? "Next" : "Select"}</span></button>`;
 }
 
 function renderSection(m, sec) {
@@ -557,7 +644,26 @@ function renderMain() {
   main.className = "main" + (state.field ? " hidden" : "");
   if (!state.disease) { main.innerHTML = `<div class="pending"><strong>No disease site selected</strong>Choose a primary disease site above to begin.</div>`; return; }
   if (!state.items[1].length) { main.innerHTML = `<div class="pending">Loading categories…</div>`; return; }
-  main.innerHTML = `<div class="screen" data-k="${m.key}">${m.sections.map((s) => renderSection(m, s)).join("")}${renderResult(m)}</div>`;
+  main.innerHTML = `<div class="screen" data-k="${m.key}">${state.guide ? renderGuide(m) : ""}${m.sections.map((s) => renderSection(m, s)).join("")}${renderResult(m)}</div>`;
+}
+
+function renderGuide(m) {
+  const { total, filled, next } = guideStep(m);
+  const pct = Math.round((filled / total) * 100);
+  const about = filled === 0 ? `<p class="about">${esc(GUIDE_ABOUT[m.key])}</p>` : "";
+  if (!next) {
+    return `<div class="guide tone-${m.key}"><div class="step">Complete</div><h4>${m.key === "denovo" ? "Stage IV assigned" : "Result ready"}</h4>
+      <p>${esc(GUIDE_DONE[m.key])}</p><div class="bar"><span style="width:100%"></span></div></div>`;
+  }
+  const part = m.sections.length > 1 ? `Part ${m.sections.indexOf(next.sec) + 1} of ${m.sections.length} · ${next.sec.title} · ` : "";
+  const label = codeLabel(next.sec, next.col);
+  return `<div class="guide tone-${next.sec.tone}">
+    <div class="step">${esc(part)}Step ${filled + 1} of ${total}</div>
+    <h4>Select ${esc(label)} — ${FIELD_NAMES[next.col]}</h4>
+    ${about}<p>${esc(fieldTip(m, next.sec, next.col))}</p>
+    <button class="go" data-action="pick" data-sec="${next.sec.key}" data-col="${next.col}">Choose ${esc(label)} &rarr;</button>
+    <div class="bar"><span style="width:${pct}%"></span></div>
+  </div>`;
 }
 
 function renderFlow(m) {
@@ -581,7 +687,7 @@ function renderDetail() {
   if (!state.field) {
     d.innerHTML = `<div class="screen" data-k="${m.key}-intro">
       <h2>${esc(m.label)} staging</h2>
-      <p class="muted">Select a category on the left to open its definitions. Choosing a value moves you to the next empty category.</p>
+      ${state.guide ? `<p class="muted">Select a category on the left to open its definitions. Choosing a value moves you to the next empty category.</p>` : ""}
       ${renderFlow(m)}
       ${USE_MOCK ? `<p class="note">Test data: definitions and stage groups are simplified from AJCC 8th edition breast anatomic staging and are not for clinical use.</p>` : ""}
     </div>`;
@@ -599,12 +705,13 @@ function renderDetail() {
   d.innerHTML = `<div class="screen tone-${isCore ? sec.tone : "factor"}" data-k="${sec.key}-${col}">
     <button class="back" data-action="back">&larr; Back to ${esc(m.label.toLowerCase())} summary</button>
     <h2>${title}</h2>
+    ${state.guide ? `<p class="tip">${esc(fieldTip(m, sec, col))}</p>` : ""}
     ${list.map((v) => {
       const val = clean(v.validValue), sel = val === cur;
       return `<button class="choice ${sel ? "sel" : ""}" data-action="choose" data-v="${esc(val)}"><b>${isCore ? esc(shown(sec, col, val)) : chip(val)}</b><span>${esc(v.descr)}</span>${sel ? `<span class="tick">&#10003;</span>` : ""}</button>`;
     }).join("")}
     ${cur ? `<button class="clear" data-action="choose" data-v="">Clear selection</button>` : ""}
-    ${note ? `<p class="note">${esc(note)}</p>` : ""}
+    ${note && !state.guide ? `<p class="note">${esc(note)}</p>` : ""}
   </div>`;
 }
 
@@ -639,6 +746,7 @@ document.addEventListener("click", (e) => {
   if (a === "pick") { state.field = { sec: el.dataset.sec, col: el.dataset.col }; render(); }
   else if (a === "choose") choose(el.dataset.v);
   else if (a === "back") { state.field = null; render(); }
+  else if (a === "guide") { state.guide = !state.guide; saveGuidePref(state.guide); render(); }
   else if (a === "toggle-factors") {
     const k = el.dataset.key;
     state.collapsed.has(k) ? state.collapsed.delete(k) : state.collapsed.add(k);
