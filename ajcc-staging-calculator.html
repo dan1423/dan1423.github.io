@@ -2,193 +2,207 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AJCC Staging Calculator</title>
-<meta name="description" content="AJCC TNM staging calculator: clinical, pathological, post-therapy and de novo metastatic staging.">
-<meta name="theme-color" content="#003087">
-<link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAB+klEQVR4nO2Vv2sUQRTHv9/Z2dvs7cXNYVDCiaB/gAQsBAv/AVvttVERCxt7wcJ/wUYsbAUtxMJKJBBsRGN1QsRCEYMWEs94uzPvWYhy8eZ29y5cFV858977zPs5xOptzFPMXL3/B+wPgK3VIGkYvlJARPcGILRwvvATrA0WLCoRVQAS6qTXy48f6aqqIaPIABARL0py6+ug/+4LrdHJjCpAZIzb3rl45cStq2eCCk/WNs9euG+W2t7LLAARRRo/XX9vDP3Q9VbyS+dWCT569vbl6482bb3qf0YSV5eBNbuIxM8SQ4dBcezk0c3Hl0mev/Hwwb11dDMYIktQkaD6IquaNLaLiaTx8lL6+yzvJHa5Y/N26bzfaxcBIuqciBP3J9Fe1DmBl1rv2B+T/FdU4ZyQlMqqzgpQxNbEcQQgTWx150wNUAVa0Yet7Zt31ki8ePMJC3HDOOrmYEQRTvB9CAXaLTQOYooU0ZroYAZAvDYvQxgQXs8K76RCIcgMA3QCok4CiACAQKbFVAQFCPyg9WMv2wUgoGCmxd1vz3Mtx7UnA9hWd33x1EbrsNFSRgwDERhgRXa6OnRgQ4KAHXUJAr/CLoACgA5orx04bVWmqkQE7dsc6v+xCkTgwY34UHPXIw/0GJuOcBcZLWfxD463URggM7ZpQOa+rn8BtY/Qx+ls8NoAAAAASUVORK5CYII=">
 <style>
   :root {
-    --blue: #003087; --blue-dark: #00225f; --blue-light: #e8edf5; --blue-hover: #f3f6fb;
-    --red: #c41e3a;
-    --white: #ffffff; --bg: #f2f3f5; --panel-alt: #fafafa;
-    --border: #cccccc; --border-light: #e2e4e8;
-    --text: #1a1a1a; --text-mid: #555555; --text-light: #888888;
+    --blue: #003087; --blue-light: #e8edf5; --blue-hover: #f3f6fb;
+    --red: #c41e3a; --red-light: #fce8ec;
+    --white: #ffffff; --bg: #f5f5f5; --panel-alt: #fafafa;
+    --border: #cccccc; --border-light: #e0e0e0;
+    --text: #1a1a1a; --text-mid: #555555; --text-light: #888888; --disabled: #bbbbbb;
     --mono: "Courier New", Courier, monospace;
-    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Tahoma, sans-serif;
-    --tabbar-h: 58px;
+    --sans: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   }
   * { box-sizing: border-box; }
-  html, body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; }
-  button { font-family: var(--sans); color: inherit; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 13px; }
+  button { font-family: var(--sans); color: inherit; }
   button:focus-visible, select:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
-  svg { display: block; }
 
-  /* ════ Shell (desktop / wide browser): centered card, two panes ════ */
-  .app { max-width: 1080px; margin: 20px auto; background: var(--white); border: 1px solid var(--border); display: flex; flex-direction: column; }
+  .shell { max-width: 1080px; margin: 20px auto; padding: 0 16px; }
+  .frame { background: var(--white); border: 1px solid var(--border); border-top: 4px solid var(--accent); }
 
-  .appbar { background: var(--blue); color: var(--white); display: flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 16px; position: relative; }
-  .appbar .back { display: none; align-items: center; gap: 2px; background: none; border: 0; color: var(--white); font-size: 16px; padding: 10px 8px 10px 0; cursor: pointer; }
-  .appbar .back svg { width: 22px; height: 22px; }
-  .appbar .title { flex: 1; min-width: 0; }
-  .appbar h1 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: .01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .appbar .subtitle { font-size: 12px; opacity: .75; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .appbar .badge { font-size: 10px; font-weight: 700; padding: 2px 6px; border: 1px solid rgba(255,255,255,.6); text-transform: uppercase; letter-spacing: .08em; white-space: nowrap; }
+  /* ── Top bar ── */
+  .top { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-end; justify-content: space-between; }
+  .top h1 { font-size: 16px; color: var(--blue); margin: 0 0 4px; letter-spacing: .02em; }
+  .site { min-width: 220px; }
+  .label { display: block; font-weight: 600; font-size: 11px; color: var(--text-mid); margin-bottom: 3px; text-transform: uppercase; letter-spacing: .05em; }
+  select { width: 100%; padding: 6px 8px; font-size: 13px; font-family: var(--sans); border: 1px solid var(--border); border-radius: 0; background: var(--white); cursor: pointer; }
+  .badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border: 1px dashed var(--text-light); color: var(--text-mid); text-transform: uppercase; letter-spacing: .08em; margin-left: 8px; vertical-align: 2px; }
 
-  .subbar { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-bottom: 1px solid var(--border-light); background: var(--white); }
-  .subbar label { font-size: 11px; font-weight: 700; color: var(--text-mid); text-transform: uppercase; letter-spacing: .05em; white-space: nowrap; }
-  select { flex: 1; max-width: 320px; padding: 7px 8px; font-size: 14px; font-family: var(--sans); border: 1px solid var(--border); border-radius: 0; background: var(--white); color: var(--text); cursor: pointer; }
+  /* ── Test strip ── */
+  .tests { padding: 8px 20px; border-bottom: 1px solid var(--border-light); background: var(--panel-alt); display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .tests > span { font-size: 10px; font-weight: 700; color: var(--text-mid); text-transform: uppercase; letter-spacing: .06em; margin-right: 4px; }
+  .btn { font-size: 11px; padding: 4px 10px; border: 1px solid var(--accent); background: var(--white); color: var(--accent); cursor: pointer; border-radius: 0; }
+  .btn:hover { background: var(--accent-light); }
+  .btn.ghost { border-color: var(--border); color: var(--text-mid); }
 
-  /* Test cases (mock only) */
-  .tests { padding: 8px 16px; border-bottom: 1px solid var(--border-light); background: var(--panel-alt); display: flex; gap: 6px; align-items: center; overflow-x: auto; scrollbar-width: none; }
-  .tests::-webkit-scrollbar { display: none; }
-  .tests > span { font-size: 10px; font-weight: 700; color: var(--text-mid); text-transform: uppercase; letter-spacing: .06em; margin-right: 4px; white-space: nowrap; }
-  .btn { font-size: 12px; padding: 6px 10px; border: 1px solid var(--border); background: var(--white); color: var(--text); cursor: pointer; border-radius: 0; white-space: nowrap; }
-  .btn:active { background: var(--blue-light); }
-  .btn.sel { background: var(--blue); border-color: var(--blue); color: var(--white); font-weight: 700; }
-  .btn.ghost { color: var(--text-mid); }
-
-  .content { display: grid; grid-template-columns: 1fr 1fr; min-height: 460px; flex: 1; }
-  .main { padding: 20px; border-right: 1px solid var(--border-light); min-width: 0; }
+  /* ── Two panes ── */
+  .content { display: grid; grid-template-columns: 1fr 1fr; min-height: 470px; }
+  .main { padding: 20px; border-right: 1px solid var(--border); min-width: 0; }
   .detail { padding: 20px; background: var(--panel-alt); min-width: 0; overflow: hidden; }
 
-  /* ════ Category rows ════ */
-  .sec + .sec { margin-top: 22px; }
-  .sec-title { font-size: 11px; font-weight: 700; color: var(--text-mid); text-transform: uppercase; letter-spacing: .06em; margin: 0 0 8px; }
-  .list { border: 1px solid var(--border-light); background: var(--white); }
-  .rowbtn { width: 100%; border: 0; border-bottom: 1px solid var(--border-light); background: var(--white); padding: 0 12px 0 0; min-height: 52px; text-align: left; display: flex; align-items: center; gap: 10px; cursor: pointer; border-radius: 0; position: relative; }
-  .list .rowbtn:last-child { border-bottom: 0; }
-  .rowbtn::before { content: ""; align-self: stretch; width: 4px; background: transparent; flex: 0 0 4px; }
-  .rowbtn:active { background: var(--blue-light); }
-  .rowbtn.filled::before { background: var(--blue); }                     /* a value has been chosen */
-  .rowbtn.on { background: var(--blue-light); }                            /* open in the definitions pane */
-  .rowbtn.on::before { background: var(--blue); }
-  .rowbtn .code { font-family: var(--mono); font-weight: 700; font-size: 18px; color: var(--blue); min-width: 46px; }
-  .rowbtn .name { flex: 1; color: var(--text-mid); font-size: 13px; }
-  .rowbtn .val { font-family: var(--mono); font-weight: 700; font-size: 15px; color: var(--text); white-space: nowrap; display: flex; align-items: center; gap: 6px; }
-  .rowbtn .val.empty { font-family: var(--sans); font-weight: 400; font-size: 13px; color: var(--text-light); }
-  .rowbtn .tick { width: 16px; height: 16px; background: var(--blue); color: var(--white); display: inline-flex; align-items: center; justify-content: center; }
-  .rowbtn .tick svg { width: 11px; height: 11px; }
-  .rowbtn .chev { color: var(--text-light); width: 16px; height: 16px; flex: 0 0 16px; }
-  .rowbtn.small { min-height: 44px; }
-  .rowbtn.small .code { font-family: var(--sans); font-size: 13px; color: var(--text); min-width: 52px; }
-  .rowbtn.small .val { font-family: var(--sans); font-size: 13px; }
+  /* ── Color coding: each staging type has a tone (accent, light fill, hover fill) ── */
+  .tone-clinical     { --accent: #003087; --accent-light: #e8edf5; --accent-hover: #f3f6fb; }
+  .tone-pathological { --accent: #1e6b3a; --accent-light: #e5f1e9; --accent-hover: #f2f8f4; }
+  .tone-posttherapy  { --accent: #5a2d82; --accent-light: #efe8f6; --accent-hover: #f8f4fb; }
+  .tone-denovo       { --accent: #c41e3a; --accent-light: #fce8ec; --accent-hover: #fdf4f6; }
+  .tone-factor       { --accent: #8a5a00; --accent-light: #fbf1de; --accent-hover: #fdf8ee; }
 
-  .factors { margin-top: 10px; }
-  .factors-title { width: 100%; display: flex; align-items: center; gap: 6px; background: none; border: 0; border-radius: 0; cursor: pointer; text-align: left; font-size: 11px; font-weight: 700; color: var(--text-mid); text-transform: uppercase; letter-spacing: .06em; padding: 8px 0; }
-  .factors-title .caret { font-size: 9px; transition: transform .15s; }
+  .sec-title { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; border-bottom: 2px solid var(--accent); padding-bottom: 4px; margin: 0 0 10px; }
+  .sec + .sec { margin-top: 18px; }
+
+  .rowbtn { width: 100%; border: 1px solid var(--border-light); background: var(--white); padding: 11px 12px; margin-bottom: -1px; text-align: left; display: flex; justify-content: space-between; align-items: center; gap: 10px; cursor: pointer; border-radius: 0; position: relative; }
+  .rowbtn:hover { background: var(--accent-hover); border-color: var(--accent); z-index: 1; }
+  .rowbtn.on { background: var(--accent-light); border-color: var(--accent); z-index: 2; box-shadow: inset 3px 0 0 var(--accent); }
+  .rowbtn .code { font-family: var(--mono); font-weight: 700; font-size: 18px; color: var(--accent); display: inline-block; min-width: 46px; }
+  .rowbtn .name { color: var(--text-mid); font-size: 12px; }
+  .rowbtn .val { font-family: var(--mono); font-weight: 700; font-size: 14px; color: var(--text); white-space: nowrap; }
+  .rowbtn .val.empty { font-family: var(--sans); font-weight: 400; font-size: 12px; color: var(--text-light); }
+  .rowbtn .val::after { content: " \203A"; color: var(--text-light); font-family: var(--sans); }
+  .rowbtn.small { padding: 7px 12px; }
+  .rowbtn.small .code { font-size: 12px; min-width: 52px; font-family: var(--sans); }
+
+  /* Prognostic factors: amber group, values shown as colored chips */
+  .factors { margin-top: 12px; }
+  .factors-title { width: 100%; display: flex; align-items: center; gap: 6px; background: none; border: 0; border-bottom: 1px solid var(--accent); border-radius: 0; cursor: pointer; text-align: left; font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; padding: 0 0 6px; margin-bottom: 6px; }
+  .factors-title .caret { display: inline-block; font-size: 9px; transition: transform .15s; }
   .factors.collapsed .factors-title .caret { transform: rotate(-90deg); }
-  .factors-title .count { margin-left: auto; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--text-light); }
-  .factors.collapsed .list { display: none; }
+  .factors-title .count { margin-left: auto; font-weight: 400; color: var(--text-light); letter-spacing: 0; text-transform: none; font-size: 11px; }
+  .factors.collapsed .factors-title { margin-bottom: 0; }
+  .factors.collapsed .rowbtn { display: none; }
+  .factors .rowbtn { border-left: 3px solid var(--accent); }
+  .chip { display: inline-block; font-family: var(--sans); font-size: 11px; font-weight: 700; padding: 1px 7px; border: 1px solid; letter-spacing: .02em; }
+  .chip.pos { color: #1e6b3a; background: #e5f1e9; border-color: #1e6b3a; }
+  .chip.neg { color: #c41e3a; background: #fce8ec; border-color: #c41e3a; }
+  .chip.g1  { color: #8a5a00; background: #fdf8ee; border-color: #e0c48f; }
+  .chip.g2  { color: #8a5a00; background: #f7e3bd; border-color: #c99a45; }
+  .chip.g3  { color: #ffffff; background: #8a5a00; border-color: #8a5a00; }
+  .chip.other { color: var(--text-mid); background: var(--panel-alt); border-color: var(--border); }
+  .rowbtn .val.chipval::after { margin-left: 2px; }
 
-  /* ════ Results ════ */
-  .result { margin-top: 22px; }
-  .tnmbox { background: var(--blue); color: var(--white); padding: 12px 14px; }
+  /* ── Result boxes ── */
+  .result { margin-top: 18px; }
+  .tnmbox { background: var(--accent); color: var(--white); padding: 12px 14px; border: 2px solid var(--accent); }
   .cap { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 3px; }
   .tnmbox .cap { opacity: .75; }
   .tnmbox .v { font-family: var(--mono); font-size: 17px; font-weight: 700; word-break: break-word; }
-  .stagebox { border: 2px solid var(--blue); border-top: 0; padding: 12px 14px; background: var(--white); }
-  .stagebox .cap { color: var(--text-mid); }
-  .stagebox .v { font-size: 24px; font-weight: 700; color: var(--blue); }
-  .stagebox p { margin: 6px 0 0; font-size: 13px; color: var(--text-mid); line-height: 1.5; }
-  .pending { border: 1px dashed var(--border); padding: 12px 14px; color: var(--text-light); font-size: 13px; line-height: 1.5; background: var(--white); }
-  .pending strong { display: block; color: var(--text-mid); font-size: 14px; margin-bottom: 2px; }
-  .cmp { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 10px; background: var(--white); }
-  .cmp th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-mid); padding: 6px 8px; border-bottom: 2px solid var(--blue); }
-  .cmp td { padding: 7px 8px; border-bottom: 1px solid var(--border-light); font-family: var(--mono); font-weight: 700; color: var(--blue); }
+  .stagebox { border: 2px solid var(--accent); padding: 12px 14px; margin-top: 8px; background: var(--accent-light); }
+  .stagebox .cap, .stagebox .v { color: var(--accent); }
+  .stagebox .v { font-size: 20px; font-weight: 700; }
+  .stagebox.iv .v { font-size: 26px; }
+  .stagebox p { margin: 6px 0 0; font-size: 12px; color: var(--text-mid); line-height: 1.5; }
+  .pending { border: 1px dashed var(--border); padding: 12px 14px; color: var(--text-light); font-size: 12px; line-height: 1.5; background: var(--white); }
+  .pending strong { display: block; color: var(--text-mid); font-size: 13px; margin-bottom: 2px; }
+
+  .cmp { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 10px; }
+  .cmp th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); padding: 5px 8px; border-bottom: 2px solid var(--accent); }
+  .cmp td { padding: 5px 8px; border-bottom: 1px solid var(--border-light); font-family: var(--mono); }
   .cmp td:first-child { font-family: var(--sans); font-weight: 600; color: var(--text-mid); }
+  .cmp td.c, .cmp td.yp { color: var(--accent); font-weight: 700; }
   .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .respbox { border: 2px solid var(--blue); padding: 12px 14px; background: var(--white); }
-  .respbox .cap { color: var(--text-mid); }
-  .respbox .v { font-size: 16px; font-weight: 700; color: var(--blue); }
-  .v.err { color: var(--red) !important; }
-  .duo .tnmbox .v { font-family: var(--sans); font-size: 18px; }
-  .duo .tnmbox .m { font-family: var(--mono); font-size: 12px; opacity: .8; margin-top: 4px; }
-  .ver { margin-top: 8px; font-size: 11px; color: var(--text-light); }
+  .respbox { border: 1px solid var(--border); padding: 12px 14px; background: var(--white); }
+  .respbox .cap { color: var(--text-light); }
+  .respbox .v { font-size: 15px; font-weight: 700; color: var(--accent); }
+  .respbox .v.err { color: #c41e3a; }
+  .duo .tnmbox .v { font-family: var(--sans); font-size: 16px; }
+  .duo .tnmbox .m { font-family: var(--mono); font-size: 11px; opacity: .8; margin-top: 4px; }
 
-  /* ════ Definitions ════ */
-  .detail h2 { font-size: 16px; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 2px solid var(--blue); }
-  .detail h2 .code { font-family: var(--mono); color: var(--blue); }
-  .detail .dback { background: none; border: 0; color: var(--blue); font-weight: 700; cursor: pointer; padding: 0 0 14px; font-size: 13px; }
-  .detail .muted { font-size: 13px; color: var(--text-mid); line-height: 1.5; margin: 0; }
-  .choice { display: flex; gap: 12px; align-items: center; text-align: left; width: 100%; min-height: 48px; padding: 10px 12px; border: 1px solid var(--border-light); background: var(--white); margin-bottom: -1px; cursor: pointer; border-radius: 0; position: relative; }
-  .choice:active { background: var(--blue-light); }
-  .choice.sel { background: var(--blue); border-color: var(--blue); z-index: 2; }       /* the chosen value */
-  .choice b { font-family: var(--mono); font-size: 15px; color: var(--blue); min-width: 72px; }
-  .choice .d { font-size: 13px; color: var(--text-mid); line-height: 1.4; flex: 1; }
-  .choice.sel b, .choice.sel .d { color: var(--white); }
-  .choice .ck { width: 18px; height: 18px; flex: 0 0 18px; border: 1.5px solid var(--border); display: inline-flex; align-items: center; justify-content: center; }
-  .choice.sel .ck { border-color: var(--white); background: var(--white); color: var(--blue); }
-  .choice .ck svg { width: 12px; height: 12px; }
-  .clear { margin-top: 12px; background: none; border: 0; padding: 4px 0; color: var(--text-mid); font-size: 13px; cursor: pointer; text-decoration: underline; }
-  .note { margin-top: 12px; font-size: 12px; color: var(--text-mid); line-height: 1.5; border-left: 2px solid var(--border); padding-left: 8px; }
+  /* ── Detail pane ── */
+  .back { background: none; border: 0; color: var(--accent); font-weight: 700; cursor: pointer; padding: 0 0 14px; font-size: 12px; }
+  .detail h2 { font-size: 14px; margin: 0 0 12px; color: var(--text); padding-bottom: 6px; border-bottom: 2px solid var(--accent); }
+  .detail h2 .code { font-family: var(--mono); color: var(--accent); }
+  .detail .muted { font-size: 12px; color: var(--text-mid); line-height: 1.5; margin: 0 0 12px; }
+  .choice { display: flex; gap: 12px; align-items: center; text-align: left; width: 100%; padding: 9px 12px; border: 1px solid var(--border-light); background: var(--white); margin-bottom: -1px; cursor: pointer; border-radius: 0; position: relative; }
+  .choice:hover { border-color: var(--accent); background: var(--accent-hover); z-index: 1; }
+  .choice.sel { border-color: var(--accent); background: var(--accent-light); z-index: 2; box-shadow: inset 3px 0 0 var(--accent); }
+  .choice b { font-family: var(--mono); font-size: 14px; color: var(--accent); min-width: 72px; }
+  .choice span { font-size: 12px; color: var(--text-mid); line-height: 1.4; }
+  .choice .tick { margin-left: auto; color: var(--accent); font-weight: 700; }
+  .clear { margin-top: 10px; background: none; border: 0; padding: 0; color: var(--text-light); font-size: 11px; cursor: pointer; text-decoration: underline; }
+  .note { margin-top: 12px; font-size: 11px; color: var(--text-light); line-height: 1.5; border-left: 2px solid var(--border); padding-left: 8px; }
 
-  /* ════ Tab bar ════ */
-  .tabbar { display: flex; border-top: 1px solid var(--border); background: var(--white); }
-  .tab { flex: 1; border: 0; background: var(--white); color: var(--text-mid); padding: 8px 4px; min-height: var(--tabbar-h); cursor: pointer; font-size: 12px; font-weight: 600; border-radius: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; position: relative; }
-  .tab svg { width: 22px; height: 22px; }
-  .tab:active { background: var(--blue-hover); }
-  .tab.active { background: var(--blue); color: var(--white); }               /* current staging type */
-  .tab .dot { position: absolute; top: 7px; right: calc(50% - 18px); width: 7px; height: 7px; background: var(--blue); border: 1.5px solid var(--white); }
-  .tab.active .dot { background: var(--white); border-color: var(--blue); }
+  .flow { list-style: none; margin: 14px 0 0; padding: 0; }
+  .flow li { border: 1px solid var(--border-light); background: var(--white); padding: 9px 12px; font-size: 12px; position: relative; display: flex; gap: 10px; align-items: baseline; }
+  .flow li + li { margin-top: 18px; }
+  .flow li + li::before { content: "\2193"; position: absolute; top: -17px; left: 20px; color: var(--text-light); font-size: 12px; }
+  .flow .n { font-family: var(--mono); font-weight: 700; color: var(--text-light); }
+  .flow li.done { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
+  .flow li.done .n { color: var(--accent); }
+  .flow li small { display: block; color: var(--text-light); font-size: 11px; margin-top: 2px; }
 
-  /* Hover only on devices with a real pointer, so highlights don't stick after a tap on phones */
-  @media (hover: hover) {
-    .btn:hover { border-color: var(--blue); }
-    .rowbtn:hover { background: var(--blue-hover); }
-    .choice:hover { border-color: var(--blue); z-index: 1; }
-  }
+  /* ── Guide mode ── */
+  .top-right { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; }
+  .switch { display: inline-flex; align-items: center; gap: 8px; background: none; border: 1px solid var(--border); border-radius: 0; padding: 6px 10px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-mid); height: 32px; }
+  .switch:hover { border-color: var(--accent); }
+  .switch .track { width: 30px; height: 16px; border: 1px solid var(--text-light); background: var(--white); position: relative; }
+  .switch .knob { position: absolute; top: 2px; left: 2px; width: 10px; height: 10px; background: var(--text-light); transition: left .15s; }
+  .switch[aria-checked="true"] { color: var(--accent); border-color: var(--accent); }
+  .switch[aria-checked="true"] .track { background: var(--accent); border-color: var(--accent); }
+  .switch[aria-checked="true"] .knob { left: 16px; background: var(--white); }
+  .switch .state { font-weight: 400; color: var(--text-light); min-width: 20px; text-align: left; }
 
-  .screen { animation: in-right .22s ease-out; }
-  .screen.from-left { animation-name: in-left; }
-  @keyframes in-right { from { transform: translateX(24px); opacity: .3; } to { transform: none; opacity: 1; } }
-  @keyframes in-left { from { transform: translateX(-24px); opacity: .3; } to { transform: none; opacity: 1; } }
-  @media (prefers-reduced-motion: reduce) { .screen { animation: none !important; } }
+  .guide { border: 1px solid var(--accent); border-left: 4px solid var(--accent); background: var(--accent-light); padding: 10px 12px; margin-bottom: 16px; }
+  .guide .step { font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .07em; }
+  .guide h4 { margin: 3px 0 4px; font-size: 13px; color: var(--text); }
+  .guide p { margin: 0; font-size: 12px; color: var(--text-mid); line-height: 1.5; }
+  .guide p + p { margin-top: 6px; }
+  .guide .about { padding-bottom: 6px; margin-bottom: 6px; border-bottom: 1px solid var(--border-light); }
+  .guide .go { margin-top: 8px; font-size: 11px; font-weight: 700; padding: 5px 10px; border: 1px solid var(--accent); background: var(--accent); color: var(--white); cursor: pointer; border-radius: 0; }
+  .guide .go:hover { filter: brightness(1.15); }
+  .guide .bar { height: 3px; background: var(--white); margin-top: 8px; }
+  .guide .bar span { display: block; height: 100%; background: var(--accent); transition: width .2s; }
+  .rowbtn.next { outline: 2px dashed var(--accent); outline-offset: -2px; z-index: 3; }
+  .rowbtn .val.nexttag { color: var(--accent); font-weight: 700; }
+  .tip { border-left: 3px solid var(--accent); background: var(--accent-light); padding: 8px 10px; font-size: 12px; color: var(--text-mid); line-height: 1.5; margin: 0 0 12px; }
 
-  /* ════ Phone: full-width app-style layout ════ */
+  /* ── Bottom tabs: each tab always carries its own color ── */
+  .tabs { display: flex; border-top: 1px solid var(--border); background: var(--white); }
+  .tab { flex: 1; border: 0; border-right: 1px solid var(--border-light); border-top: 4px solid var(--accent); background: var(--white); color: var(--accent); padding: 10px 8px 12px; cursor: pointer; font-size: 12px; font-weight: 600; border-radius: 0; }
+  .tab:last-child { border-right: 0; }
+  .tab:hover { background: var(--accent-hover); }
+  .tab.active { background: var(--accent); color: var(--white); font-weight: 700; }
+  .tab .chk { font-weight: 700; }
+
+  .footer { padding: 8px 4px; font-size: 11px; color: var(--text-light); line-height: 1.6; }
+  .footer strong { color: var(--text-mid); }
+
+  .screen { animation: slide .2s ease-out; }
+  @keyframes slide { from { transform: translateX(18px); opacity: .4; } to { transform: none; opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .screen { animation: none; } }
+
   @media (max-width: 680px) {
-    html, body { overscroll-behavior-y: none; }
-    body { -webkit-user-select: none; user-select: none; }
-    .app { margin: 0; border: 0; min-height: 100vh; min-height: 100dvh; background: var(--bg); }
-    .appbar { position: sticky; top: 0; z-index: 20; padding-top: env(safe-area-inset-top); padding-left: calc(12px + env(safe-area-inset-left)); padding-right: calc(12px + env(safe-area-inset-right)); min-height: calc(54px + env(safe-area-inset-top)); }
-    .app.field-open .appbar .back { display: inline-flex; }
-    .app.field-open .appbar .badge { display: none; }
-    .app.field-open .subbar, .app.field-open #tests { display: none; }
-    select { max-width: none; font-size: 16px; padding: 9px 10px; }   /* 16px stops iOS zoom on focus */
-    .content { display: block; min-height: 0; padding-bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 16px); }
+    .shell { margin: 0; padding: 0; }
+    .frame { min-height: 100vh; display: flex; flex-direction: column; border-left: 0; border-right: 0; }
+    .content { display: block; min-height: 0; flex: 1; }
     .main { border: 0; padding: 16px; }
     .main.hidden { display: none; }
-    .detail { display: none; background: var(--bg); }
-    .detail.open { display: block; padding: 16px; }
-    .detail h2, .detail .dback { display: none; }   /* the app bar carries the title and back button */
-    .main .list, .detail .choices { margin: 0 -16px; border-left: 0; border-right: 0; }
-    .choice { border-left: 0; border-right: 0; min-height: 54px; padding: 12px 16px; }
-    .rowbtn { min-height: 56px; }
-    .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; padding-bottom: env(safe-area-inset-bottom); padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); box-shadow: 0 -1px 0 var(--border); border-top: 0; }
-    .tab { font-size: 11px; }
+    .detail { display: none; }
+    .detail.open { display: block; background: var(--white); padding: 16px; }
+    .tabs { position: sticky; bottom: 0; flex-wrap: wrap; }
+    .tab { flex: 1 1 50%; border-bottom: 1px solid var(--border-light); padding: 10px 4px; }
+    .top { padding: 14px 16px; }
+    .site { width: 100%; }
     .duo { grid-template-columns: 1fr; }
+    .footer { padding: 8px 16px; }
   }
 </style>
 </head>
 <body>
-<div class="app" id="app">
-  <header class="appbar">
-    <button class="back" data-action="back" aria-label="Back">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>Back
-    </button>
-    <div class="title"><h1 id="apptitle">AJCC Staging</h1><div class="subtitle" id="appsub"></div></div>
-    <span class="badge" id="mockbadge" hidden>Test data</span>
-  </header>
-  <div class="subbar">
-    <label for="disease">Site</label>
-    <select id="disease" data-action="disease"><option value="">Loading…</option></select>
+<div class="shell">
+  <div class="frame tone-clinical">
+    <div style="padding: 16px; background: var(--light); border-bottom: 1px solid var(--border-light);color:red; font-size: 13px; line-height: 1.5;font-weight: 600;">
+      <p>This version of the AJCC Breast Staging Calculator is a prototype and uses simplified and limited test rules. Some TNM combinations and post-therapy responses may produce incomplete, “Unknown” or incorrect results. This version is not to be used for patient care, treatment decisions, documentation, or registry reporting. Physicians are encouraged to share feedback on unclear wording and features that would make the calculator more useful in comparison to calculators already in use.</p>
+    </div>
+    <div class="top" id="top"></div>
+    <div id="tests"></div>
+    <div class="content">
+      <main id="main" class="main"></main>
+      <aside id="detail" class="detail" aria-live="polite"></aside>
+    </div>
+    <nav id="tabs" class="tabs" aria-label="Staging type"></nav>
   </div>
-  <div id="tests"></div>
-  <div class="content">
-    <main id="main" class="main"></main>
-    <aside id="detail" class="detail" aria-live="polite"></aside>
-  </div>
-  <nav id="tabs" class="tabbar" aria-label="Staging type"></nav>
+  <div class="footer"><strong>Logic:</strong> Clinical → cTNM stage · Pathological → pTNM stage · De Novo → Clinical (cM1) → Stage IV · Post-therapy → cTNM (cM0) + ypTNM → Response (cTNM vs ypTNM) → Post-therapy stage</div>
 </div>
 
 <script>
@@ -197,8 +211,6 @@
  * ════════════════════════════════════════════════════════════════════════ */
 const USE_MOCK = true;
 const BASE_URL = "https://localhost:7166";
-const APP_VERSION = "1.1.0";
-const RULES_LABEL = "AJCC 8th edition";
 
 /* ════════════════════════════════════════════════════════════════════════
  * MOCK DATA (test values only — simplified AJCC 8th ed. breast anatomic rules)
@@ -268,7 +280,7 @@ function mockResponse(c, p) {
   return tSameOrWorse && nSameOrWorse ? 0 : 1;
 }
 
-const delay = (v) => new Promise((r) => setTimeout(() => r(v), 200));
+const delay = (v) => new Promise((r) => setTimeout(() => r(v), 220));
 const getJson = (url, init) => fetch(url, init).then((r) => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); });
 
 /* ════════════════════════════════════════════════════════════════════════
@@ -300,27 +312,18 @@ const api = {
  * STAGING TYPES — each has one or two input sections
  *   prefix: shown on values (c / p / yp); typeId: API stagingTypeId
  * ════════════════════════════════════════════════════════════════════════ */
-const ICONS = {
-  clinical: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><rect x="5" y="4" width="14" height="17"/><path d="M9 2.5h6v3H9zM8.5 11h7M8.5 15h7"/></svg>',
-  pathological: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M5 21h14M8 21v-3h8"/><path d="M15 18a5 5 0 0 0 1.5-9.5"/><path d="M9.5 3.5l3 1.5-3 6-3-1.5z"/><path d="M8 11l-1 2"/></svg>',
-  posttherapy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M4.5 11a7.5 7.5 0 0 1 13-4.5L19.5 8.5M19.5 13a7.5 7.5 0 0 1-13 4.5L4.5 15.5"/><path d="M19.5 4v4.5H15M4.5 20v-4.5H9"/></svg>',
-  denovo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3.2"/><circle cx="5" cy="5" r="1.6"/><circle cx="19" cy="6" r="1.6"/><circle cx="18.5" cy="18.5" r="1.6"/><circle cx="5" cy="18" r="1.6"/><path d="M9.7 9.7L6.2 6.2M14.5 10l3.2-2.7M14.4 14.4l2.9 2.9M9.6 14.3l-3.4 2.6" stroke-linecap="round"/></svg>',
-};
-const SVG_CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
-const SVG_CHEV = '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>';
-
 const MODES = [
-  { key: "clinical", label: "Clinical", title: "Clinical staging",
-    sections: [{ key: "c", title: "Clinical (cTNM)", prefix: "c", typeId: 1 }] },
-  { key: "pathological", label: "Pathological", title: "Pathological staging",
-    sections: [{ key: "p", title: "Pathological (pTNM)", prefix: "p", typeId: 2 }] },
-  { key: "posttherapy", label: "Post-therapy", title: "Post-therapy staging",
+  { key: "clinical", label: "Clinical",
+    sections: [{ key: "c", title: "Clinical (cTNM)", prefix: "c", typeId: 1, tone: "clinical" }] },
+  { key: "pathological", label: "Pathological",
+    sections: [{ key: "p", title: "Pathological (pTNM)", prefix: "p", typeId: 2, tone: "pathological" }] },
+  { key: "posttherapy", label: "Post-therapy",
     sections: [
-      { key: "c", title: "Pre-treatment (cTNM)", prefix: "c", typeId: 1 },
-      { key: "yp", title: "Post-therapy (ypTNM)", prefix: "yp", typeId: 2 },
+      { key: "c", title: "Pre-treatment (cTNM)", prefix: "c", typeId: 1, tone: "clinical" },
+      { key: "yp", title: "Post-therapy (ypTNM)", prefix: "yp", typeId: 2, tone: "posttherapy" },
     ] },
-  { key: "denovo", label: "De Novo", title: "De novo metastatic",
-    sections: [{ key: "c", title: "Clinical (cTNM)", prefix: "c", typeId: 1 }] },
+  { key: "denovo", label: "De Novo Metastatic",
+    sections: [{ key: "c", title: "Clinical (cTNM)", prefix: "c", typeId: 1, tone: "denovo" }] },
 ];
 
 const FIELD_NAMES = { T: "Primary tumor", N: "Regional nodes", M: "Distant metastasis" };
@@ -360,14 +363,68 @@ const emptyMode = (m) => ({
   values: Object.fromEntries(m.sections.map((s) => [s.key, {}])),
   results: Object.fromEntries(m.sections.map((s) => [s.key, emptyResult()])),
   response: { type: "", id: null, loading: false, stage: "...", tnm: "..." },
-  run: 0, test: null,
+  run: 0,
 });
+
+/** Guide preference: on by default; remembered per browser when storage is available. */
+function loadGuidePref() {
+  try { const v = localStorage.getItem("ajcc-guide"); return v === null ? true : v === "on"; } catch { return true; }
+}
+function saveGuidePref(on) {
+  try { localStorage.setItem("ajcc-guide", on ? "on" : "off"); } catch { /* storage unavailable: keep in memory */ }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+ * GUIDE CONTENT — shown when Guide is on
+ * ════════════════════════════════════════════════════════════════════════ */
+const GUIDE_ABOUT = {
+  clinical: "Clinical staging uses information gathered before any treatment: physical exam, imaging and biopsy.",
+  pathological: "Pathological staging is for patients who went to surgery first, with no neoadjuvant therapy. Use the surgical pathology report.",
+  posttherapy: "Post-therapy staging is for patients who had neoadjuvant therapy before surgery. Enter the pre-treatment clinical values first, then the ypTNM values from surgery. The response is calculated by comparing the two.",
+  denovo: "De Novo Metastatic staging is for patients with distant metastasis at diagnosis (cM1). Any cM1 is Stage IV.",
+};
+
+const GUIDE_DONE = {
+  clinical: "The clinical stage group is shown below. Add prognostic factors if they're available.",
+  pathological: "The pathological stage group is shown below. Add prognostic factors if they're available.",
+  posttherapy: "The response (cTNM vs ypTNM) and the post-therapy stage are shown below.",
+  denovo: "Stage IV is assigned. Pathological and response staging don't apply.",
+};
+
+/** Instruction for one field, specific to the staging type and section. */
+function fieldTip(m, sec, col) {
+  if (!CORE.includes(col)) return "Optional for this calculation. Enter it if the result is available; it does not block the stage result.";
+  const p = sec.prefix;
+  const tips = {
+    T: { c: "Primary tumor size and extent from physical exam and imaging.",
+         p: "Primary tumor size and extent from the surgical specimen.",
+         yp: "Residual invasive tumor in the surgical specimen after neoadjuvant therapy. Choose T0 if no invasive tumor remains." },
+    N: { c: "Regional lymph node status from exam, imaging or needle biopsy.",
+         p: "Lymph nodes examined in the surgical specimen.",
+         yp: "Residual nodal disease after neoadjuvant therapy. Choose N0 if all examined nodes are negative." },
+    M: { c: "Distant metastasis from exam and imaging.",
+         p: "Distant metastasis status at the time of surgery.",
+         yp: "Carry over the clinical M category (cM0)." },
+  };
+  if (col === "M" && m.key === "denovo") return "Select cM1: distant metastasis present at diagnosis. This assigns Stage IV.";
+  if (col === "M" && m.key === "posttherapy" && p === "c") return "Must be cM0. A patient with cM1 at diagnosis is staged as De Novo Metastatic instead.";
+  return tips[col][p];
+}
+
+/** Current guide step for the active staging type. */
+function guideStep(m) {
+  const st = ms(m.key);
+  const total = m.sections.length * CORE.length;
+  const filled = m.sections.reduce((n, s) => n + CORE.filter((k) => st.values[s.key][k]).length, 0);
+  const next = (() => { for (const s of m.sections) for (const k of CORE) if (!st.values[s.key][k]) return { sec: s, col: k }; return null; })();
+  return { total, filled, next };
+}
 
 const state = {
   diseaseSites: [], disease: "", items: { 1: [], 2: [] },
-  modeIdx: 0, field: null,      // field = { sec, col } while a definitions screen is open
-  pushed: false,                // phone: a history entry exists for the open field (so system Back closes it)
-  collapsed: new Set(),         // "<mode>-<section>" keys whose prognostic factors are collapsed (open by default)
+  modeIdx: 0, field: null, // field = { sec, col }
+  guide: loadGuidePref(),  // guided instructions on/off (remembered in this browser)
+  collapsed: new Set(),    // "<mode>-<section>" keys whose prognostic factors are collapsed (expanded by default)
   modes: Object.fromEntries(MODES.map((m) => [m.key, emptyMode(m)])),
 };
 const mode = () => MODES[state.modeIdx];
@@ -381,7 +438,6 @@ const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "
 const clean = (s) => (s ?? "").toString().replace(/[\n\r]/g, "").trim();
 const isM1 = (m) => M1_VALUES.some((v) => clean(m).toUpperCase() === v.toUpperCase());
 const sectionOf = (m, key) => m.sections.find((s) => s.key === key);
-const isPhone = () => !!window.matchMedia && window.matchMedia("(max-width: 680px)").matches;
 
 /** Displayed value with its classification prefix (yp keeps clinical M). */
 function shown(sec, col, v) {
@@ -389,11 +445,21 @@ function shown(sec, col, v) {
   if (!CORE.includes(col) || /^(c|p|yp)[TNM]/.test(v)) return v;
   return (sec.prefix === "yp" && col === "M" ? "c" : sec.prefix) + v;
 }
+/** Color class for a prognostic factor value. */
+function chipClass(v) {
+  const s = clean(v).toLowerCase();
+  if (s === "positive") return "pos";
+  if (s === "negative") return "neg";
+  if (/^g[123]$/.test(s)) return s;
+  return "other";
+}
+const chip = (v) => `<span class="chip ${chipClass(v)}">${esc(v)}</span>`;
 const codeLabel = (sec, col) => (CORE.includes(col) ? (sec.prefix === "yp" && col === "M" ? "cM" : sec.prefix + col) : col);
-const columnTitle = (sec, col) => (state.items[sec.typeId].find((i) => i.columnName === col) || {}).columnTitle || col;
 
 const sectionComplete = (modeKey, secKey) => CORE.every((k) => ms(modeKey).values[secKey][k]);
-const modeComplete = (m) => m.sections.every((s) => sectionComplete(m.key, s.key));
+function modeComplete(m) {
+  return m.sections.every((s) => sectionComplete(m.key, s.key));
+}
 
 /** Options for a field, restricted by the flow's M rules. */
 function optionsFor(m, sec, col) {
@@ -442,58 +508,34 @@ async function runResponse() {
 }
 
 function setValue(secKey, col, value) {
-  const m = mode(), sec = sectionOf(m, secKey), st = ms(), vals = st.values[secKey];
+  const m = mode(), sec = sectionOf(m, secKey), vals = ms().values[secKey];
   if (value) vals[col] = clean(value); else delete vals[col];
-  st.test = null;   // values no longer match a loaded test case
   render();
   calcSection(m, sec);
   if (m.key === "posttherapy") runResponse();
 }
 
+/** After choosing, jump to the next empty T/N/M in the same flow; otherwise return to the summary. */
 function nextEmptyField() {
   const m = mode();
   for (const s of m.sections) for (const k of CORE) if (!ms().values[s.key][k]) return { sec: s.key, col: k };
   return null;
 }
 
-/* Navigation between the summary and a definitions screen.
- * On phones each definitions screen gets a history entry, so the system Back
- * gesture / button returns to the summary like a native app. */
-let savedScroll = 0, navDir = "";
-function openField(sec, col) {
-  if (isPhone()) {
-    if (!state.field) savedScroll = window.scrollY;
-    if (!state.pushed) { history.pushState({ field: true }, ""); state.pushed = true; }
-  }
-  state.field = { sec, col };
-  navDir = "right";
-  render();
-  if (isPhone()) window.scrollTo(0, 0);
-}
-function closeField() {
-  if (state.pushed) { history.back(); return; }   // popstate finishes the job
-  finishClose();
-}
-function finishClose() {
-  state.field = null; state.pushed = false; navDir = "left";
-  render();
-  if (isPhone()) window.scrollTo(0, savedScroll);
-}
-window.addEventListener("popstate", () => { if (state.field) { state.pushed = false; finishClose(); } });
-
 function choose(value) {
   const { sec, col } = state.field;
   setValue(sec, col, value);
-  if (isPhone()) { closeField(); return; }                 // phone: back to the summary, like a native picker
-  const next = value && CORE.includes(col) ? nextEmptyField() : null;
-  if (next) openField(next.sec, next.col);                 // desktop: move on to the next empty category
+  const next = CORE.includes(col) ? nextEmptyField() : null;
+  const wide = !window.matchMedia || window.matchMedia("(min-width: 681px)").matches;
+  state.field = next && wide ? next : null;
+  render();
 }
 
 function loadTest(i) {
   const m = mode(), [, data] = TEST_CASES[m.key][i];
   state.modes[m.key] = emptyMode(m);
   for (const s of m.sections) state.modes[m.key].values[s.key] = { ...(data[s.key] || {}) };
-  ms().test = i;
+  state.field = null;
   render();
   m.sections.forEach((s) => calcSection(m, s));
   if (m.key === "posttherapy") runResponse();
@@ -502,23 +544,15 @@ function loadTest(i) {
 function clearMode() {
   const m = mode();
   state.modes[m.key] = emptyMode(m);
-  if (state.field) closeField(); else render();
-}
-
-function switchMode(i) {
-  if (i === state.modeIdx && !state.field) return;
-  state.modeIdx = i;
-  if (state.field) { if (state.pushed) { state.pushed = false; history.back(); } state.field = null; }
-  navDir = "";
+  state.field = null;
   render();
-  if (isPhone()) window.scrollTo(0, 0);
 }
 
 async function selectDisease(id) {
   state.disease = id;
   state.items = { 1: [], 2: [] };
+  state.field = null;
   MODES.forEach((m) => (state.modes[m.key] = emptyMode(m)));
-  if (state.field) closeField();
   render();
   if (!id) return;
   const [c, p] = await Promise.all([api.stagingItems(id, 1).catch(() => []), api.stagingItems(id, 2).catch(() => [])]);
@@ -529,177 +563,210 @@ async function selectDisease(id) {
 /* ════════════════════════════════════════════════════════════════════════
  * RENDER
  * ════════════════════════════════════════════════════════════════════════ */
-function renderBars() {
-  const m = mode(), f = state.field;
-  $("app").classList.toggle("field-open", !!f);
-  if (f && isPhone()) {
-    const sec = sectionOf(m, f.sec);
-    $("apptitle").textContent = CORE.includes(f.col) ? `${codeLabel(sec, f.col)} · ${FIELD_NAMES[f.col]}` : columnTitle(sec, f.col);
-    $("appsub").textContent = sec.title;
-  } else if (isPhone()) {
-    $("apptitle").textContent = m.title;
-    $("appsub").textContent = "AJCC Staging";
-  } else {
-    $("apptitle").textContent = "AJCC Staging Calculator";
-    $("appsub").textContent = m.title;
-  }
-  $("mockbadge").hidden = !USE_MOCK;
-
-  const sel = $("disease");
-  const opts = `<option value="">-- Select --</option>` + state.diseaseSites.map((d) =>
-    `<option value="${esc(d.ajccDiseaseId)}" ${d.ajccDiseaseId === state.disease ? "selected" : ""}>${esc(d.diseaseTitle)}</option>`).join("");
-  if (sel.dataset.sig !== opts) { sel.innerHTML = opts; sel.dataset.sig = opts; }
-
-  const tests = USE_MOCK && state.disease ? `<div class="tests"><span>Test cases</span>
-    ${TEST_CASES[m.key].map((t, i) => `<button class="btn ${ms().test === i ? "sel" : ""}" data-action="test" data-i="${i}" aria-pressed="${ms().test === i}">${esc(t[0])}</button>`).join("")}
+function renderTop() {
+  $("top").innerHTML = `
+    <div>
+      <h1>AJCC Staging Calculator${USE_MOCK ? `<span class="badge">Mock data</span>` : ""}</h1>
+    </div>
+    <div class="top-right">
+      <button class="switch" role="switch" aria-checked="${state.guide}" data-action="guide" title="Show step-by-step instructions">
+        <span class="track"><span class="knob"></span></span>Guide <span class="state">${state.guide ? "On" : "Off"}</span>
+      </button>
+      <div class="site">
+        <label class="label" for="disease">Primary disease site</label>
+        <select id="disease" data-action="disease">
+          <option value="">-- Select --</option>
+          ${state.diseaseSites.map((d) => `<option value="${esc(d.ajccDiseaseId)}" ${d.ajccDiseaseId === state.disease ? "selected" : ""}>${esc(d.diseaseTitle)}</option>`).join("")}
+        </select>
+      </div>
+    </div>`;
+  $("tests").innerHTML = USE_MOCK && state.disease ? `<div class="tests"><span>Test cases</span>
+    ${TEST_CASES[mode().key].map((t, i) => `<button class="btn" data-action="test" data-i="${i}">${esc(t[0])}</button>`).join("")}
     <button class="btn ghost" data-action="clear">Clear</button></div>` : "";
-  if ($("tests").dataset.sig !== tests) { $("tests").innerHTML = tests; $("tests").dataset.sig = tests; }   // keeps horizontal scroll position
 }
 
 function rowButton(sec, col, title, small) {
   const v = ms().values[sec.key][col];
-  const on = !!(state.field && state.field.sec === sec.key && state.field.col === col);
-  const label = small ? title : codeLabel(sec, col);
-  return `<button class="rowbtn ${small ? "small" : ""} ${v ? "filled" : ""} ${on ? "on" : ""}" data-action="pick" data-sec="${sec.key}" data-col="${col}" aria-current="${on}">
-    <span class="code">${esc(label)}</span><span class="name">${small ? "" : FIELD_NAMES[col]}</span>
-    <span class="val ${v ? "" : "empty"}">${v ? `<span class="tick">${SVG_CHECK}</span>${esc(small ? v : shown(sec, col, v))}` : "Select"}</span>${SVG_CHEV}</button>`;
+  const on = state.field && state.field.sec === sec.key && state.field.col === col;
+  const g = state.guide && guideStep(mode()).next;
+  const isNext = !small && g && g.sec.key === sec.key && g.col === col && !on;
+  return `<button class="rowbtn ${small ? "small" : ""} ${on ? "on" : ""} ${isNext ? "next" : ""}" data-action="pick" data-sec="${sec.key}" data-col="${col}">
+    <span><span class="code">${esc(small ? title : codeLabel(sec, col))}</span>${small ? "" : ` <span class="name">${FIELD_NAMES[col]}</span>`}</span>
+    <span class="val ${v ? (small ? "chipval" : "") : isNext ? "empty nexttag" : "empty"}">${v ? (small ? chip(v) : esc(shown(sec, col, v))) : isNext ? "Next" : "Select"}</span></button>`;
 }
 
 function renderSection(m, sec) {
   const items = state.items[sec.typeId] || [];
   const factors = items.filter((i) => !CORE.includes(i.columnName));
-  const key = `${m.key}-${sec.key}`, closed = state.collapsed.has(key);
-  const n = factors.filter((f) => ms().values[sec.key][f.columnName]).length;
-  return `<div class="sec">
+  return `<div class="sec tone-${sec.tone}">
     <div class="sec-title">${esc(sec.title)}</div>
-    <div class="list">${CORE.map((k) => rowButton(sec, k)).join("")}</div>
-    ${factors.length ? `<div class="factors ${closed ? "collapsed" : ""}">
-      <button class="factors-title" data-action="toggle-factors" data-key="${key}" aria-expanded="${!closed}"><span class="caret">&#9660;</span>Prognostic factors<span class="count">${n}/${factors.length}</span></button>
-      <div class="list">${factors.map((f) => rowButton(sec, f.columnName, f.columnTitle, true)).join("")}</div></div>` : ""}
+    ${CORE.map((k) => rowButton(sec, k)).join("")}
+    ${factors.length ? (() => {
+      const key = `${m.key}-${sec.key}`, closed = state.collapsed.has(key);
+      const n = factors.filter((f) => ms().values[sec.key][f.columnName]).length;
+      return `<div class="factors tone-factor ${closed ? "collapsed" : ""}"><button class="factors-title" data-action="toggle-factors" data-key="${key}" aria-expanded="${!closed}"><span class="caret">&#9660;</span>Prognostic factors<span class="count">${n}/${factors.length}</span></button>`;
+    })() +`
+      ${factors.map((f) => rowButton(sec, f.columnName, f.columnTitle, true)).join("")}</div>` : ""}
   </div>`;
 }
-
-const versionLine = () => `<div class="ver">${esc(RULES_LABEL)} · App v${APP_VERSION}${USE_MOCK ? " · test data, not for clinical use" : ""}</div>`;
 
 function renderResult(m) {
   const st = ms();
   const missing = m.sections.flatMap((s) => CORE.filter((k) => !st.values[s.key][k]).map((k) => codeLabel(s, k)));
   if (missing.length) {
-    const what = m.key === "denovo" ? "De novo stage" : m.key === "posttherapy" ? "Response and post-therapy stage" : "Stage group";
+    const what = m.key === "denovo" ? "De Novo stage" : m.key === "posttherapy" ? "Response and post-therapy stage" : "Stage group";
     return `<div class="result"><div class="pending"><strong>${what}</strong>Select ${missing.join(", ")} to calculate.</div></div>`;
   }
   if (m.key === "denovo") {
     return `<div class="result">
       <div class="tnmbox"><div class="cap">cTNM</div><div class="v">${esc(st.results.c.tnm)}</div></div>
-      <div class="stagebox"><div class="cap">De novo metastatic · Prognostic stage</div><div class="v">Stage IV</div>
-        <p>Distant metastasis at diagnosis. Pathological and response staging do not apply.</p></div>${versionLine()}</div>`;
+      <div class="stagebox iv"><div class="cap">De Novo Metastatic · AJCC Prognostic Stage</div><div class="v">Stage IV</div>
+        <p>Distant metastasis at diagnosis. Pathological and response staging do not apply.</p></div></div>`;
   }
   if (m.key === "posttherapy") {
     const r = st.response, c = st.values.c, p = st.values.yp;
     const secC = sectionOf(m, "c"), secY = sectionOf(m, "yp");
     return `<div class="result">
-      <table class="cmp"><thead><tr><th></th><th>Clinical</th><th>Post-therapy</th></tr></thead><tbody>
-        ${CORE.map((k) => `<tr><td>${k}</td><td>${esc(shown(secC, k, c[k]))}</td><td>${esc(shown(secY, k, p[k]))}</td></tr>`).join("")}
+      <table class="cmp"><thead><tr><th></th><th class="tone-clinical">Clinical</th><th>Post-therapy</th></tr></thead><tbody>
+        ${CORE.map((k) => `<tr><td>${k}</td><td class="c tone-clinical">${esc(shown(secC, k, c[k]))}</td><td class="yp">${esc(shown(secY, k, p[k]))}</td></tr>`).join("")}
       </tbody></table>
       <div class="duo">
         <div class="respbox"><div class="cap">Response</div><div class="v ${r.type === "Error" ? "err" : ""}">${r.loading ? "Calculating…" : esc(r.type || "—")}</div></div>
         <div class="tnmbox"><div class="cap">Post-therapy stage</div><div class="v">${esc(r.stage)}</div>${r.tnm !== "..." ? `<div class="m">${esc(r.tnm)}</div>` : ""}</div>
-      </div>${versionLine()}</div>`;
+      </div></div>`;
   }
   const sec = m.sections[0], res = st.results[sec.key];
   return `<div class="result">
     <div class="tnmbox"><div class="cap">${sec.prefix}TNM</div><div class="v">${esc(res.tnm)}</div></div>
-    <div class="stagebox"><div class="cap">${m.key === "clinical" ? "Clinical" : "Pathological"} stage group</div><div class="v ${res.stage === "Error" ? "err" : ""}">${esc(res.stage)}</div></div>${versionLine()}</div>`;
+    <div class="stagebox"><div class="cap">${m.key === "clinical" ? "Clinical" : "Pathological"} stage group</div><div class="v">${esc(res.stage)}</div></div></div>`;
 }
 
 function renderMain() {
-  const m = mode(), main = $("main");
+  const m = mode();
+  const main = $("main");
   main.className = "main" + (state.field ? " hidden" : "");
-  if (!state.disease) { main.innerHTML = `<div class="pending"><strong>No disease site selected</strong>Choose a site above to begin.</div>`; return; }
+  if (!state.disease) { main.innerHTML = `<div class="pending"><strong>No disease site selected</strong>Choose a primary disease site above to begin.</div>`; return; }
   if (!state.items[1].length) { main.innerHTML = `<div class="pending">Loading categories…</div>`; return; }
-  main.innerHTML = `<div class="screen ${navDir === "left" ? "from-left" : ""}" data-k="${m.key}${state.field && isPhone() ? "" : "-sum"}">${m.sections.map((s) => renderSection(m, s)).join("")}${renderResult(m)}</div>`;
+  main.innerHTML = `<div class="screen" data-k="${m.key}">${state.guide ? renderGuide(m) : ""}${m.sections.map((s) => renderSection(m, s)).join("")}${renderResult(m)}</div>`;
+}
+
+function renderGuide(m) {
+  const { total, filled, next } = guideStep(m);
+  const pct = Math.round((filled / total) * 100);
+  const about = filled === 0 ? `<p class="about">${esc(GUIDE_ABOUT[m.key])}</p>` : "";
+  if (!next) {
+    return `<div class="guide tone-${m.key}"><div class="step">Complete</div><h4>${m.key === "denovo" ? "Stage IV assigned" : "Result ready"}</h4>
+      <p>${esc(GUIDE_DONE[m.key])}</p><div class="bar"><span style="width:100%"></span></div></div>`;
+  }
+  const part = m.sections.length > 1 ? `Part ${m.sections.indexOf(next.sec) + 1} of ${m.sections.length} · ${next.sec.title} · ` : "";
+  const label = codeLabel(next.sec, next.col);
+  return `<div class="guide tone-${next.sec.tone}">
+    <div class="step">${esc(part)}Step ${filled + 1} of ${total}</div>
+    <h4>Select ${esc(label)} — ${FIELD_NAMES[next.col]}</h4>
+    ${about}<p>${esc(fieldTip(m, next.sec, next.col))}</p>
+    <button class="go" data-action="pick" data-sec="${next.sec.key}" data-col="${next.col}">Choose ${esc(label)} &rarr;</button>
+    <div class="bar"><span style="width:${pct}%"></span></div>
+  </div>`;
+}
+
+function renderFlow(m) {
+  const st = ms(), done = (s) => sectionComplete(m.key, s);
+  const steps = {
+    clinical: () => [["Select cT, cN, cM", "Clinical findings before any treatment", done("c")], ["Clinical stage group", "", done("c")]],
+    pathological: () => [["Select pT, pN, pM", "Pathology findings after surgery (no neoadjuvant therapy)", done("p")], ["Pathological stage group", "", done("p")]],
+    denovo: () => [["Select cT, cN", "Clinical findings at diagnosis", !!(st.values.c.T && st.values.c.N)], ["cM1", "Only M1 is offered for this staging type", !!st.values.c.M], ["De Novo Metastatic · Stage IV", "", done("c"), true]],
+    posttherapy: () => [["Pre-treatment cTNM (cM0)", "Clinical findings before neoadjuvant therapy", done("c")],
+      ["Neoadjuvant therapy → surgery → ypTNM", "Post-therapy pathology findings", done("yp")],
+      ["Compare cTNM vs ypTNM", "Complete, partial or no response", !!st.response.type && st.response.type !== "Error"],
+      ["Post-therapy stage", "", st.response.stage !== "..." && st.response.stage !== "Error"]],
+  }[m.key]();
+  return `<ol class="flow">${steps.map(([t, s, d], i) =>
+    `<li class="${d ? "done" : ""}"><span class="n">${d ? "&#10003;" : i + 1}</span><span>${esc(t)}${s ? `<small>${esc(s)}</small>` : ""}</span></li>`).join("")}</ol>`;
 }
 
 function renderDetail() {
   const m = mode(), d = $("detail");
   d.className = "detail" + (state.field ? " open" : "");
   if (!state.field) {
-    d.innerHTML = `<div class="screen" data-k="${m.key}-intro"><h2>${esc(m.title)}</h2><p class="muted">Select a category to see its definitions.</p></div>`;
+    d.innerHTML = `<div class="screen" data-k="${m.key}-intro">
+      <h2>${esc(m.label)} staging</h2>
+      ${state.guide ? `<p class="muted">Select a category on the left to open its definitions. Choosing a value moves you to the next empty category.</p>` : ""}
+      ${renderFlow(m)}
+      ${USE_MOCK ? `<p class="note">Test data: definitions and stage groups are simplified from AJCC 8th edition breast anatomic staging and are not for clinical use.</p>` : ""}
+    </div>`;
     return;
   }
   const sec = sectionOf(m, state.field.sec), col = state.field.col;
   const cur = ms().values[sec.key][col];
+  const list = optionsFor(m, sec, col);
   const isCore = CORE.includes(col);
-  const title = isCore ? `<span class="code">${esc(codeLabel(sec, col))}</span> ${FIELD_NAMES[col]}` : esc(columnTitle(sec, col));
+  const title = isCore ? `<span class="code">${esc(codeLabel(sec, col))}</span> ${FIELD_NAMES[col]}`
+    : esc((state.items[sec.typeId].find((i) => i.columnName === col) || {}).columnTitle || col);
   let note = "";
-  if (col === "M" && m.key === "denovo") note = "Only M1 is offered: de novo metastatic staging requires distant metastasis at diagnosis.";
-  if (col === "M" && m.key === "posttherapy") note = sec.prefix === "yp" ? "Post-therapy staging carries the clinical M category." : "M1 is not offered: a patient with cM1 is staged as de novo metastatic.";
-  d.innerHTML = `<div class="screen" data-k="${sec.key}-${col}">
-    <button class="dback" data-action="back">&larr; Back</button>
+  if (col === "M" && m.key === "denovo") note = "Only M1 is offered: De Novo Metastatic staging requires distant metastasis at diagnosis.";
+  if (col === "M" && m.key === "posttherapy") note = sec.prefix === "yp" ? "Post-therapy staging carries the clinical M category." : "M1 is not offered: a patient with cM1 is staged as De Novo Metastatic.";
+  d.innerHTML = `<div class="screen tone-${isCore ? sec.tone : "factor"}" data-k="${sec.key}-${col}">
+    <button class="back" data-action="back">&larr; Back to ${esc(m.label.toLowerCase())} summary</button>
     <h2>${title}</h2>
-    <div class="choices">${optionsFor(m, sec, col).map((v) => {
+    ${state.guide ? `<p class="tip">${esc(fieldTip(m, sec, col))}</p>` : ""}
+    ${list.map((v) => {
       const val = clean(v.validValue), sel = val === cur;
-      return `<button class="choice ${sel ? "sel" : ""}" data-action="choose" data-v="${esc(val)}" aria-pressed="${sel}"><b>${esc(isCore ? shown(sec, col, val) : val)}</b><span class="d">${esc(v.descr)}</span><span class="ck">${sel ? SVG_CHECK : ""}</span></button>`;
-    }).join("")}</div>
+      return `<button class="choice ${sel ? "sel" : ""}" data-action="choose" data-v="${esc(val)}"><b>${isCore ? esc(shown(sec, col, val)) : chip(val)}</b><span>${esc(v.descr)}</span>${sel ? `<span class="tick">&#10003;</span>` : ""}</button>`;
+    }).join("")}
     ${cur ? `<button class="clear" data-action="choose" data-v="">Clear selection</button>` : ""}
-    ${note ? `<p class="note">${esc(note)}</p>` : ""}
+    ${note && !state.guide ? `<p class="note">${esc(note)}</p>` : ""}
   </div>`;
 }
 
 function renderTabs() {
-  $("tabs").innerHTML = MODES.map((m, i) => `<button class="tab ${i === state.modeIdx ? "active" : ""}" data-action="tab" data-i="${i}" aria-current="${i === state.modeIdx}" aria-label="${esc(m.title)}">
-    ${ICONS[m.key]}<span>${esc(m.label)}</span>${modeComplete(m) ? `<span class="dot" title="Complete"></span>` : ""}</button>`).join("");
+  $("tabs").innerHTML = MODES.map((m, i) => `<button class="tab tone-${m.key} ${i === state.modeIdx ? "active" : ""}" data-action="tab" data-i="${i}" ${i === state.modeIdx ? 'aria-current="true"' : ""}>
+    ${modeComplete(m) ? `<span class="chk">&#10003;</span> ` : ""}${esc(m.label)}</button>`).join("");
 }
 
 // Only re-run the slide animation when the screen actually changes
 let lastKeys = {};
 function render() {
-  renderBars(); renderMain(); renderDetail(); renderTabs();
+  document.querySelector(".frame").className = "frame tone-" + mode().key;
+  renderTop(); renderMain(); renderDetail(); renderTabs();
   for (const id of ["main", "detail"]) {
     const el = $(id).querySelector(".screen");
     if (!el) continue;
-    if (lastKeys[id] === el.dataset.k && !navDir) el.style.animation = "none";
+    if (lastKeys[id] === el.dataset.k) el.style.animation = "none";
     lastKeys[id] = el.dataset.k;
   }
-  navDir = "";
 }
 
 /* ════════════════════════════════════════════════════════════════════════
  * EVENTS (delegated)
  * ════════════════════════════════════════════════════════════════════════ */
+document.addEventListener("DOMContentLoaded", (e) => {
+  alert("This version of the AJCC Breast Staging Calculator is a prototype and uses simplified and limited test rules. Some TNM combinations and post-therapy responses may produce incomplete, “Unknown” or incorrect results. This version is not to be used for patient care, treatment decisions, documentation, or registry reporting. Physicians are encouraged to share feedback on unclear wording and features that would make the calculator more useful in comparison to calculators already in use.")
+});
+
 document.addEventListener("change", (e) => {
   if (e.target.dataset.action === "disease") selectDisease(e.target.value);
 });
+
 document.addEventListener("click", (e) => {
   const el = e.target.closest("[data-action]");
   if (!el || el.tagName === "SELECT") return;
   const a = el.dataset.action;
-  if (a === "pick") openField(el.dataset.sec, el.dataset.col);
+  if (a === "pick") { state.field = { sec: el.dataset.sec, col: el.dataset.col }; render(); }
   else if (a === "choose") choose(el.dataset.v);
-  else if (a === "back") closeField();
-  else if (a === "tab") switchMode(+el.dataset.i);
-  else if (a === "test") loadTest(+el.dataset.i);
-  else if (a === "clear") clearMode();
+  else if (a === "back") { state.field = null; render(); }
+  else if (a === "guide") { state.guide = !state.guide; saveGuidePref(state.guide); render(); }
   else if (a === "toggle-factors") {
     const k = el.dataset.key;
     state.collapsed.has(k) ? state.collapsed.delete(k) : state.collapsed.add(k);
     render();
   }
+  else if (a === "tab") { state.modeIdx = +el.dataset.i; state.field = null; render(); }
+  else if (a === "test") loadTest(+el.dataset.i);
+  else if (a === "clear") clearMode();
 });
-document.addEventListener("keydown", (e) => { if (e.key === "Escape" && state.field) closeField(); });
-window.addEventListener("resize", () => renderBars());
-
-/* ════════════════════════════════════════════════════════════════════════
- * Plain web app: no offline caching. If a device still has the service worker
- * from the earlier installable (PWA) build, remove it and its cache so that
- * device always loads the live page.
- * ════════════════════════════════════════════════════════════════════════ */
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.getRegistrations().then((regs) => regs.forEach((r) => r.unregister())).catch(() => {});
-}
-if (window.caches) {
-  caches.keys().then((keys) => keys.filter((k) => k.startsWith("ajcc-staging")).forEach((k) => caches.delete(k))).catch(() => {});
-}
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && state.field) { state.field = null; render(); }
+});
 
 /* Init: load sites; auto-select when there is only one */
 render();
