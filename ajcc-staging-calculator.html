@@ -173,43 +173,15 @@
   @keyframes slide { from { transform: translateX(18px); opacity: .4; } to { transform: none; opacity: 1; } }
   @media (prefers-reduced-motion: reduce) { .screen { animation: none; } }
 
-  /* ── De novo metastatic: values copied from Clinical + metastatic sites + histology ── */
-  .dn-note { font-size: 12px; color: var(--text-mid); margin: 0 0 10px; }
-  .dn-info { display: flex; gap: 8px; align-items: flex-start; background: #fffbe6; border: 1px solid #e6c84f; padding: 10px 12px; font-size: 12px; color: #5c4a00; line-height: 1.5; margin-bottom: 14px; }
-  .dn-warn { background: var(--red-light); border: 1px solid var(--red); color: var(--red); padding: 10px 12px; font-size: 12px; line-height: 1.5; margin-bottom: 14px; }
-  .lock { flex: 0 0 auto; width: 14px; height: 14px; color: #b8860b; }
-  .linkbtn { background: none; border: 0; padding: 0; font: inherit; font-weight: 700; color: inherit; text-decoration: underline; cursor: pointer; }
-  .dn-card { border: 1px solid var(--border); background: var(--white); margin-bottom: 14px; }
-  .dn-card-h { padding: 10px 14px; font-weight: 700; font-size: 13px; border-bottom: 1px solid var(--border-light); background: var(--panel-alt); }
-  .dn-card-b { padding: 12px 14px; }
-  .dn-check { display: flex; align-items: center; gap: 10px; border: 1px solid var(--border-light); padding: 12px; margin-bottom: 8px; cursor: pointer; font-size: 14px; font-weight: 600; background: var(--white); }
-  .dn-check:last-child { margin-bottom: 0; }
-  .dn-check:hover { border-color: var(--blue); }
-  .dn-check.on { border-color: var(--blue); background: var(--blue-light); }
-  .dn-check input { width: 18px; height: 18px; margin: 0; accent-color: var(--blue); cursor: pointer; }
-  .dn-field + .dn-field { margin-top: 12px; }
-  .dn-label { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--text-mid); margin-bottom: 4px; }
-  .dn-from { font-size: 10px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #8a6d00; border: 1px solid #e6c84f; background: #fffbe6; padding: 0 5px; }
-  .dn-req { font-size: 10px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--blue); border: 1px solid var(--blue); padding: 0 5px; }
-  .dn-locked { display: flex; align-items: center; justify-content: space-between; background: #ececec; border: 1px solid var(--border-light); padding: 8px 10px; font-family: var(--mono); font-size: 13px; color: var(--text-mid); }
-  .dn-locked.empty { font-family: var(--sans); color: var(--text-light); }
-  .dn-field select { padding: 8px; }
-  .dn-sum { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 14px; }
-  .dn-sum td { padding: 8px 0; border-bottom: 1px solid var(--border-light); }
-  .dn-sum td:last-child { text-align: right; font-family: var(--mono); font-weight: 700; }
-  .dn-sum td.none { color: var(--text-light); font-family: var(--sans); font-weight: 400; }
-  .dn-sum tr.mets td:first-child { font-weight: 700; }
-  .dn-box { padding: 14px 16px; color: var(--white); margin-bottom: 8px; }
-  .dn-box.tnm { background: #003087; }
-  .dn-box.stage { background: var(--red); }
-  .dn-box .cap { opacity: .85; }
-  .dn-box .v { font-size: 20px; font-weight: 700; margin-top: 4px; }
-  .dn-box.tnm .v { font-family: var(--mono); font-size: 17px; }
-  .dn-hints { list-style: none; margin: 8px 0 0; padding: 0; font-size: 12px; color: var(--text-mid); line-height: 1.7; }
-  .phone-only { display: none; }
+  /* ── De novo metastatic: same rows as the other tabs; sites are tick rows ── */
+  .dn-note { font-size: 12px; color: var(--text-mid); margin: 0 0 12px; }
+  .rowbtn.site .cbox { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; margin-right: 10px; border: 1.5px solid var(--border); background: var(--white); color: var(--white); font-size: 12px; font-weight: 700; vertical-align: -4px; }
+  .rowbtn.site.checked { background: var(--accent-light); border-color: var(--accent); z-index: 2; box-shadow: inset 3px 0 0 var(--accent); }
+  .rowbtn.site.checked .cbox { background: var(--accent); border-color: var(--accent); }
+  .rowbtn.site .val.no { font-family: var(--sans); font-weight: 400; font-size: 12px; color: var(--text-light); }
+  .rowbtn.site .val::after { content: none !important; }
 
   @media (max-width: 680px) {
-    .phone-only { display: block; margin-top: 16px; }
     .shell { margin: 0; padding: 0; }
     .frame { min-height: 100vh; display: flex; flex-direction: column; border-left: 0; border-right: 0; }
     .content { display: block; min-height: 0; flex: 1; }
@@ -247,18 +219,19 @@
 /* ════════════════════════════════════════════════════════════════════════
  * CONFIG — set USE_MOCK = false to call the real API at BASE_URL
  * ════════════════════════════════════════════════════════════════════════ */
-const USE_MOCK = true;
-const BASE_URL = "https://localhost:7166";
+const USE_MOCK = false;
+const BASE_URL = "http://dan1423-001-site2.jtempurl.com/";
 
 /* ════════════════════════════════════════════════════════════════════════
  * MOCK DATA (test values only — simplified AJCC 8th ed. breast anatomic rules)
  * ════════════════════════════════════════════════════════════════════════ */
-const MOCK_DISEASES = [{ ajccDiseaseId: "BRE-DCIS", diseaseTitle: "Breast" }];
+const MOCK_DISEASES = [{ ajccDiseaseId: "BRE-INV", diseaseTitle: "Breast" }];
 const opt = (id, list) => list.map(([v, d]) => ({ validValueId: id, validValue: v, descr: d }));
 
+/** Mock /tnmstaging/data-items list. 1 = clinical, 2 = pathological, 3 = post-therapy (ypTNM), 4 = de novo. */
 function mockStagingItems(typeId) {
-  const p = typeId === 1 ? "Clinical" : "Pathological";
-  return [
+  const p = typeId === 2 || typeId === 3 ? "Pathological" : "Clinical";
+  const all = [
     { columnName: "T", columnTitle: "T", valueDescList: opt("T", [
       ["TX", "Primary tumor cannot be assessed"], ["T0", "No evidence of primary tumor"], ["Tis", "Carcinoma in situ (DCIS or Paget disease)"],
       ["T1mi", "Tumor ≤ 1 mm"], ["T1a", "Tumor > 1 mm but ≤ 5 mm"], ["T1b", "Tumor > 5 mm but ≤ 10 mm"], ["T1c", "Tumor > 10 mm but ≤ 20 mm"],
@@ -272,12 +245,19 @@ function mockStagingItems(typeId) {
       ["M0", "No clinical or radiographic evidence of distant metastasis"],
       ["cM0(i+)", "Tumor cells ≤ 0.2 mm in blood, marrow or distant tissue, no symptoms"],
       ["M1", "Distant metastasis present"]]) },
-    { columnName: "AJCCfactorG", columnTitle: "Grade", valueDescList: opt("AJCCfactorG", [["G1", "Low combined histologic grade"], ["G2", "Intermediate combined histologic grade"], ["G3", "High combined histologic grade"], ["GX", "Grade cannot be assessed"]]) },
-    { columnName: "AJCCfactorER", columnTitle: "ER", valueDescList: opt("AJCCfactorER", [["Positive", `${p} estrogen receptor positive`], ["Negative", `${p} estrogen receptor negative`]]) },
-    { columnName: "AJCCfactorPR", columnTitle: "PR", valueDescList: opt("AJCCfactorPR", [["Positive", `${p} progesterone receptor positive`], ["Negative", `${p} progesterone receptor negative`]]) },
-    { columnName: "AJCCfactorHER2", columnTitle: "HER2", valueDescList: opt("AJCCfactorHER2", [["Positive", "HER2 positive"], ["Negative", "HER2 negative"]]) },
+    { columnName: "G", columnTitle: "Grade", valueDescList: opt("G", [["G1", "Low combined histologic grade"], ["G2", "Intermediate combined histologic grade"], ["G3", "High combined histologic grade"], ["GX", "Grade cannot be assessed"]]) },
+    { columnName: "ER", columnTitle: "ER", valueDescList: opt("ER", [["Positive", `${p} estrogen receptor positive`], ["Negative", `${p} estrogen receptor negative`]]) },
+    { columnName: "PR", columnTitle: "PR", valueDescList: opt("PR", [["Positive", `${p} progesterone receptor positive`], ["Negative", `${p} progesterone receptor negative`]]) },
+    { columnName: "HER2", columnTitle: "HER2", valueDescList: opt("HER2", [["Positive", "HER2 positive"], ["Negative", "HER2 negative"]]) },
   ];
+  if (typeId === 3) return all.filter((i) => ["T", "N", "M"].includes(i.columnName));
+  if (typeId === 4) {
+    const pick = (col, title) => ({ ...all.find((i) => i.columnName === col), columnTitle: title });
+    return [pick("T", "T"), pick("G", "Grade (G)"), histologyItem(), pick("ER", "ER Status"), pick("PR", "PR Status"), pick("HER2", "HER2 Status")];
+  }
+  return all;
 }
+const histologyItem = () => ({ columnName: "Histology", columnTitle: "Histology", valueDescList: opt("Histology", HISTOLOGY_OPTIONS) });
 
 const stripPrefix = (v) => (v || "").replace(/^(yp|c|p)(?=[TNM])/, "");
 
@@ -309,7 +289,7 @@ function tnmString(prefix, v) {
 const T_RANK = { TX: -1, T0: 0, Tis: 0.5, T1mi: 1, T1a: 1, T1b: 1, T1c: 1, T2: 2, T3: 3, T4a: 4, T4b: 4, T4c: 4, T4d: 4 };
 const N_RANK = { NX: -1, N0: 0, N1mi: 0.5, N1: 1, N2: 2, N3: 3 };
 
-/** Mock /breastresponse → 0 = No Response, 1 = Partial, 2 = Complete. */
+/** Mock response-logic → 0 = No Response, 1 = Partial, 2 = Complete. */
 function mockResponse(c, p) {
   const ypT = stripPrefix(p.T), ypN = stripPrefix(p.N);
   if ((ypT === "T0" || ypT === "Tis") && ypN === "N0") return 2;
@@ -319,32 +299,57 @@ function mockResponse(c, p) {
 }
 
 const delay = (v) => new Promise((r) => setTimeout(() => r(v), 220));
-const getJson = (url, init) => fetch(url, init).then((r) => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); });
+const getJson = (url) => fetch(url, { headers: { Accept: "application/json" } })
+  .then((r) => { if (!r.ok) throw new Error("HTTP " + r.status + " for " + url); return r.json(); });
+const postJson = (url, body) => fetch(url, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(body) })
+  .then((r) => { if (!r.ok) throw new Error("HTTP " + r.status + " for " + url); return r.json(); });
 
 /* ════════════════════════════════════════════════════════════════════════
- * API LAYER — same endpoints as the React version
+ * API LAYER — same endpoints as the Next.js app (app/_features/staging/data/stagingApi.ts)
+ *   GET  /tnmstaging/diseases
+ *   GET  /tnmstaging/data-items/{diseaseId}/{stagingTypeId}   1 clinical · 2 pathological · 3 post-therapy · 4 de novo
+ *   POST /tnmstaging/breast/calculate                          { stagingTypeId, T, N, M, G, ER, PR, HER2, … }
+ *   POST /tnmstaging/breast/response/response-logic            { clinical, pathological } → 0 | 1 | 2
+ *   POST /tnmstaging/breast/response/calculate                 { responseTypeId, T, N, M, ER, G, HER2, PR }
+ *   POST /tnmstaging/breast/denovo/calculate                   { isMetastaticAtDiagnosis, erStatus, prStatus, her2Status, Bone, Brain, Liver, Lung, Other, T, G, Histology }
  * ════════════════════════════════════════════════════════════════════════ */
 const api = {
   diseases: () => USE_MOCK ? delay(MOCK_DISEASES) : getJson(`${BASE_URL}/tnmstaging/diseases`),
+
   stagingItems: (diseaseId, typeId) => USE_MOCK ? delay(mockStagingItems(typeId))
-    : getJson(`${BASE_URL}/tnmstaging/staging-data-items-v2/${diseaseId}/${typeId}`),
-  calculate: (diseaseId, typeId, values, prefix) => {
-    if (USE_MOCK) return delay({ stage: fmtStage(anatomicStage(values.T, values.N, values.M)), tnmClassification: tnmString(prefix, values) });
-    const q = new URLSearchParams({ diseaseId, stagingTypeId: String(typeId), ...values });
-    return getJson(`${BASE_URL}/tnmstaging/calculate?${q}`);
-  },
+    : getJson(`${BASE_URL}/tnmstaging/data-items/${encodeURIComponent(diseaseId)}/${typeId}`),
+
+  /** Clinical (1) or pathological (2) stage. Post-therapy ypTNM is sent as 2. */
+  calculate: (diseaseId, typeId, values, prefix) => USE_MOCK
+    ? delay({ stage: fmtStage(anatomicStage(values.T, values.N, values.M)), tnmClassification: tnmString(prefix, values) })
+    : postJson(`${BASE_URL}/tnmstaging/breast/calculate`, { stagingTypeId: String(typeId), ...values }),
+
+  /** Response type comparing cTNM with ypTNM: 0 = No, 1 = Partial, 2 = Complete. */
   breastResponse: (clinical, pathological) => USE_MOCK ? delay(mockResponse(clinical, pathological))
-    : getJson(`${BASE_URL}/tnmstaging/breastresponse`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ clinical, pathological }) }),
+    : postJson(`${BASE_URL}/tnmstaging/breast/response/response-logic`, { clinical, pathological }),
+
+  /** Post-therapy stage from the ypTNM values and the response type. */
   calculateBreast: (b, responseTypeId) => {
     if (USE_MOCK) {
       const tnm = tnmString("yp", b);
       return delay(responseTypeId === 2 ? { stage: "pCR", tnmClassification: tnm } : { stage: fmtStage(anatomicStage(b.T, b.N, b.M)), tnmClassification: tnm });
     }
-    const q = new URLSearchParams({ responseTypeId: String(responseTypeId), T: b.T, N: b.N, M: b.M,
-      AJCCfactorER: b.AJCCfactorER, AJCCfactorG: b.AJCCfactorG, AJCCfactorHER2: b.AJCCfactorHER2, AJCCfactorPR: b.AJCCfactorPR });
-    return getJson(`${BASE_URL}/tnmstaging/calculatebreast?${q}`);
+    return postJson(`${BASE_URL}/tnmstaging/breast/response/calculate`,
+      { responseTypeId: String(responseTypeId), T: b.T, N: b.N, M: b.M, ER: b.ER, G: b.G, HER2: b.HER2, PR: b.PR });
+  },
+
+  /** De novo metastatic stage. */
+  calculateDenovo: (body) => {
+    if (USE_MOCK) {
+      const sites = ["Bone", "Brain", "Liver", "Lung", "Other"].filter((k) => body[k]).join(", ");
+      return delay({ stage: "Stage IV", tnmClassification: tnmString("c", { T: body.T, M: "M1" }), mets: sites, isStageApplicable: true });
+    }
+    return postJson(`${BASE_URL}/tnmstaging/breast/denovo/calculate`, body);
   },
 };
+
+/** The response endpoints take this fixed shape. */
+const toBreast = (v) => ({ T: v.T || "", N: v.N || "", M: v.M || "", G: v.G || "", ER: v.ER || "", HER2: v.HER2 || "", oncotypedx: v.oncotypedx || "", PR: v.PR || "" });
 
 /* ════════════════════════════════════════════════════════════════════════
  * STAGING TYPES — each has one or two input sections
@@ -359,12 +364,12 @@ const MODES = [
     sections: [
       // Biomarkers are entered once (with the pre-treatment values) and used for both calculations
       { key: "c", title: "Pre-treatment (cTNM)", prefix: "c", typeId: 1, tone: "clinical", factors: true },
-      { key: "yp", title: "Post-therapy (ypTNM)", prefix: "yp", typeId: 2, tone: "posttherapy", factors: false },
+      { key: "yp", title: "Post-therapy (ypTNM)", prefix: "yp", typeId: 3, calcType: 2, tone: "posttherapy", factors: false },
     ] },
   { key: "denovo", label: "De Novo Metastatic",
     // De novo has its own screen: metastatic sites + T, grade, histology, ER, PR, HER2 (all entered here,
     // nothing copied from other tabs). M is M1 by definition. See the DE NOVO section below.
-    sections: [{ key: "c", title: "De novo metastatic", prefix: "c", typeId: 1, tone: "denovo", factors: false }] },
+    sections: [{ key: "c", title: "Section 2: Prognostic Factors", prefix: "c", typeId: 4, tone: "denovo", factors: false, denovo: true }] },
 ];
 
 const FIELD_NAMES = { T: "Primary tumor", N: "Regional nodes", M: "Distant metastasis" };
@@ -372,13 +377,13 @@ const CORE = ["T", "N", "M"];
 const RESPONSE_TYPE_LABELS = ["No Response", "Partial Response", "Complete Response"];
 const M1_VALUES = ["M1", "cM1", "pM1", "M1a", "M1b", "M1c", "cM1a", "cM1b", "cM1c"];
 
-/* Metastatic sites at diagnosis — de novo metastatic only, all required.
- * Modelled on the NAACCR "Mets at Diagnosis" items. Kept in the app (not sent to the
- * stage calculation); send them to the API once it has an endpoint for them. */
-const MET_ITEMS = [["MetsBone", "Bone"], ["MetsBrain", "Brain"], ["MetsLiver", "Liver"], ["MetsLung", "Lung"]]
-  .map(([col, title]) => ({ columnName: col, columnTitle: title }));
+/* Metastatic sites at diagnosis (de novo only). At least one must be ticked.
+ * api = the property name sent to /tnmstaging/breast/denovo/calculate (true / false). */
+const MET_ITEMS = [["MetsBone", "Bone", "Bone"], ["MetsBrain", "Brain", "Brain"], ["MetsLiver", "Liver", "Liver"],
+  ["MetsLung", "Lung", "Lung"], ["MetsOther", "Other", "Other"]]
+  .map(([col, title, apiName]) => ({ columnName: col, columnTitle: title, api: apiName }));
 
-/* Histology (de novo only). Test values: common breast histologies with ICD-O-3 codes. */
+/* Histology (de novo only). Used when the API's de novo list (type 4) has no Histology field. */
 const HISTOLOGY_OPTIONS = [
   ["Ductal","No Definition"],
   ["Lobular","No Definition"],
@@ -386,11 +391,11 @@ const HISTOLOGY_OPTIONS = [
 ];
 
 /* De novo prognostic factors, in screen order: [field, label, short name for hints]. All required. */
-const DN_FIELDS = [["T", "T", "T"], ["AJCCfactorG", "Grade (G)", "Grade"], ["Histology", "Histology", "Histology"],
-  ["AJCCfactorER", "ER Status", "ER"], ["AJCCfactorPR", "PR Status", "PR"], ["AJCCfactorHER2", "HER2 Status", "HER2"]];
+const DN_FIELDS = [["T", "T", "T"], ["G", "Grade (G)", "Grade"], ["Histology", "Histology", "Histology"],
+  ["ER", "ER Status", "ER"], ["PR", "PR Status", "PR"], ["HER2", "HER2 Status", "HER2"]];
 const isMetCol = (col) => MET_ITEMS.some((i) => i.columnName === col);
 
-const bio = { AJCCfactorG: "G2", AJCCfactorER: "Positive", AJCCfactorPR: "Positive", AJCCfactorHER2: "Negative" };
+const bio = { G: "G2", ER: "Positive", PR: "Positive", HER2: "Negative" };
 /** Checked metastatic sites. */
 const mets = (...yes) => Object.fromEntries(yes.map((c) => [c, "Yes"]));
 /** Test cases per staging type: [label, { sectionKey: values }] */
@@ -411,8 +416,8 @@ const TEST_CASES = {
     ["No response: cT1c cN2 → ypT2 ypN2", { c: { T: "T1c", N: "N2", M: "M0", ...bio }, yp: { T: "T2", N: "N2", M: "M0" } }],
   ],
   denovo: [
-    ["cT2 cM1 · bone → IV", { c: { T: "T2", ...bio, Histology: "8500/3", ...mets("MetsBone") } }],
-    ["cT4d cM1 · liver, lung → IV", { c: { T: "T4d", ...bio, Histology: "8520/3", ...mets("MetsLiver", "MetsLung") } }],
+    ["cT2 cM1 · bone → IV", { c: { T: "T2", ...bio, Histology: "Ductal", ...mets("MetsBone") } }],
+    ["cT4d cM1 · liver, lung, other → IV", { c: { T: "T4d", ...bio, Histology: "Lobular", ...mets("MetsLiver", "MetsLung", "MetsOther") } }],
   ],
 };
 
@@ -524,7 +529,8 @@ const codeLabel = (sec, col) => (CORE.includes(col) ? (sec.prefix === "yp" && co
 const factorItems = (sec) => (sec.factors === false ? [] : (state.items[sec.typeId] || []).filter((i) => !CORE.includes(i.columnName)));
 const metItems = (sec) => (sec.mets ? MET_ITEMS : []);
 /** Every field that must be filled before the section's stage is calculated, in entry order. */
-const requiredCols = (sec) => [...CORE, ...factorItems(sec).map((i) => i.columnName), ...metItems(sec).map((i) => i.columnName)];
+const requiredCols = (sec) => (sec.denovo ? DN_FIELDS.map(([col]) => col)
+  : [...CORE, ...factorItems(sec).map((i) => i.columnName), ...metItems(sec).map((i) => i.columnName)]);
 const itemFor = (sec, col) => [...(state.items[sec.typeId] || []), ...metItems(sec)].find((i) => i.columnName === col);
 const fieldLabel = (sec, col) => (CORE.includes(col) ? codeLabel(sec, col) : (itemFor(sec, col) || {}).columnTitle || col);
 
@@ -577,13 +583,20 @@ async function calcDenovo() {
   const st = ms("denovo"), s = denovoState();
   const run = ++st.run;
   if (denovoHints(s).length) { st.results.c = emptyResult(); return render(); }
+  // Same body as the Next.js app; ER/PR/HER2 come from this tab (entered here, not copied).
+  const body = {
+    isMetastaticAtDiagnosis: true,
+    erStatus: s.dn.ER, prStatus: s.dn.PR, her2Status: s.dn.HER2,
+    T: s.dn.T, G: s.dn.G, Histology: s.dn.Histology,
+  };
+  for (const i of MET_ITEMS) body[i.api] = s.dn[i.columnName] === "Yes";
   try {
-    // T, M1, grade, histology, ER, PR, HER2. Metastatic sites stay in the app until the API has fields for them.
-    const values = { M: "M1" };
-    for (const [k] of DN_FIELDS) values[k] = s.dn[k];
-    const d = await api.calculate(state.disease, 1, values, "c");
+    const d = await api.calculateDenovo(body);
     if (run !== st.run) return;
-    st.results.c = { stage: d?.stage || "...", tnm: d?.tnmClassification || "..." };
+    st.results.c = {
+      stage: d?.stage || "None", tnm: d?.tnmClassification || "...", mets: d?.mets || "",
+      note: d?.isStageApplicable === false ? (d?.message || "A stage group does not apply to this combination.") : "",
+    };
   } catch {
     if (run !== st.run) return;
     st.results.c = { stage: "Error", tnm: "Error" };
@@ -616,8 +629,9 @@ async function calcSection(m, sec) {
   const st = ms(m.key);
   if (!sectionComplete(m.key, sec.key)) { st.results[sec.key] = emptyResult(); return render(); } // all required fields first
   try {
-    const d = await api.calculate(state.disease, sec.typeId, apiValues(m, sec.key), sec.prefix);
-    st.results[sec.key] = { stage: d?.stage || "...", tnm: d?.tnmClassification || "..." };
+    const d = await api.calculate(state.disease, sec.calcType || sec.typeId, apiValues(m, sec.key), sec.prefix);
+    st.results[sec.key] = { stage: d?.stage || "...", tnm: d?.tnmClassification || "...",
+      note: d?.isStageApplicable === false ? (d?.message || "A stage group does not apply to this combination.") : "" };
   } catch { st.results[sec.key] = { stage: "Error", tnm: "Error" }; }
   render();
 }
@@ -628,7 +642,7 @@ async function runResponse() {
   if (!modeComplete(m)) { st.response = { type: "", id: null, loading: false, stage: "...", tnm: "..." }; return render(); }
   st.response = { type: "", id: null, loading: true, stage: "...", tnm: "..." };
   render();
-  const c = apiValues(m, "c"), p = apiValues(m, "yp"); // yp gets the shared biomarkers
+  const c = toBreast(apiValues(m, "c")), p = toBreast(apiValues(m, "yp")); // yp gets the shared biomarkers; stage uses ypTNM
   try {
     const data = await api.breastResponse(c, p);
     if (run !== st.run) return;
@@ -650,6 +664,7 @@ function setValue(secKey, col, value) {
   const m = mode(), vals = ms().values[secKey];
   if (value) vals[col] = clean(value); else delete vals[col];
   render();
+  if (m.key === "denovo") { calcDenovo(); return; }
   m.sections.forEach((s) => calcSection(m, s)); // shared biomarkers can affect more than one section
   if (m.key === "posttherapy") runResponse();
 }
@@ -691,13 +706,21 @@ function clearMode() {
 
 async function selectDisease(id) {
   state.disease = id;
-  state.items = { 1: [], 2: [] };
+  state.items = { 1: [], 2: [], 3: [], 4: [] };
   state.field = null;
   MODES.forEach((m) => (state.modes[m.key] = emptyMode(m)));
   render();
   if (!id) return;
-  const [c, p] = await Promise.all([api.stagingItems(id, 1).catch(() => []), api.stagingItems(id, 2).catch(() => [])]);
-  state.items = { 1: c, 2: p };
+  const types = [1, 2, 3, 4];
+  const lists = await Promise.all(types.map((t) => api.stagingItems(id, t).catch(() => [])));
+  types.forEach((t, i) => (state.items[t] = Array.isArray(lists[i]) ? lists[i] : []));
+  // Fallbacks: ypTNM T/N/M from the pathological list; any missing de novo field from the clinical list / histology list.
+  if (!state.items[3].length) state.items[3] = state.items[2].filter((i) => CORE.includes(i.columnName));
+  for (const [col, label] of DN_FIELDS) {
+    if (state.items[4].some((i) => i.columnName === col)) continue;
+    const src = col === "Histology" ? histologyItem() : state.items[1].find((i) => i.columnName === col);
+    if (src) state.items[4].push({ ...src, columnTitle: label });
+  }
   render();
 }
 
@@ -764,6 +787,15 @@ function metSitesText(v) {
 
 function renderResult(m) {
   const st = ms();
+  if (m.key === "denovo") {
+    const s = denovoState(), hints = denovoHints(s), r = st.results.c;
+    if (hints.length) return `<div class="result"><div class="pending"><strong>De Novo stage</strong>${hints.map(esc).join(" ")}</div></div>`;
+    return `<div class="result">
+      <div class="tnmbox"><div class="cap">TNM classification</div><div class="v">${esc(r.tnm)}</div></div>
+      <div class="stagebox iv"><div class="cap">De Novo Metastatic · Stage group</div><div class="v">${esc(r.stage)}</div>
+        <p><strong>Metastatic sites:</strong> ${esc(r.mets || s.sites.map((i) => i.columnTitle).join(", "))}</p>
+        ${r.note ? `<p>${esc(r.note)}</p>` : ""}</div></div>`;
+  }
   const missing = [];
   for (const s of m.sections) {
     const empty = requiredCols(s).filter((k) => !st.values[s.key][k]);
@@ -773,13 +805,6 @@ function renderResult(m) {
   if (missing.length) {
     const what = m.key === "denovo" ? "De Novo stage" : m.key === "posttherapy" ? "Response and post-therapy stage" : "Stage group";
     return `<div class="result"><div class="pending"><strong>${what}</strong>Select ${missing.join(", ")} to calculate.</div></div>`;
-  }
-  if (m.key === "denovo") {
-    return `<div class="result">
-      <div class="tnmbox"><div class="cap">cTNM</div><div class="v">${esc(st.results.c.tnm)}</div></div>
-      <div class="stagebox iv"><div class="cap">De Novo Metastatic · AJCC Prognostic Stage</div><div class="v">Stage IV</div>
-        <p><strong>Metastatic sites:</strong> ${esc(metSitesText(st.values.c))}</p>
-        <p>Distant metastasis at diagnosis. Pathological and response staging do not apply.</p></div></div>`;
   }
   if (m.key === "posttherapy") {
     const r = st.response, c = st.values.c, p = st.values.yp;
@@ -796,50 +821,35 @@ function renderResult(m) {
   const sec = m.sections[0], res = st.results[sec.key];
   return `<div class="result">
     <div class="tnmbox"><div class="cap">${sec.prefix}TNM</div><div class="v">${esc(res.tnm)}</div></div>
-    <div class="stagebox"><div class="cap">${m.key === "clinical" ? "Clinical" : "Pathological"} stage group</div><div class="v">${esc(res.stage)}</div></div></div>`;
+    <div class="stagebox"><div class="cap">${m.key === "clinical" ? "Clinical" : "Pathological"} stage group</div><div class="v">${esc(res.stage)}</div>${res.note ? `<p>${esc(res.note)}</p>` : ""}</div></div>`;
 }
 
-const LOCK_ICON = `<svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>`;
-
-/** De novo main screen: note, metastatic sites, prognostic factors (all entered here). */
-function renderDenovo() {
-  const s = denovoState();
-  const clinicalSec = sectionOf(MODES[0], "c");
-  const optionsOf = (col) => (col === "Histology"
-    ? HISTOLOGY_OPTIONS.map(([v, d]) => [v, v === "Other" ? d : `${v} — ${d}`])
-    : (itemFor(clinicalSec, col)?.valueDescList || []).map((o) => [clean(o.validValue), `${clean(o.validValue)} — ${o.descr}`]));
-  const field = ([col, label]) => `<div class="dn-field">
-      <label class="dn-label" for="dn-${col}">${esc(label)}</label>
-      <select id="dn-${col}" data-action="dn-field" data-col="${col}">
-        <option value="">-- Select --</option>
-        ${optionsOf(col).map(([v, text]) => `<option value="${esc(v)}" ${s.dn[col] === v ? "selected" : ""}>${esc(text)}</option>`).join("")}
-      </select></div>`;
+/** De novo sections, built from the same rows and groups as the other tabs. */
+function renderDenovoSections(m) {
+  const sec = m.sections[0], v = ms().values[sec.key];
+  const ticked = MET_ITEMS.filter((i) => v[i.columnName] === "Yes").length;
+  const siteRow = (i) => {
+    const on = v[i.columnName] === "Yes";
+    return `<button class="rowbtn small site ${on ? "checked" : ""}" data-action="site" data-col="${i.columnName}" role="checkbox" aria-checked="${on}">
+      <span><span class="cbox">${on ? "&#10003;" : ""}</span><span class="code">${esc(i.columnTitle)}</span></span>
+      <span class="val ${on ? "chipval" : "no"}">${on ? chip("Yes") : "No"}</span></button>`;
+  };
+  const key = `${m.key}-${sec.key}`, closed = state.collapsed.has(key);
+  const factors = DN_FIELDS.filter(([col]) => col !== "T");
+  const filled = factors.filter(([col]) => v[col]).length;
   return `<p class="dn-note">Clinical M1 — distant metastatic disease.</p>
-
-    <div class="dn-card"><div class="dn-card-h">Section 1: Metastatic Sites</div><div class="dn-card-b">
-      ${MET_ITEMS.map((i) => { const on = s.dn[i.columnName] === "Yes";
-        return `<label class="dn-check ${on ? "on" : ""}"><input type="checkbox" data-action="met" data-col="${i.columnName}" ${on ? "checked" : ""}><span>${esc(i.columnTitle)}</span></label>`; }).join("")}
-    </div></div>
-
-    <div class="dn-card"><div class="dn-card-h">Section 2: Prognostic Factors</div><div class="dn-card-b">
-      ${DN_FIELDS.map(field).join("")}
-    </div></div>
-    <div class="phone-only">${renderDenovoSummary()}</div>`;
-}
-
-/** De novo summary: every value, TNM classification, stage group, and what is still missing. */
-function renderDenovoSummary() {
-  const s = denovoState(), res = ms("denovo").results.c, hints = denovoHints(s);
-  const row = (label, v, cls = "") => `<tr class="${cls}"><td>${esc(label)}</td><td class="${v ? "" : "none"}">${v ? esc(v) : "—"}</td></tr>`;
-  return `<table class="dn-sum"><tbody>
-      ${MET_ITEMS.map((i) => row(i.columnTitle, s.dn[i.columnName] === "Yes" ? "Yes" : "No")).join("")}
-      ${DN_FIELDS.map(([col, label]) => row(label, s.dn[col])).join("")}
-      ${row("METS", s.sites.map((i) => i.columnTitle).join(", "), "mets")}
-    </tbody></table>
-    <div class="dn-box tnm"><div class="cap">TNM Classification</div><div class="v">${esc(hints.length ? "..." : res.tnm)}</div></div>
-    <div class="dn-box stage"><div class="cap">De Novo Stage Group</div><div class="v">${esc(hints.length ? "..." : res.stage)}</div></div>
-    ${hints.length ? `<ul class="dn-hints">${hints.map((h) => `<li>${esc(h)}</li>`).join("")}</ul>` : ""}
-    ${USE_MOCK ? `<p class="note">Test data, not for clinical use.</p>` : ""}`;
+    <div class="sec tone-${sec.tone}">
+      <div class="sec-title">Section 1: Metastatic Sites <span class="count" style="float:right;font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-light)">${ticked ? `${ticked} selected` : "Select at least one"}</span></div>
+      ${MET_ITEMS.map(siteRow).join("")}
+    </div>
+    <div class="sec tone-${sec.tone}">
+      <div class="sec-title">${esc(sec.title)}</div>
+      ${rowButton(sec, "T")}
+      <div class="factors tone-factor ${closed ? "collapsed" : ""}">
+        <button class="factors-title" data-action="toggle-factors" data-key="${key}" aria-expanded="${!closed}"><span class="caret">&#9660;</span>Grade, histology &amp; biomarkers<span class="req">Required</span><span class="count">${filled}/${factors.length}</span></button>
+        ${factors.map(([col, label]) => rowButton(sec, col, label, true)).join("")}
+      </div>
+    </div>`;
 }
 
 function renderMain() {
@@ -848,7 +858,7 @@ function renderMain() {
   main.className = "main" + (state.field ? " hidden" : "");
   if (!state.disease) { main.innerHTML = `<div class="pending"><strong>No disease site selected</strong>Choose a primary disease site above to begin.</div>`; return; }
   if (!state.items[1].length) { main.innerHTML = `<div class="pending">Loading categories…</div>`; return; }
-  if (m.key === "denovo") { main.innerHTML = `<div class="screen" data-k="denovo">${state.guide ? renderGuide(m) : ""}${renderDenovo()}</div>`; return; }
+  if (m.key === "denovo") { main.innerHTML = `<div class="screen" data-k="denovo">${state.guide ? renderGuide(m) : ""}${renderDenovoSections(m)}${renderResult(m)}</div>`; return; }
   main.innerHTML = `<div class="screen" data-k="${m.key}">${state.guide ? renderGuide(m) : ""}${m.sections.map((s) => renderSection(m, s)).join("")}${renderResult(m)}</div>`;
 }
 
@@ -858,8 +868,10 @@ function renderGuide(m) {
     if (!hints.length) return `<div class="guide tone-denovo"><div class="step">Complete</div><h4>Stage IV assigned</h4><p>${esc(GUIDE_DONE.denovo)}</p><div class="bar"><span style="width:100%"></span></div></div>`;
     const s = denovoState();
     const steps = 1 + DN_FIELDS.length, done = (s.sites.length ? 1 : 0) + DN_FIELDS.length - s.missing.length;
+    const next = s.sites.length ? guideStep(m).next : null;
     return `<div class="guide tone-denovo"><div class="step">Step ${done + 1} of ${steps}</div><h4>${esc(hints[0])}</h4>
       ${done === 0 ? `<p class="about">${esc(GUIDE_ABOUT.denovo)}</p>` : ""}
+      ${next ? `<p>${esc(fieldTip(m, next.sec, next.col))}</p><button class="go" data-action="pick" data-sec="${next.sec.key}" data-col="${next.col}">Choose ${esc(fieldLabel(next.sec, next.col))} &rarr;</button>` : ""}
       <div class="bar"><span style="width:${Math.round((done / steps) * 100)}%"></span></div></div>`;
   }
   const { total, filled, next } = guideStep(m);
@@ -885,10 +897,9 @@ function renderFlow(m) {
   const steps = {
     clinical: () => [["Select cT, cN, cM and prognostic factors", "Clinical findings before any treatment; all required", done("c")], ["Clinical stage group", "", done("c")]],
     pathological: () => [["Select pT, pN, pM and prognostic factors", "Pathology findings after surgery (no neoadjuvant therapy); all required", done("p")], ["Pathological stage group", "", done("p")]],
-    denovo: () => [["Select cT, cN", "Clinical findings at diagnosis", !!(st.values.c.T && st.values.c.N)], ["cM1", "Only M1 is offered for this staging type", !!st.values.c.M],
-      ["Prognostic factors", "Grade, ER, PR, HER2", factorItems(sectionOf(m, "c")).every((i) => st.values.c[i.columnName])],
-      ["Metastatic sites at diagnosis", "Bone, brain, distant lymph nodes, liver, lung, other", MET_ITEMS.every((i) => st.values.c[i.columnName])],
-      ["De Novo Metastatic · Stage IV", "", done("c"), true]],
+    denovo: () => [["Metastatic sites", "At least one: bone, brain, liver, lung or other", denovoState().sites.length > 0],
+      ["Select cT, grade, histology, ER, PR and HER2", "All required", denovoState().missing.length === 0],
+      ["De Novo Metastatic stage group", "", modeComplete(m)]],
     posttherapy: () => [["Pre-treatment cTNM (cM0) and prognostic factors", "Clinical findings before neoadjuvant therapy; biomarkers entered once, used for both", done("c")],
       ["Neoadjuvant therapy → surgery → ypTNM", "Post-therapy pathology findings", done("yp")],
       ["Compare cTNM vs ypTNM", "Complete, partial or no response", !!st.response.type && st.response.type !== "Error"],
@@ -901,7 +912,6 @@ function renderFlow(m) {
 function renderDetail() {
   const m = mode(), d = $("detail");
   d.className = "detail" + (state.field ? " open" : "");
-  if (m.key === "denovo") { d.innerHTML = `<div class="screen" data-k="denovo-summary">${renderDenovoSummary()}</div>`; return; }
   if (!state.field) {
     d.innerHTML = `<div class="screen" data-k="${m.key}-intro">
       <h2>${esc(m.label)} staging</h2>
@@ -926,7 +936,8 @@ function renderDetail() {
     ${state.guide ? `<p class="tip">${esc(fieldTip(m, sec, col))}</p>` : ""}
     ${list.map((v) => {
       const val = clean(v.validValue), sel = val === cur;
-      return `<button class="choice ${sel ? "sel" : ""}" data-action="choose" data-v="${esc(val)}"><b>${isCore ? esc(shown(sec, col, val)) : chip(val)}</b><span>${esc(v.descr)}</span>${sel ? `<span class="tick">&#10003;</span>` : ""}</button>`;
+      const descr = v.descr && v.descr !== "No Definition" ? v.descr : "";
+      return `<button class="choice ${sel ? "sel" : ""}" data-action="choose" data-v="${esc(val)}"><b>${isCore ? esc(shown(sec, col, val)) : chip(val)}</b><span>${esc(descr)}</span>${sel ? `<span class="tick">&#10003;</span>` : ""}</button>`;
     }).join("")}
     ${cur ? `<button class="clear" data-action="choose" data-v="">Clear selection</button>` : ""}
     ${note && !state.guide ? `<p class="note">${esc(note)}</p>` : ""}
@@ -961,8 +972,6 @@ document.addEventListener("DOMContentLoaded", (e) => {
 document.addEventListener("change", (e) => {
   const a = e.target.dataset.action;
   if (a === "disease") selectDisease(e.target.value);
-  else if (a === "met") setDenovo(e.target.dataset.col, e.target.checked ? "Yes" : "");
-  else if (a === "dn-field") setDenovo(e.target.dataset.col, e.target.value);
 });
 
 document.addEventListener("click", (e) => {
@@ -979,7 +988,7 @@ document.addEventListener("click", (e) => {
     render();
   }
   else if (a === "tab") { state.modeIdx = +el.dataset.i; state.field = null; render(); }
-  else if (a === "goto-clinical") { state.modeIdx = 0; state.field = null; render(); }
+  else if (a === "site") { const col = el.dataset.col; setDenovo(col, ms("denovo").values.c[col] === "Yes" ? "" : "Yes"); }
   else if (a === "test") loadTest(+el.dataset.i);
   else if (a === "clear") clearMode();
 });
@@ -990,7 +999,7 @@ document.addEventListener("keydown", (e) => {
 /* Init: load sites; auto-select when there is only one */
 render();
 api.diseases().then((data) => {
-  const d = data.find((x) => x.ajccDiseaseId === "BRE-DCIS");
+  const d = data.find((x) => x.ajccDiseaseId === "BRE-INV");
   state.diseaseSites = d ? [d] : [];
   if (state.diseaseSites.length === 1) selectDisease(state.diseaseSites[0].ajccDiseaseId); else render();
 }).catch((err) => console.error("Error fetching diseases:", err));
